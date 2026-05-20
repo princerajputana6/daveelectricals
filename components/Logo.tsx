@@ -1,20 +1,16 @@
-import { BoltIcon } from "./Icons";
+import Image from "next/image";
 
-export default function Logo({ compact = false }: { compact?: boolean }) {
+export default function Logo({ className = "" }: { className?: string }) {
   return (
-    <span className="flex items-center gap-2.5">
-      <span className="relative grid h-9 w-9 place-items-center rounded-lg bg-bolt text-ink">
-        <BoltIcon className="h-5 w-5" />
-        <span className="absolute inset-0 rounded-lg bg-bolt blur-md opacity-40" />
-      </span>
-      {!compact && (
-        <span className="font-display text-[15px] font-bold uppercase leading-none tracking-tight">
-          <span className="block text-white">Dave Electrical</span>
-          <span className="block text-[10px] font-medium tracking-[0.32em] text-bolt">
-            SERVICES LTD
-          </span>
-        </span>
-      )}
+    <span className={`flex items-center ${className}`}>
+      <Image
+        src="/logo.jpeg"
+        alt="Dave Electrical Services"
+        width={199}
+        height={103}
+        priority
+        className="h-11 w-auto rounded-md"
+      />
     </span>
   );
 }
