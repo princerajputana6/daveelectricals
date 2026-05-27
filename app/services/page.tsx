@@ -3,7 +3,6 @@ import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
 import Reveal from "@/components/Reveal";
-import HazardStripe from "@/components/HazardStripe";
 import EmergencyLightingFaq from "@/components/EmergencyLightingFaq";
 import TestingRegime from "@/components/TestingRegime";
 import Accreditations from "@/components/Accreditations";
@@ -62,15 +61,6 @@ export default function ServicesPage() {
         title="Electrical Services"
         intro="Electrical installation and maintenance for domestic, commercial and industrial clients across Hounslow, Twickenham, Feltham & Cranford — delivered safely, to legal standards, and fully certified."
       />
-
-      {/* Yellow ribbon tagline */}
-      <section className="relative bg-bolt text-ink">
-        <HazardStripe />
-        <p className="py-5 px-5 text-center font-display text-lg font-bold uppercase tracking-wide sm:text-2xl">
-          Electrical Services Hounslow, Twickenham, Feltham &amp; Cranford
-        </p>
-        <HazardStripe />
-      </section>
 
       {/* Bookable products — Shop */}
       <section className="relative bg-ink py-16 sm:py-20">

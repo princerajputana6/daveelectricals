@@ -18,7 +18,9 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { items, customer } = body || {};
+    const { items, customer, paymentMode: rawMode } = body || {};
+    const paymentMode: "split" | "full" =
+      rawMode === "full" ? "full" : "split";
 
     if (!Array.isArray(items) || items.length === 0) {
       return NextResponse.json(
@@ -69,14 +71,16 @@ export async function POST(req: Request) {
     const col = await ordersCol();
     const _id = new ObjectId();
 
-    // Create Razorpay order for the deposit
+    // Amount the user is paying upfront — either 50% deposit or 100% full
+    const upfrontAmount = paymentMode === "full" ? subtotal : deposit;
+
     const rzp = getRazorpay();
     const rzpOrder = await rzp.orders.create({
-      amount: toPence(deposit),
+      amount: toPence(upfrontAmount),
       currency: cur.code,
-      receipt: `dep_${_id.toString().slice(-12)}`,
+      receipt: `${paymentMode === "full" ? "fp" : "dp"}_${_id.toString().slice(-12)}`,
       notes: {
-        type: "deposit",
+        type: paymentMode === "full" ? "full" : "deposit",
         appOrderId: _id.toString(),
         userId: session.uid,
       },
@@ -98,11 +102,12 @@ export async function POST(req: Request) {
       deposit,
       balance,
       currency: cur.code,
-      status: "pending_deposit",
+      paymentMode,
+      status: paymentMode === "full" ? "pending_payment" : "pending_deposit",
       payments: {
         deposit: {
           razorpayOrderId: rzpOrder.id,
-          amount: deposit,
+          amount: upfrontAmount,
           currency: cur.code,
           status: "created",
           createdAt: now,
@@ -119,7 +124,7 @@ export async function POST(req: Request) {
       razorpay: {
         keyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         orderId: rzpOrder.id,
-        amount: toPence(deposit),
+        amount: toPence(upfrontAmount),
         currency: cur.code,
       },
     });

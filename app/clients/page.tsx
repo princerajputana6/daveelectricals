@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
-import HazardStripe from "@/components/HazardStripe";
 import QuoteCTA from "@/components/QuoteCTA";
 import CTABanner from "@/components/CTABanner";
 import ClientTile from "@/components/ClientTile";
@@ -22,15 +21,6 @@ export default function ClientsPage() {
         title="Clients – Dave Electrical Services"
         intro="Some of the clients we have worked with across Hounslow, Twickenham, Feltham, Cranford and Greater London — from members clubs and music venues to schools, hotels and chartered firms. References available on request."
       />
-
-      {/* Yellow ribbon tagline */}
-      <section className="relative bg-bolt text-ink">
-        <HazardStripe />
-        <p className="px-5 py-5 text-center font-display text-base font-bold uppercase tracking-wide sm:text-lg">
-          Clients across West London &amp; beyond
-        </p>
-        <HazardStripe />
-      </section>
 
       {/* Brand grid */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">

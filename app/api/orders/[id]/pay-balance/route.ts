@@ -28,6 +28,12 @@ export async function POST(
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
+    if (order.paymentMode === "full") {
+      return NextResponse.json(
+        { error: "This order was paid in full — no balance is owed." },
+        { status: 400 },
+      );
+    }
     if (order.payments.balance?.status === "paid") {
       return NextResponse.json(
         { error: "Balance is already paid." },

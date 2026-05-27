@@ -1,9 +1,13 @@
 import { ObjectId } from "mongodb";
 import { getDb } from "./mongodb";
 
+export type PaymentMode = "split" | "full";
+
 export type OrderStatus =
   | "pending_deposit"
+  | "pending_payment"
   | "deposit_paid"
+  | "paid_in_full"
   | "in_progress"
   | "ready_for_balance"
   | "completed"
@@ -19,12 +23,14 @@ export type OrderItem = {
 };
 
 export type PaymentRecord = {
-  razorpayOrderId: string;
+  razorpayOrderId?: string;
   razorpayPaymentId?: string;
   razorpaySignature?: string;
   amount: number; // pounds
   currency: string;
   status: "created" | "paid" | "failed";
+  /** True if marked paid manually by admin (e.g. bank transfer) */
+  manual?: boolean;
   createdAt: Date;
   paidAt?: Date;
 };
@@ -53,6 +59,7 @@ export type Order = {
   deposit: number;
   balance: number;
   currency: string;
+  paymentMode: PaymentMode;
   status: OrderStatus;
   payments: {
     deposit?: PaymentRecord;
@@ -71,12 +78,14 @@ export async function ordersCol() {
 export function publicOrder(o: Order) {
   return {
     id: o._id.toString(),
+    userId: o.userId,
     customer: o.customer,
     items: o.items,
     subtotal: o.subtotal,
     deposit: o.deposit,
     balance: o.balance,
     currency: o.currency,
+    paymentMode: o.paymentMode,
     status: o.status,
     payments: {
       deposit: o.payments.deposit
@@ -85,6 +94,7 @@ export function publicOrder(o: Order) {
             amount: o.payments.deposit.amount,
             currency: o.payments.deposit.currency,
             status: o.payments.deposit.status,
+            manual: o.payments.deposit.manual,
             paidAt: o.payments.deposit.paidAt,
           }
         : null,
@@ -94,10 +104,15 @@ export function publicOrder(o: Order) {
             amount: o.payments.balance.amount,
             currency: o.payments.balance.currency,
             status: o.payments.balance.status,
+            manual: o.payments.balance.manual,
             paidAt: o.payments.balance.paidAt,
           }
         : null,
     },
+    /** True once nothing is owed by the customer */
+    fullyPaid:
+      o.payments.deposit?.status === "paid" &&
+      (o.paymentMode === "full" || o.payments.balance?.status === "paid"),
     certificate: o.certificate,
     createdAt: o.createdAt,
     updatedAt: o.updatedAt,

@@ -1,30 +1,35 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { ordersCol, type OrderStatus, type Certificate } from "@/lib/orders";
+import { getSession, isAdminSession } from "@/lib/auth";
 
 export const runtime = "nodejs";
 
 const VALID_STATUSES: OrderStatus[] = [
   "pending_deposit",
+  "pending_payment",
   "deposit_paid",
+  "paid_in_full",
   "in_progress",
   "ready_for_balance",
   "completed",
   "cancelled",
 ];
 
-function checkAuth(req: Request) {
+async function checkAuth(req: Request): Promise<boolean> {
+  // Either a logged-in admin user, or the x-admin-secret header (for back-office curl)
+  const session = await getSession();
+  if (isAdminSession(session)) return true;
   const secret = process.env.ADMIN_SECRET;
-  if (!secret) return false;
-  const provided = req.headers.get("x-admin-secret");
-  return provided === secret;
+  if (secret && req.headers.get("x-admin-secret") === secret) return true;
+  return false;
 }
 
 export async function PATCH(
   req: Request,
   ctx: { params: Promise<{ id: string }> },
 ) {
-  if (!checkAuth(req)) {
+  if (!(await checkAuth(req))) {
     return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
   }
   const { id } = await ctx.params;

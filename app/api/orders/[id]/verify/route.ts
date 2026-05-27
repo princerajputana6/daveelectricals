@@ -71,26 +71,39 @@ export async function POST(
     }
 
     const now = new Date();
-    const nextStatus =
-      type === "deposit"
-        ? order.status === "pending_deposit"
-          ? "deposit_paid"
-          : order.status
-        : "completed";
+    const set: Record<string, unknown> = {
+      [`${path}.status`]: "paid",
+      [`${path}.razorpayPaymentId`]: razorpay_payment_id,
+      [`${path}.razorpaySignature`]: razorpay_signature,
+      [`${path}.paidAt`]: now,
+      updatedAt: now,
+    };
 
-    await col.updateOne(
-      { _id: order._id },
-      {
-        $set: {
-          [`${path}.status`]: "paid",
-          [`${path}.razorpayPaymentId`]: razorpay_payment_id,
-          [`${path}.razorpaySignature`]: razorpay_signature,
-          [`${path}.paidAt`]: now,
-          status: nextStatus,
-          updatedAt: now,
-        },
-      },
-    );
+    // Determine next status
+    let nextStatus = order.status;
+    if (type === "deposit") {
+      if (order.paymentMode === "full") {
+        // Full payment was the deposit slot — record a synthetic "balance paid" too
+        set["payments.balance"] = {
+          amount: 0,
+          currency: order.currency,
+          status: "paid",
+          manual: false,
+          createdAt: now,
+          paidAt: now,
+          razorpayOrderId: razorpay_order_id,
+          razorpayPaymentId: razorpay_payment_id,
+        };
+        nextStatus = "paid_in_full";
+      } else {
+        nextStatus = "deposit_paid";
+      }
+    } else if (type === "balance") {
+      nextStatus = "completed";
+    }
+    set.status = nextStatus;
+
+    await col.updateOne({ _id: order._id }, { $set: set });
 
     return NextResponse.json({
       ok: true,

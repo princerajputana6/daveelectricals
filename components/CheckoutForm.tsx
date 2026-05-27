@@ -48,6 +48,9 @@ export default function CheckoutForm({
   const { lines, subtotal, deposit, balance, clear, count } = useCart();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [paymentMode, setPaymentMode] = useState<"split" | "full">("split");
+  const upfrontAmount = paymentMode === "full" ? subtotal : deposit;
+  const remainingAmount = paymentMode === "full" ? 0 : balance;
   const [form, setForm] = useState({
     name: user.name,
     email: user.email,
@@ -82,6 +85,7 @@ export default function CheckoutForm({
         body: JSON.stringify({
           items: lines.map((l) => ({ productId: l.productId, qty: l.qty })),
           customer: form,
+          paymentMode,
         }),
       });
       const data = await res.json();
@@ -98,7 +102,10 @@ export default function CheckoutForm({
         amount: data.razorpay.amount,
         currency: data.razorpay.currency,
         name: "Dave Electrical Services",
-        description: `50% deposit for order #${data.order.id.slice(-6).toUpperCase()}`,
+        description:
+          paymentMode === "full"
+            ? `Full payment for order #${data.order.id.slice(-6).toUpperCase()}`
+            : `50% deposit for order #${data.order.id.slice(-6).toUpperCase()}`,
         prefill: {
           name: form.name,
           email: form.email,
@@ -239,12 +246,105 @@ export default function CheckoutForm({
             </motion.p>
           )}
 
+          {/* Payment choice */}
+          <fieldset className="mt-7">
+            <legend className="mb-3 block text-xs font-semibold uppercase tracking-wider text-ash">
+              Payment option
+            </legend>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label
+                className={`relative cursor-pointer rounded-2xl border p-4 transition-all ${
+                  paymentMode === "split"
+                    ? "border-bolt bg-bolt/10"
+                    : "border-white/10 bg-ink hover:border-bolt/40"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="paymentMode"
+                  value="split"
+                  checked={paymentMode === "split"}
+                  onChange={() => setPaymentMode("split")}
+                  className="sr-only"
+                />
+                <div className="flex items-center justify-between">
+                  <span
+                    className={`font-display text-base font-bold ${
+                      paymentMode === "split" ? "text-bolt" : "text-white"
+                    }`}
+                  >
+                    50% deposit
+                  </span>
+                  <span
+                    className={`grid h-5 w-5 place-items-center rounded-full border-2 ${
+                      paymentMode === "split"
+                        ? "border-bolt bg-bolt"
+                        : "border-white/30"
+                    }`}
+                  >
+                    {paymentMode === "split" && (
+                      <span className="h-2 w-2 rounded-full bg-ink" />
+                    )}
+                  </span>
+                </div>
+                <p className="mt-1.5 text-xs text-ash">
+                  Pay {formatGBP(deposit)} now, {formatGBP(balance)} on
+                  completion.
+                </p>
+              </label>
+
+              <label
+                className={`relative cursor-pointer rounded-2xl border p-4 transition-all ${
+                  paymentMode === "full"
+                    ? "border-bolt bg-bolt/10"
+                    : "border-white/10 bg-ink hover:border-bolt/40"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="paymentMode"
+                  value="full"
+                  checked={paymentMode === "full"}
+                  onChange={() => setPaymentMode("full")}
+                  className="sr-only"
+                />
+                <div className="flex items-center justify-between">
+                  <span
+                    className={`font-display text-base font-bold ${
+                      paymentMode === "full" ? "text-bolt" : "text-white"
+                    }`}
+                  >
+                    Pay in full
+                  </span>
+                  <span
+                    className={`grid h-5 w-5 place-items-center rounded-full border-2 ${
+                      paymentMode === "full"
+                        ? "border-bolt bg-bolt"
+                        : "border-white/30"
+                    }`}
+                  >
+                    {paymentMode === "full" && (
+                      <span className="h-2 w-2 rounded-full bg-ink" />
+                    )}
+                  </span>
+                </div>
+                <p className="mt-1.5 text-xs text-ash">
+                  Pay {formatGBP(subtotal)} now — no balance owed at the end.
+                </p>
+              </label>
+            </div>
+          </fieldset>
+
           <button
             type="submit"
             disabled={pending}
-            className="group mt-7 flex w-full items-center justify-center gap-2 rounded-xl bg-bolt px-6 py-3.5 font-bold text-ink transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+            className="group mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-bolt px-6 py-3.5 font-bold text-ink transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {pending ? "Opening secure payment…" : `Pay deposit · ${formatGBP(deposit)}`}
+            {pending
+              ? "Opening secure payment…"
+              : paymentMode === "full"
+                ? `Pay in full · ${formatGBP(subtotal)}`
+                : `Pay deposit · ${formatGBP(deposit)}`}
             {!pending && (
               <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             )}
@@ -279,11 +379,20 @@ export default function CheckoutForm({
             <dl className="mt-5 space-y-2 text-sm">
               <Row label="Subtotal" value={formatGBP(subtotal)} />
               <Row
-                label="Pay now (50% deposit)"
-                value={formatGBP(deposit)}
+                label={
+                  paymentMode === "full"
+                    ? "Pay now (full)"
+                    : "Pay now (50% deposit)"
+                }
+                value={formatGBP(upfrontAmount)}
                 highlight
               />
-              <Row label="Pay on completion" value={formatGBP(balance)} />
+              <Row
+                label={
+                  paymentMode === "full" ? "Owed after work" : "Pay on completion"
+                }
+                value={formatGBP(remainingAmount)}
+              />
             </dl>
           </div>
 

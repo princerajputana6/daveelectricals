@@ -3,12 +3,10 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { company } from "@/lib/content";
-import HazardStripe from "./HazardStripe";
 
 export default function QuoteCTA() {
   return (
     <section className="relative bg-ink">
-      <HazardStripe />
       <div className="relative overflow-hidden px-5 py-14 text-center sm:px-8 sm:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,212,0,0.1),transparent_60%)]" />
         <motion.p
@@ -48,7 +46,6 @@ export default function QuoteCTA() {
           to request a call back
         </motion.p>
       </div>
-      <HazardStripe />
     </section>
   );
 }

@@ -50,3 +50,16 @@ export async function getSession(): Promise<SessionPayload | null> {
 export function validEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
+export function isAdminEmail(email?: string | null): boolean {
+  if (!email) return false;
+  const list = (process.env.ADMIN_EMAILS || "")
+    .split(",")
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+  return list.includes(email.toLowerCase());
+}
+
+export function isAdminSession(session: SessionPayload | null): boolean {
+  return !!session && isAdminEmail(session.email);
+}

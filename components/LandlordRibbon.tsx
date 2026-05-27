@@ -4,12 +4,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { heroHighlight } from "@/lib/content";
 import { ArrowIcon, BoltIcon } from "./Icons";
-import HazardStripe from "./HazardStripe";
 
 export default function LandlordRibbon() {
   return (
     <section className="relative bg-bolt text-ink">
-      <HazardStripe />
       <div className="relative overflow-hidden px-5 py-14 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <motion.p
@@ -53,7 +51,6 @@ export default function LandlordRibbon() {
           </motion.div>
         </div>
       </div>
-      <HazardStripe />
     </section>
   );
 }
