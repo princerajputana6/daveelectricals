@@ -141,6 +141,15 @@ export function CloseIcon(props: IconProps) {
   );
 }
 
+export function BagIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M5 8h14l-1 12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 8Z" />
+      <path d="M9 8V6a3 3 0 0 1 6 0v2" />
+    </svg>
+  );
+}
+
 export function FlagIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>

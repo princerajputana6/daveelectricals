@@ -7,6 +7,7 @@ import HazardStripe from "@/components/HazardStripe";
 import EmergencyLightingFaq from "@/components/EmergencyLightingFaq";
 import TestingRegime from "@/components/TestingRegime";
 import Accreditations from "@/components/Accreditations";
+import ShopHighlights from "@/components/ShopHighlights";
 import QuoteCTA from "@/components/QuoteCTA";
 import CTABanner from "@/components/CTABanner";
 import { services } from "@/lib/content";
@@ -69,6 +70,20 @@ export default function ServicesPage() {
           Electrical Services Hounslow, Twickenham, Feltham &amp; Cranford
         </p>
         <HazardStripe />
+      </section>
+
+      {/* Bookable products — Shop */}
+      <section className="relative bg-ink py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <SectionHeading
+            eyebrow="Book online"
+            title="Order in minutes — pay 50% deposit"
+            description="Book our most-requested services online. Pay 50% as a deposit to confirm your booking, and the remaining 50% once the work is complete and your certificate is issued. All prices in GBP."
+          />
+          <div className="mt-12">
+            <ShopHighlights />
+          </div>
+        </div>
       </section>
 
       {/* All services grid */}

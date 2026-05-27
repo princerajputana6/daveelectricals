@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollProgress from "@/components/ScrollProgress";
+import { CartProvider } from "@/components/CartProvider";
 import { company } from "@/lib/content";
 import { getSession } from "@/lib/auth";
 
@@ -45,11 +46,13 @@ export default async function RootLayout({
   return (
     <html lang="en-GB" className={`${inter.variable} ${grotesk.variable}`}>
       <body>
-        <ScrollProgress />
-        <Navbar user={user} />
-        <main>{children}</main>
-        <Footer />
-        <WhatsAppButton />
+        <CartProvider>
+          <ScrollProgress />
+          <Navbar user={user} />
+          <main>{children}</main>
+          <Footer />
+          <WhatsAppButton />
+        </CartProvider>
       </body>
     </html>
   );
