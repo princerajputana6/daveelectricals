@@ -53,22 +53,7 @@ export default function Hero() {
         style={{ y, opacity }}
         className="relative mx-auto w-full max-w-7xl px-5 pb-20 pt-32 sm:px-8"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="flex w-fit items-center gap-2 rounded-full border border-bolt/30 bg-bolt/10 px-4 py-1.5"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-bolt opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-bolt" />
-          </span>
-          <span className="text-xs font-semibold uppercase tracking-widest text-bolt">
-            {company.tagline}
-          </span>
-        </motion.div>
-
-        <h1 className="mt-7 font-display text-6xl font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-[8rem]">
+        <h1 className="font-display text-6xl font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-[8rem]">
           {headline.map((line, li) => (
             <span key={line} className="block overflow-hidden">
               <motion.span

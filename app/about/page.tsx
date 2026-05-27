@@ -3,6 +3,8 @@ import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import StatsStrip from "@/components/StatsStrip";
+import Accreditations from "@/components/Accreditations";
+import QuoteCTA from "@/components/QuoteCTA";
 import CTABanner from "@/components/CTABanner";
 import {
   sectors,
@@ -148,6 +150,22 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Accreditations — white section */}
+      <section className="bg-white py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <SectionHeading
+            eyebrow="Accreditations"
+            title="Qualified, registered & certified"
+            description="Our team holds the qualifications and registrations to deliver safe, compliant electrical work."
+            align="center"
+            tone="light"
+          />
+          <div className="mt-12">
+            <Accreditations />
+          </div>
+        </div>
+      </section>
+
       {/* Guarantee */}
       <section className="bg-coal py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -176,6 +194,8 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <QuoteCTA />
 
       <CTABanner />
     </>

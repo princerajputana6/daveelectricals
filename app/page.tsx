@@ -1,11 +1,14 @@
 import Link from "next/link";
 import Hero from "@/components/Hero";
+import LandlordRibbon from "@/components/LandlordRibbon";
 import StatsStrip from "@/components/StatsStrip";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
 import Reveal from "@/components/Reveal";
+import Accreditations from "@/components/Accreditations";
 import ClientsMarquee from "@/components/ClientsMarquee";
 import Testimonials from "@/components/Testimonials";
+import QuoteCTA from "@/components/QuoteCTA";
 import CTABanner from "@/components/CTABanner";
 import { services, sectors, accreditationPoints, company } from "@/lib/content";
 import { ArrowIcon, BoltIcon, CheckIcon, ShieldIcon } from "@/components/Icons";
@@ -14,6 +17,9 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+
+      {/* Landlord EICR specialist ribbon */}
+      <LandlordRibbon />
 
       {/* Stats */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
@@ -81,6 +87,22 @@ export default function HomePage() {
               </div>
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      {/* Accreditations — white section */}
+      <section className="relative bg-white py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <SectionHeading
+            eyebrow="Accreditations"
+            title="Qualified, registered & certified"
+            description="Industry-recognised qualifications and registrations that demonstrate our competence and commitment to safety standards."
+            align="center"
+            tone="light"
+          />
+          <div className="mt-12">
+            <Accreditations />
+          </div>
         </div>
       </section>
 
@@ -166,6 +188,8 @@ export default function HomePage() {
           <Testimonials />
         </div>
       </section>
+
+      <QuoteCTA />
 
       <CTABanner />
     </>

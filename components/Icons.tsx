@@ -141,6 +141,24 @@ export function CloseIcon(props: IconProps) {
   );
 }
 
+export function FlagIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M5 21V4M5 4h11l-2 4 2 4H5" />
+    </svg>
+  );
+}
+
+export function TruckIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M2 7h11v10H2zM13 10h5l3 3v4h-8" />
+      <circle cx="6.5" cy="18" r="1.8" />
+      <circle cx="16.5" cy="18" r="1.8" />
+    </svg>
+  );
+}
+
 export function StarIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>

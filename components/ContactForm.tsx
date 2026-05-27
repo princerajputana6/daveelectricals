@@ -3,7 +3,19 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { company } from "@/lib/content";
-import { ArrowIcon, CheckIcon } from "./Icons";
+import {
+  ArrowIcon,
+  CheckIcon,
+  FlagIcon,
+  StarIcon,
+  TruckIcon,
+} from "./Icons";
+
+const humanOptions = [
+  { key: "star", label: "Star", Icon: StarIcon },
+  { key: "flag", label: "Flag", Icon: FlagIcon },
+  { key: "truck", label: "Truck", Icon: TruckIcon },
+];
 
 const services = [
   "Installation & Maintenance",
@@ -12,11 +24,17 @@ const services = [
   "Emergency Call-Out",
   "PAT Testing",
   "Emergency Lighting",
+  "CCTV Installation",
+  "EV Charging Installation",
   "Other",
 ];
 
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [humanPick, setHumanPick] = useState<string | null>(null);
+  const [humanError, setHumanError] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -28,15 +46,33 @@ export default function ContactForm() {
   const update = (key: string, value: string) =>
     setForm((f) => ({ ...f, [key]: value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nPhone: ${form.phone}\nService: ${form.service}\n\n${form.message}`,
-    );
-    window.location.href = `mailto:${company.email}?subject=${encodeURIComponent(
-      `Website enquiry — ${form.service}`,
-    )}&body=${body}`;
-    setSent(true);
+    if (humanPick !== "star") {
+      setHumanError(true);
+      return;
+    }
+    setError(null);
+    setPending(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data?.error || "Something went wrong. Please try again.");
+        setPending(false);
+        return;
+      }
+      setSent(true);
+    } catch {
+      setError(
+        "Could not reach the server. Please check your connection and try again.",
+      );
+      setPending(false);
+    }
   };
 
   const inputClass =
@@ -60,8 +96,8 @@ export default function ContactForm() {
               Thank you!
             </h3>
             <p className="mt-2 max-w-sm text-sm text-ash">
-              Your email client should now be open with your enquiry ready to
-              send. Prefer to talk? Call us on {company.phoneMobile}.
+              Your message has been sent. We&apos;ll be in touch shortly. Prefer
+              to talk? Call us on {company.phoneMobile}.
             </p>
           </motion.div>
         ) : (
@@ -143,12 +179,60 @@ export default function ContactForm() {
                 className={`${inputClass} resize-none`}
               />
             </div>
+            <div className="rounded-xl border border-white/10 bg-ink p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-ash">
+                Please prove you are human by selecting the{" "}
+                <span className="text-bolt">star</span>.
+              </p>
+              <div className="mt-3 flex gap-2.5">
+                {humanOptions.map(({ key, label, Icon }) => {
+                  const active = humanPick === key;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      aria-label={label}
+                      onClick={() => {
+                        setHumanPick(key);
+                        setHumanError(false);
+                      }}
+                      className={`grid h-11 w-11 place-items-center rounded-lg border transition-all ${
+                        active
+                          ? "border-bolt bg-bolt/15 text-bolt"
+                          : "border-white/15 bg-white/5 text-ash hover:border-bolt/40 hover:text-white"
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" />
+                    </button>
+                  );
+                })}
+              </div>
+              {humanError && (
+                <p className="mt-2 text-xs font-semibold text-red-400">
+                  Please select the star icon to continue.
+                </p>
+              )}
+            </div>
+
+            {error && (
+              <motion.p
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs font-semibold text-red-300"
+              >
+                {error}
+              </motion.p>
+            )}
+
             <button
               type="submit"
-              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-bolt px-6 py-3.5 font-bold text-ink transition-transform hover:scale-[1.02]"
+              disabled={pending}
+              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-bolt px-6 py-3.5 font-bold text-ink transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Send enquiry
-              <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              {pending ? "Sending…" : "Send enquiry"}
+              {!pending && (
+                <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              )}
             </button>
           </motion.form>
         )}

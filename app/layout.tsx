@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollProgress from "@/components/ScrollProgress";
 import { company } from "@/lib/content";
+import { getSession } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const grotesk = Space_Grotesk({
@@ -16,7 +17,7 @@ const grotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: `${company.name} — ${company.tagline}`,
+    default: `${company.name} — Electrician Hounslow, Twickenham, Feltham & Cranford`,
     template: `%s — ${company.name}`,
   },
   description:
@@ -36,14 +37,16 @@ export const viewport: Viewport = {
   themeColor: "#050505",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const session = await getSession();
+  const user = session ? { name: session.name, email: session.email } : null;
   return (
     <html lang="en-GB" className={`${inter.variable} ${grotesk.variable}`}>
       <body>
         <ScrollProgress />
-        <Navbar />
+        <Navbar user={user} />
         <main>{children}</main>
         <Footer />
         <WhatsAppButton />
