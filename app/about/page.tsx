@@ -4,15 +4,15 @@ import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import StatsStrip from "@/components/StatsStrip";
 import Accreditations from "@/components/Accreditations";
+import SectorsGrid from "@/components/SectorsGrid";
 import QuoteCTA from "@/components/QuoteCTA";
 import CTABanner from "@/components/CTABanner";
 import {
-  sectors,
   accreditationPoints,
   guarantees,
   badges,
 } from "@/lib/content";
-import { BoltIcon, CheckIcon, ShieldIcon } from "@/components/Icons";
+import { CheckIcon, ShieldIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
   title: "About",
@@ -94,19 +94,8 @@ export default function AboutPage() {
             eyebrow="Sectors we serve"
             title="Every kind of electrical environment"
           />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {sectors.map((sector, i) => (
-              <Reveal key={sector} delay={(i % 4) * 0.08}>
-                <div className="group flex items-center gap-3 rounded-xl border border-white/10 bg-graphite p-5 transition-colors hover:border-bolt/40">
-                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-bolt/10 text-bolt transition-colors group-hover:bg-bolt group-hover:text-ink">
-                    <BoltIcon className="h-5 w-5" />
-                  </span>
-                  <span className="text-sm font-semibold text-white">
-                    {sector}
-                  </span>
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-10">
+            <SectorsGrid />
           </div>
         </div>
       </section>

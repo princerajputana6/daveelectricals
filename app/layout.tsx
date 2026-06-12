@@ -5,9 +5,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollProgress from "@/components/ScrollProgress";
+import PublicChrome from "@/components/PublicChrome";
 import { CartProvider } from "@/components/CartProvider";
 import { company } from "@/lib/content";
-import { getSession } from "@/lib/auth";
+import { getSession, isAdminSession } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const grotesk = Space_Grotesk({
@@ -42,16 +43,26 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const session = await getSession();
-  const user = session ? { name: session.name, email: session.email } : null;
+  const user = session
+    ? {
+        name: session.name,
+        email: session.email,
+        isAdmin: isAdminSession(session),
+      }
+    : null;
   return (
     <html lang="en-GB" className={`${inter.variable} ${grotesk.variable}`}>
       <body>
         <CartProvider>
-          <ScrollProgress />
-          <Navbar user={user} />
+          <PublicChrome>
+            <ScrollProgress />
+            <Navbar user={user} />
+          </PublicChrome>
           <main>{children}</main>
-          <Footer />
-          <WhatsAppButton />
+          <PublicChrome>
+            <Footer />
+            <WhatsAppButton />
+          </PublicChrome>
         </CartProvider>
       </body>
     </html>

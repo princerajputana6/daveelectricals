@@ -83,7 +83,11 @@ export default function CheckoutForm({
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          items: lines.map((l) => ({ productId: l.productId, qty: l.qty })),
+          items: lines.map((l) => ({
+            productId: l.productId,
+            variantId: l.variantId,
+            qty: l.qty,
+          })),
           customer: form,
           paymentMode,
         }),
@@ -363,11 +367,16 @@ export default function CheckoutForm({
             <ul className="mt-4 space-y-3 text-sm">
               {lines.map((l) => (
                 <li
-                  key={l.productId}
+                  key={l.key}
                   className="flex items-start justify-between gap-3 border-b border-white/5 pb-3 last:border-b-0"
                 >
                   <div>
                     <p className="font-semibold text-white">{l.name}</p>
+                    {l.variantLabel && (
+                      <p className="text-[11px] uppercase tracking-wider text-bolt">
+                        {l.variantLabel}
+                      </p>
+                    )}
                     <p className="mt-0.5 text-xs text-ash">
                       {l.qty} × {formatGBP(l.price)}
                     </p>

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { ObjectId } from "mongodb";
 import { getDb } from "@/lib/mongodb";
-import { createSession, validEmail } from "@/lib/auth";
+import { createSession, isAdminEmail, validEmail } from "@/lib/auth";
 
 export const runtime = "nodejs";
 
@@ -59,6 +59,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ok: true,
       user: { name: name.trim(), email: email.toLowerCase() },
+      isAdmin: isAdminEmail(email),
     });
   } catch (err) {
     console.error("[signup] error", err);

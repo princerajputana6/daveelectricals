@@ -7,10 +7,14 @@ import { ArrowIcon, BagIcon, CheckIcon } from "./Icons";
 
 export default function AddToCartButton({
   productId,
+  variantId,
+  disabled = false,
   className = "",
   variant = "primary",
 }: {
   productId: string;
+  variantId?: string;
+  disabled?: boolean;
   className?: string;
   variant?: "primary" | "outline";
 }) {
@@ -18,13 +22,14 @@ export default function AddToCartButton({
   const [justAdded, setJustAdded] = useState(false);
 
   const handle = () => {
-    add(productId, 1);
+    if (disabled) return;
+    add(productId, variantId, 1);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1800);
   };
 
   const base =
-    "group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-all";
+    "group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-60";
   const styles =
     variant === "primary"
       ? "bg-bolt text-ink hover:scale-[1.04]"
@@ -34,7 +39,8 @@ export default function AddToCartButton({
     <motion.button
       type="button"
       onClick={handle}
-      whileTap={{ scale: 0.96 }}
+      disabled={disabled}
+      whileTap={{ scale: disabled ? 1 : 0.96 }}
       className={`${base} ${styles} ${className}`}
     >
       {justAdded ? (

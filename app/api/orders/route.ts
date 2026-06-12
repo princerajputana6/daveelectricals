@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getSession } from "@/lib/auth";
-import { findProduct, toPence, currency as cur } from "@/lib/products";
+import { findProduct, priceFor, toPence, currency as cur } from "@/lib/products";
 import { getRazorpay } from "@/lib/razorpay";
 import { ordersCol, publicOrder, type Order } from "@/lib/orders";
 
@@ -47,13 +47,32 @@ export async function POST(req: Request) {
       const product = findProduct(it.productId);
       if (!product) continue;
       const qty = Math.max(1, Math.min(50, Number(it.qty) || 1));
-      const lineTotal = +(product.price * qty).toFixed(2);
+      let unitPrice: number;
+      let variantLabel: string | undefined;
+      try {
+        const r = priceFor(it.productId, it.variantId);
+        unitPrice = r.price;
+        variantLabel = product.variants ? r.label : undefined;
+      } catch (e) {
+        return NextResponse.json(
+          {
+            error:
+              e instanceof Error
+                ? e.message
+                : "Invalid product configuration.",
+          },
+          { status: 400 },
+        );
+      }
+      const lineTotal = +(unitPrice * qty).toFixed(2);
       subtotal += lineTotal;
       orderItems.push({
         productId: product.id,
+        variantId: it.variantId,
+        variantLabel,
         name: product.shortName,
         unit: product.unit,
-        unitPrice: product.price,
+        unitPrice,
         qty,
         lineTotal,
       });

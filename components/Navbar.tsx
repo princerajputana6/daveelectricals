@@ -9,7 +9,7 @@ import { CloseIcon, MenuIcon, PhoneIcon } from "./Icons";
 import Logo from "./Logo";
 import CartBadge from "./CartBadge";
 
-type User = { name: string; email: string } | null;
+type User = { name: string; email: string; isAdmin?: boolean } | null;
 
 export default function Navbar({ user }: { user: User }) {
   const pathname = usePathname();
@@ -85,7 +85,7 @@ export default function Navbar({ user }: { user: User }) {
           <div className="flex items-center gap-2 sm:gap-3">
             {user ? (
               <Link
-                href="/account"
+                href={user?.isAdmin ? "/admin" : "/account"}
                 className="hidden items-center gap-2 rounded-full border border-bolt/30 bg-bolt/5 px-3 py-1.5 text-sm font-semibold text-bolt transition-colors hover:bg-bolt/10 sm:flex"
               >
                 <span className="grid h-7 w-7 place-items-center rounded-full bg-bolt font-display text-xs font-bold text-ink">
@@ -170,7 +170,7 @@ export default function Navbar({ user }: { user: User }) {
               >
                 {user ? (
                   <Link
-                    href="/account"
+                    href={user?.isAdmin ? "/admin" : "/account"}
                     className="flex items-center gap-3 py-2"
                   >
                     <span className="grid h-10 w-10 place-items-center rounded-full bg-bolt font-display text-sm font-bold text-ink">

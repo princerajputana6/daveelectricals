@@ -9,8 +9,12 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { products } from "@/lib/products";
-import type { CartLine, CartLineFull } from "@/lib/cart";
+import { products, findVariant } from "@/lib/products";
+import {
+  cartLineKey,
+  type CartLine,
+  type CartLineFull,
+} from "@/lib/cart";
 
 type CartContextValue = {
   lines: CartLineFull[];
@@ -18,15 +22,16 @@ type CartContextValue = {
   subtotal: number;
   deposit: number;
   balance: number;
-  add: (productId: string, qty?: number) => void;
-  setQty: (productId: string, qty: number) => void;
-  remove: (productId: string) => void;
+  add: (productId: string, variantId?: string, qty?: number) => void;
+  setQty: (productId: string, variantId: string | undefined, qty: number) => void;
+  remove: (productId: string, variantId?: string) => void;
   clear: () => void;
   ready: boolean;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
-const STORAGE_KEY = "dave_cart_v1";
+const STORAGE_KEY = "dave_cart_v2";
+const LEGACY_KEY = "dave_cart_v1";
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [raw, setRaw] = useState<CartLine[]>([]);
@@ -35,7 +40,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) setRaw(JSON.parse(stored));
+      if (stored) {
+        setRaw(JSON.parse(stored));
+      } else if (localStorage.getItem(LEGACY_KEY)) {
+        // Legacy carts didn't have variants — purge them
+        localStorage.removeItem(LEGACY_KEY);
+      }
     } catch {}
     setReady(true);
   }, []);
@@ -48,20 +58,31 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [raw, ready]);
 
   const lines = useMemo<CartLineFull[]>(() => {
-    return raw
-      .map((l) => {
-        const p = products.find((x) => x.id === l.productId);
-        if (!p) return null;
-        return {
-          productId: l.productId,
-          qty: l.qty,
-          name: p.shortName,
-          price: p.price,
-          unit: p.unit,
-          lineTotal: +(p.price * l.qty).toFixed(2),
-        };
-      })
-      .filter((x): x is CartLineFull => !!x);
+    const out: CartLineFull[] = [];
+    for (const l of raw) {
+      const p = products.find((x) => x.id === l.productId);
+      if (!p) continue;
+      let price = p.price ?? 0;
+      let variantLabel: string | undefined;
+      if (p.variants && p.variants.length) {
+        const v = findVariant(p, l.variantId);
+        if (!v) continue;
+        price = v.price;
+        variantLabel = v.label;
+      }
+      out.push({
+        productId: l.productId,
+        variantId: l.variantId,
+        key: cartLineKey(l.productId, l.variantId),
+        qty: l.qty,
+        name: p.shortName,
+        variantLabel,
+        price,
+        unit: p.unit,
+        lineTotal: +(price * l.qty).toFixed(2),
+      });
+    }
+    return out;
   }, [raw]);
 
   const subtotal = +lines.reduce((s, l) => s + l.lineTotal, 0).toFixed(2);
@@ -69,30 +90,46 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const balance = +(subtotal - deposit).toFixed(2);
   const count = lines.reduce((s, l) => s + l.qty, 0);
 
-  const add = useCallback((productId: string, qty = 1) => {
-    setRaw((curr) => {
-      const existing = curr.find((l) => l.productId === productId);
-      if (existing) {
-        return curr.map((l) =>
-          l.productId === productId ? { ...l, qty: l.qty + qty } : l,
+  const add = useCallback(
+    (productId: string, variantId?: string, qty = 1) => {
+      setRaw((curr) => {
+        const idx = curr.findIndex(
+          (l) => l.productId === productId && l.variantId === variantId,
         );
-      }
-      return [...curr, { productId, qty }];
-    });
-  }, []);
+        if (idx >= 0) {
+          const copy = curr.slice();
+          copy[idx] = { ...copy[idx], qty: copy[idx].qty + qty };
+          return copy;
+        }
+        return [...curr, { productId, variantId, qty }];
+      });
+    },
+    [],
+  );
 
-  const setQty = useCallback((productId: string, qty: number) => {
+  const setQty = useCallback(
+    (productId: string, variantId: string | undefined, qty: number) => {
+      setRaw((curr) =>
+        qty <= 0
+          ? curr.filter(
+              (l) => !(l.productId === productId && l.variantId === variantId),
+            )
+          : curr.map((l) =>
+              l.productId === productId && l.variantId === variantId
+                ? { ...l, qty }
+                : l,
+            ),
+      );
+    },
+    [],
+  );
+
+  const remove = useCallback((productId: string, variantId?: string) => {
     setRaw((curr) =>
-      qty <= 0
-        ? curr.filter((l) => l.productId !== productId)
-        : curr.map((l) =>
-            l.productId === productId ? { ...l, qty } : l,
-          ),
+      curr.filter(
+        (l) => !(l.productId === productId && l.variantId === variantId),
+      ),
     );
-  }, []);
-
-  const remove = useCallback((productId: string) => {
-    setRaw((curr) => curr.filter((l) => l.productId !== productId));
   }, []);
 
   const clear = useCallback(() => setRaw([]), []);

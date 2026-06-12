@@ -47,7 +47,7 @@ export default function CartView() {
         <AnimatePresence initial={false}>
           {lines.map((l) => (
             <motion.div
-              key={l.productId}
+              key={l.key}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, x: -40 }}
@@ -58,6 +58,11 @@ export default function CartView() {
                 <p className="font-display text-lg font-bold text-white">
                   {l.name}
                 </p>
+                {l.variantLabel && (
+                  <p className="text-xs uppercase tracking-wider text-bolt">
+                    {l.variantLabel}
+                  </p>
+                )}
                 <p className="mt-1 text-sm text-ash">
                   {formatGBP(l.price)} {l.unit}
                 </p>
@@ -65,7 +70,7 @@ export default function CartView() {
 
               <div className="flex items-center gap-1 rounded-full border border-white/10 bg-ink p-1">
                 <button
-                  onClick={() => setQty(l.productId, l.qty - 1)}
+                  onClick={() => setQty(l.productId, l.variantId, l.qty - 1)}
                   aria-label="Decrease quantity"
                   className="h-8 w-8 rounded-full text-bolt transition-colors hover:bg-white/5"
                 >
@@ -75,7 +80,7 @@ export default function CartView() {
                   {l.qty}
                 </span>
                 <button
-                  onClick={() => setQty(l.productId, l.qty + 1)}
+                  onClick={() => setQty(l.productId, l.variantId, l.qty + 1)}
                   aria-label="Increase quantity"
                   className="h-8 w-8 rounded-full text-bolt transition-colors hover:bg-white/5"
                 >
@@ -88,7 +93,7 @@ export default function CartView() {
               </p>
 
               <button
-                onClick={() => remove(l.productId)}
+                onClick={() => remove(l.productId, l.variantId)}
                 aria-label="Remove from cart"
                 className="grid h-9 w-9 place-items-center rounded-lg text-ash transition-colors hover:bg-white/5 hover:text-red-400"
               >

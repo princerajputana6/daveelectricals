@@ -67,8 +67,8 @@ export default function ServicesPage() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="Book online"
-            title="Order in minutes — pay 50% deposit"
-            description="Book our most-requested services online. Pay 50% as a deposit to confirm your booking, and the remaining 50% once the work is complete and your certificate is issued. All prices in GBP."
+            title="Pick a service, pay your way"
+            description="Book any of our six most-requested electrical services online. Choose 50% deposit (pay the rest on completion) or pay in full upfront. All prices in GBP, ex VAT."
           />
           <div className="mt-12">
             <ShopHighlights />

@@ -15,6 +15,8 @@ export type OrderStatus =
 
 export type OrderItem = {
   productId: string;
+  variantId?: string;
+  variantLabel?: string;
   name: string;
   unit: string;
   unitPrice: number;

@@ -40,7 +40,7 @@ export default function AuthForm({
         setPending(false);
         return;
       }
-      router.push("/account");
+      router.push(data?.isAdmin ? "/admin" : "/account");
       router.refresh();
     } catch {
       setError("Network error. Please try again.");

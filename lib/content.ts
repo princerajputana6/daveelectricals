@@ -15,7 +15,6 @@ export const nav = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
-  { label: "Clients", href: "/clients" },
   { label: "Our Reach", href: "/our-reach" },
   { label: "Contact", href: "/contact" },
 ];
@@ -23,19 +22,20 @@ export const nav = [
 export const stats = [
   { value: 10, suffix: "+", label: "Years of experience" },
   { value: 24, suffix: "/7", label: "Emergency call-outs" },
-  { value: 500, suffix: "+", label: "Projects completed" },
+  { value: 1000, suffix: "+", label: "Projects completed" },
   { value: 12, suffix: "mo", label: "Workmanship guarantee" },
 ];
 
-export const sectors = [
-  "Residential",
-  "Restaurants & Hospitality",
-  "Retail",
-  "Manufacturing",
-  "Schools & Education",
-  "Healthcare (GPs)",
-  "Councils",
-  "Clubs & Pubs",
+export type SectorEntry = { name: string; icon: string };
+export const sectors: SectorEntry[] = [
+  { name: "Residential", icon: "house" },
+  { name: "Restaurants & Hospitality", icon: "restaurant" },
+  { name: "Retail", icon: "shop" },
+  { name: "Manufacturing", icon: "factory" },
+  { name: "Schools & Education", icon: "school" },
+  { name: "Healthcare (GPs)", icon: "hospital" },
+  { name: "Councils", icon: "council" },
+  { name: "Clubs & Pubs", icon: "pub" },
 ];
 
 export const services = [
@@ -246,10 +246,10 @@ export const accreditations = [
     short: "FIA",
   },
   {
-    name: "Part P",
-    detail: "Electrical Safety Registered Installer",
+    name: "PAT",
+    detail: "Portable Appliance Testing",
     accent: "#2ecc71",
-    short: "P",
+    short: "PAT",
   },
   {
     name: "Registered Competent Person",

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getDb } from "@/lib/mongodb";
-import { createSession, validEmail } from "@/lib/auth";
+import { createSession, isAdminEmail, validEmail } from "@/lib/auth";
 
 export const runtime = "nodejs";
 
@@ -45,6 +45,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ok: true,
       user: { name: user.name, email: user.email },
+      isAdmin: isAdminEmail(user.email),
     });
   } catch (err) {
     console.error("[login] error", err);

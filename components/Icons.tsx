@@ -141,6 +141,114 @@ export function CloseIcon(props: IconProps) {
   );
 }
 
+export function DashboardIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3" y="3" width="7" height="9" rx="1.5" />
+      <rect x="14" y="3" width="7" height="5" rx="1.5" />
+      <rect x="14" y="12" width="7" height="9" rx="1.5" />
+      <rect x="3" y="16" width="7" height="5" rx="1.5" />
+    </svg>
+  );
+}
+
+export function UsersIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="9" cy="8" r="3.5" />
+      <path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2" />
+      <circle cx="17" cy="9" r="2.5" />
+      <path d="M22 21v-1.5a3.5 3.5 0 0 0-3.5-3.5H17" />
+    </svg>
+  );
+}
+
+export function ChartIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 21h18" />
+      <path d="M7 21V11M12 21V5M17 21v-7" />
+    </svg>
+  );
+}
+
+export function HouseIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 11 12 3l9 8" />
+      <path d="M5 10v10h14V10" />
+      <path d="M10 20v-6h4v6" />
+    </svg>
+  );
+}
+
+export function RestaurantIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M7 2v9a3 3 0 0 0 6 0V2M10 11v11" />
+      <path d="M17 2c-1.5 1-2 3-2 5v5h2v9" />
+    </svg>
+  );
+}
+
+export function ShopIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 9h18l-1 11H4L3 9Z" />
+      <path d="M3 9 5 4h14l2 5" />
+      <path d="M9 13a3 3 0 0 0 6 0" />
+    </svg>
+  );
+}
+
+export function FactoryIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 21V11l5 3V11l5 3V7l8 6v8H3Z" />
+      <path d="M7 17h2M13 17h2M17 17h2" />
+    </svg>
+  );
+}
+
+export function SchoolIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M2 9 12 4l10 5-10 5L2 9Z" />
+      <path d="M6 11v4c0 2 3 3 6 3s6-1 6-3v-4" />
+      <path d="M22 9v6" />
+    </svg>
+  );
+}
+
+export function HospitalIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 22V4h16v18" />
+      <path d="M12 7v8M8 11h8" />
+      <path d="M3 22h18" />
+    </svg>
+  );
+}
+
+export function CouncilIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 22h18M4 22V10l8-6 8 6v12" />
+      <path d="M7 22V13M12 22v-9M17 22V13" />
+    </svg>
+  );
+}
+
+export function PubIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M7 3h10v7a5 5 0 0 1-10 0V3Z" />
+      <path d="M17 6h2a2 2 0 0 1 0 4h-2" />
+      <path d="M9 15v6M15 15v6M6 21h12" />
+    </svg>
+  );
+}
+
 export function BagIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
@@ -186,4 +294,18 @@ export const serviceIcons: Record<
   clock: ClockIcon,
   test: TestIcon,
   bulb: BulbIcon,
+};
+
+export const sectorIcons: Record<
+  string,
+  (props: IconProps) => React.JSX.Element
+> = {
+  house: HouseIcon,
+  restaurant: RestaurantIcon,
+  shop: ShopIcon,
+  factory: FactoryIcon,
+  school: SchoolIcon,
+  hospital: HospitalIcon,
+  council: CouncilIcon,
+  pub: PubIcon,
 };

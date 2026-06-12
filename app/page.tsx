@@ -6,11 +6,11 @@ import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
 import Reveal from "@/components/Reveal";
 import Accreditations from "@/components/Accreditations";
-import ClientsMarquee from "@/components/ClientsMarquee";
+import SectorsGrid from "@/components/SectorsGrid";
 import Testimonials from "@/components/Testimonials";
 import QuoteCTA from "@/components/QuoteCTA";
 import CTABanner from "@/components/CTABanner";
-import { services, sectors, accreditationPoints, company } from "@/lib/content";
+import { services, accreditationPoints, company } from "@/lib/content";
 import { ArrowIcon, BoltIcon, CheckIcon, ShieldIcon } from "@/components/Icons";
 
 export default function HomePage() {
@@ -32,8 +32,8 @@ export default function HomePage() {
           <div>
             <SectionHeading
               eyebrow="Why choose us"
-              title="Competent people, committed to quality &amp; safety"
-              description="It is important that you get work done by competent people working for businesses committed to quality, safety and customer care. Dave Electrical Services Limited is NAPIT registered and has demonstrated its competence, holds the necessary insurances and has the right processes to assure compliance."
+              title="Qualified Engineers, committed to quality &amp; safety"
+              description="It is important that you get work done by qualified engineers working for businesses committed to quality, safety and customer care. Dave Electrical Services Limited is NAPIT registered and has demonstrated its competence, holds the necessary insurances and has the right processes to assure compliance."
             />
             <Reveal delay={0.3}>
               <ul className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -51,7 +51,7 @@ export default function HomePage() {
             <Reveal delay={0.4}>
               <Link
                 href="/about"
-                className="group mt-8 inline-flex items-center gap-2 font-semibold text-bolt"
+                className="group mt-8 inline-flex items-center gap-2 font-semibold text-bolt no-underline hover:no-underline"
               >
                 More about Dave Electrical
                 <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -118,7 +118,7 @@ export default function HomePage() {
             <Reveal delay={0.2}>
               <Link
                 href="/services"
-                className="group flex items-center gap-2 rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-bolt/40 hover:text-bolt"
+                className="group flex items-center gap-2 rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-bolt/40 hover:text-bolt no-underline"
               >
                 All services
                 <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -134,46 +134,37 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Sectors */}
+      {/* Sectors with icons */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
         <SectionHeading
           eyebrow="Sectors we serve"
-          title="Trusted across every environment"
+          title="Every kind of electrical environment"
           description="Over the years we have worked all over West London in every kind of electrical environment."
           align="center"
         />
-        <div className="mx-auto mt-10 flex max-w-4xl flex-wrap justify-center gap-3">
-          {sectors.map((sector, i) => (
-            <Reveal key={sector} delay={i * 0.05} direction="none">
-              <span className="flex items-center gap-2 rounded-full border border-white/10 bg-graphite px-5 py-2.5 text-sm font-medium text-zinc-200 transition-colors hover:border-bolt/40 hover:text-bolt">
-                <BoltIcon className="h-3.5 w-3.5 text-bolt" />
-                {sector}
-              </span>
-            </Reveal>
-          ))}
+        <div className="mt-12">
+          <SectorsGrid />
         </div>
       </section>
 
-      {/* Clients */}
+      {/* Our Reach teaser */}
       <section className="bg-coal py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="mx-auto max-w-7xl px-5 text-center sm:px-8">
           <SectionHeading
-            eyebrow="Our clients"
-            title="Some of the clients we have worked with"
+            eyebrow="Our Reach"
+            title="Covering every area within the M25"
+            description="Domestic, commercial, industrial and emergency call-outs — wherever you are inside the M25."
             align="center"
           />
-        </div>
-        <div className="mt-12">
-          <ClientsMarquee />
-        </div>
-        <div className="mt-10 text-center">
-          <Link
-            href="/clients"
-            className="group inline-flex items-center gap-2 font-semibold text-bolt"
-          >
-            View all clients
-            <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-          </Link>
+          <Reveal delay={0.3}>
+            <Link
+              href="/our-reach"
+              className="group mt-8 inline-flex items-center gap-2 rounded-full bg-bolt px-7 py-3.5 font-bold text-ink transition-transform hover:scale-[1.04] no-underline"
+            >
+              See areas we cover
+              <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Reveal>
         </div>
       </section>
 
