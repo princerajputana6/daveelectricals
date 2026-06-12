@@ -75,6 +75,53 @@ export function BulbIcon(props: IconProps) {
   );
 }
 
+export function BellIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2H4.5L6 16Z" />
+      <path d="M10 20a2 2 0 0 0 4 0" />
+    </svg>
+  );
+}
+
+export function SirenIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M6 14a6 6 0 0 1 12 0v3H6v-3Z" />
+      <path d="M4 21h16M12 4V2M5 7 3.5 5.5M19 7l1.5-1.5" />
+    </svg>
+  );
+}
+
+export function EvIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12H3V7Z" />
+      <path d="M15 11h2l2 3v5a1.5 1.5 0 0 1-3 0v-1h-1" />
+      <path d="M7 11l-1.5 3H8L7 17" />
+    </svg>
+  );
+}
+
+export function CameraIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 8a2 2 0 0 1 2-2h2l1.5-2h7L17 6h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8Z" />
+      <circle cx="12" cy="13" r="3.5" />
+    </svg>
+  );
+}
+
+export function ClipboardIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="6" y="4" width="12" height="17" rx="2" />
+      <path d="M9 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1" />
+      <path d="M9 11h6M9 15h6" />
+    </svg>
+  );
+}
+
 export function PhoneIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
@@ -294,6 +341,11 @@ export const serviceIcons: Record<
   clock: ClockIcon,
   test: TestIcon,
   bulb: BulbIcon,
+  bell: BellIcon,
+  siren: SirenIcon,
+  ev: EvIcon,
+  camera: CameraIcon,
+  clipboard: ClipboardIcon,
 };
 
 export const sectorIcons: Record<
