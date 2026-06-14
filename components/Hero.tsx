@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { company, badges } from "@/lib/content";
-import { ArrowIcon, BoltIcon, PhoneIcon, StarIcon } from "./Icons";
+import { company, badges, heroBackground } from "@/lib/content";
+import { ArrowIcon, BoltIcon, PhoneIcon, ShieldIcon, StarIcon } from "./Icons";
 import ElectricBackground from "./ElectricBackground";
 
 const headline = ["Powering", "homes &", "business"];
@@ -12,6 +12,7 @@ const headline = ["Powering", "homes &", "business"];
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const [videoReady, setVideoReady] = useState(false);
+  const [imageReady, setImageReady] = useState(false);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -24,7 +25,20 @@ export default function Hero() {
       ref={ref}
       className="relative flex min-h-[100svh] items-center overflow-hidden bg-ink"
     >
-      {/* Video layer */}
+      {/* Image background — drop an image at public/hero-bg.jpg or set NEXT_PUBLIC_HERO_BG_URL */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={heroBackground.src}
+        alt=""
+        onLoad={() => setImageReady(true)}
+        onError={() => setImageReady(false)}
+        className={`pointer-events-none absolute inset-0 h-full w-full select-none object-cover transition-opacity duration-700 ${
+          imageReady ? "opacity-55" : "opacity-0"
+        }`}
+        aria-hidden="true"
+      />
+
+      {/* Optional video layer (drop public/hero.mp4) */}
       <video
         autoPlay
         muted
@@ -33,14 +47,18 @@ export default function Hero() {
         poster="/hero-poster.svg"
         onCanPlay={() => setVideoReady(true)}
         className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-          videoReady ? "opacity-40" : "opacity-0"
+          videoReady && !imageReady ? "opacity-35" : "opacity-0"
         }`}
       >
         <source src="/hero.mp4" type="video/mp4" />
       </video>
 
-      {/* Animated electric circuit (always on) */}
-      <div className="absolute inset-0">
+      {/* Animated electric circuit — kept as a subtle accent even with image */}
+      <div
+        className={`absolute inset-0 transition-opacity duration-700 ${
+          imageReady ? "opacity-30" : "opacity-100"
+        }`}
+      >
         <ElectricBackground />
       </div>
 
@@ -53,6 +71,21 @@ export default function Hero() {
         style={{ y, opacity }}
         className="relative mx-auto w-full max-w-7xl px-5 pb-20 pt-32 sm:px-8"
       >
+        {/* Landlord Safety Certification — specialist callout chip */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-7 flex w-fit items-center gap-2.5 rounded-full border border-bolt/40 bg-bolt/10 py-2 pl-2 pr-4 backdrop-blur-sm"
+        >
+          <span className="grid h-7 w-7 place-items-center rounded-full bg-bolt text-ink">
+            <ShieldIcon className="h-4 w-4" />
+          </span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-bolt sm:text-xs">
+            Landlord Electrical Safety Compliance Certification
+          </span>
+        </motion.div>
+
         <h1 className="font-display text-6xl font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-[8rem]">
           {headline.map((line, li) => (
             <span key={line} className="block overflow-hidden">

@@ -243,11 +243,22 @@ export const accreditationPoints = [
 ];
 
 export const badges = [
+  "Landlord Safety Certified",
   "NAPIT Registered",
   "TrustMark — Government Endorsed",
   "UKAS Accredited Scheme",
   "Competent Person Scheme",
 ];
+
+/**
+ * Optional hero background. Drop an image at /public/hero-bg.jpg or set
+ * NEXT_PUBLIC_HERO_BG_URL in your env (Cloudinary, etc.).
+ */
+export const heroBackground = {
+  src:
+    process.env.NEXT_PUBLIC_HERO_BG_URL ||
+    "/hero-bg.jpg",
+};
 
 export const heroHighlight = {
   eyebrow: "We are specialists in",

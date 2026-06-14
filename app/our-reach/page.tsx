@@ -5,7 +5,7 @@ import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import QuoteCTA from "@/components/QuoteCTA";
 import CTABanner from "@/components/CTABanner";
-import { BoltIcon } from "@/components/Icons";
+import { BoltIcon, ShieldIcon, ClockIcon, BuildingIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
   title: "Our Reach",
@@ -13,51 +13,87 @@ export const metadata: Metadata = {
     "Dave Electrical Services covers every area inside the M25 — domestic, commercial, industrial and 24/7 emergency call-outs across London.",
 };
 
-const PRIMARY_AREAS = [
+const COVERAGE_PROMISES = [
   {
-    code: "H",
-    name: "Hounslow",
-    blurb: "Our main base of operations — full electrical services for domestic & commercial clients.",
+    Icon: BoltIcon,
+    title: "Inside the M25",
+    body:
+      "We serve every postcode inside the M25 orbital — Central London, North, East, South and West.",
   },
   {
-    code: "T",
-    name: "Twickenham",
-    blurb: "Residential refurbishments, certification and emergency call-outs across Twickenham.",
+    Icon: ClockIcon,
+    title: "Same-week scheduling",
+    body:
+      "Bookings inside the M25 typically get a slot within 3 working days; emergencies same day.",
   },
   {
-    code: "F",
-    name: "Feltham",
-    blurb: "Commercial and industrial electrical work throughout the Feltham area.",
+    Icon: BuildingIcon,
+    title: "Domestic & commercial",
+    body:
+      "From a 1-bed EICR to multi-floor commercial fit-outs, fire alarms and EV chargers.",
   },
   {
-    code: "C",
-    name: "Cranford",
-    blurb: "PAT testing, EV charging installations and maintenance in Cranford.",
+    Icon: ShieldIcon,
+    title: "NAPIT registered",
+    body:
+      "Every job is signed off by a NAPIT-registered engineer — fully insured, fully compliant.",
   },
 ];
 
+// Towns and districts inside the M25 (clockwise-ish) — these are the AREAS WE COVER,
+// not just the head-office postcodes.
 const COVERED_AREAS = [
-  "Hounslow",
+  // North London
+  "Camden",
+  "Islington",
+  "Hampstead",
+  "Highgate",
+  "Finchley",
+  "Wood Green",
+  "Enfield",
+  "Barnet",
+  // East London
+  "Hackney",
+  "Stratford",
+  "Walthamstow",
+  "Ilford",
+  "Romford",
+  "Barking",
+  // South-East
+  "Greenwich",
+  "Lewisham",
+  "Bromley",
+  "Catford",
+  "Eltham",
+  // South London
+  "Brixton",
+  "Clapham",
+  "Wimbledon",
+  "Croydon",
+  "Sutton",
+  "Kingston upon Thames",
+  // South-West / West
+  "Richmond",
   "Twickenham",
+  "Hounslow",
   "Feltham",
   "Cranford",
-  "Watford",
-  "Harrow",
+  "Hammersmith",
+  "Chiswick",
+  "Ealing",
+  "Acton",
+  // North-West
   "Wembley",
-  "Rickmansworth",
-  "Slough",
-  "Kingston",
-  "Woking",
-  "Leatherhead",
-  "Caterham",
-  "Bromley",
-  "Dartford",
-  "Grays",
-  "Romford",
-  "Brentwood",
-  "Epping",
-  "Enfield",
-  "Cheshunt",
+  "Harrow",
+  "Edgware",
+  "Brent Cross",
+  "Watford (edge)",
+  // Central
+  "Westminster",
+  "City of London",
+  "Mayfair",
+  "Kensington",
+  "Chelsea",
 ];
 
 export default function OurReachPage() {
@@ -66,7 +102,7 @@ export default function OurReachPage() {
       <PageHero
         eyebrow="Our Reach"
         title="Covering every area inside the M25"
-        intro="Dave Electrical Services covers domestic, commercial, industrial and emergency electrical work across the whole M25 ring — Hounslow, Twickenham, Feltham and Cranford are our home turf, but our engineers travel anywhere inside the orbital."
+        intro="Dave Electrical Services covers domestic, commercial, industrial and emergency electrical work across the whole M25 ring — central London, every borough, and every postcode in between."
       />
 
       {/* M25 stylised coverage graphic */}
@@ -74,44 +110,47 @@ export default function OurReachPage() {
         <M25CoverageMap />
       </section>
 
-      {/* Primary service areas */}
+      {/* Coverage promises */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
         <SectionHeading
-          eyebrow="Service areas"
-          title="Where we work"
-          description="Our home patch: Hounslow, Twickenham, Feltham and Cranford. Click into any of our services for what we do here."
+          eyebrow="Our promise"
+          title="One team, one standard, anywhere in the M25"
+          description="Wherever your property sits inside the orbital — we'll be there with the same level of qualified, certified workmanship."
         />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {PRIMARY_AREAS.map((area, i) => (
-            <Reveal key={area.name} delay={i * 0.08}>
-              <div className="group h-full rounded-2xl border border-white/10 bg-graphite p-6 transition-colors hover:border-bolt/40">
-                <span className="grid h-12 w-12 place-items-center rounded-xl bg-bolt font-display text-xl font-bold text-ink shadow-lg shadow-bolt/20">
-                  {area.code}
-                </span>
-                <h3 className="mt-4 font-display text-lg font-bold text-white">
-                  {area.name}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ash">
-                  {area.blurb}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+          {COVERAGE_PROMISES.map((p, i) => {
+            const I = p.Icon;
+            return (
+              <Reveal key={p.title} delay={i * 0.08}>
+                <div className="group h-full rounded-2xl border border-white/10 bg-graphite p-6 transition-colors hover:border-bolt/40">
+                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-bolt/10 text-bolt ring-1 ring-bolt/20 transition-colors group-hover:bg-bolt group-hover:text-ink">
+                    <I className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-4 font-display text-lg font-bold text-white">
+                    {p.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ash">
+                    {p.body}
+                  </p>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
 
-      {/* Quick area list */}
+      {/* Areas covered */}
       <section className="bg-coal py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
-            eyebrow="Quick lookup"
-            title="Towns &amp; districts we cover"
-            description="Plus everywhere in between — if it's inside the M25, we're there."
+            eyebrow="Areas we cover"
+            title="A few of the places we work"
+            description="This is a sample of areas across the M25 — if you don't see your postcode listed, we still cover it. Just ask."
             align="center"
           />
           <div className="mx-auto mt-10 flex max-w-5xl flex-wrap justify-center gap-2.5">
             {COVERED_AREAS.map((a, i) => (
-              <Reveal key={a} delay={i * 0.02} direction="none">
+              <Reveal key={a} delay={i * 0.015} direction="none">
                 <span className="flex items-center gap-1.5 rounded-full border border-white/10 bg-graphite px-4 py-2 text-sm font-medium text-zinc-200 transition-colors hover:border-bolt/40 hover:text-bolt">
                   <BoltIcon className="h-3 w-3 text-bolt" />
                   {a}
@@ -119,6 +158,16 @@ export default function OurReachPage() {
               </Reveal>
             ))}
           </div>
+          <Reveal delay={0.3}>
+            <p className="mx-auto mt-10 max-w-2xl text-center text-xs text-ash">
+              Outside the M25? We&apos;ll consider larger commercial jobs across
+              the wider Home Counties — just{" "}
+              <a className="font-semibold text-bolt hover:underline" href="/contact">
+                get in touch
+              </a>{" "}
+              for a bespoke quote.
+            </p>
+          </Reveal>
         </div>
       </section>
 

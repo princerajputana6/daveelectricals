@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Hero from "@/components/Hero";
+import LandlordRibbon from "@/components/LandlordRibbon";
 import StatsStrip from "@/components/StatsStrip";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
@@ -16,6 +17,9 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+
+      {/* Landlord EICR specialist ribbon */}
+      <LandlordRibbon />
 
       {/* Stats */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">

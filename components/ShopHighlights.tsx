@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { products, formatGBP, type Product } from "@/lib/products";
 import { serviceIcons, CheckIcon, BoltIcon } from "./Icons";
 import AddToCartButton from "./AddToCartButton";
+import EicrConfigurator from "./EicrConfigurator";
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
   const Icon = serviceIcons[product.iconKey];
@@ -64,36 +65,45 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         ))}
       </ul>
 
-      {requiresVariant && (
-        <div className="relative mt-5">
-          <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-ash">
-            {product.variantLabel}
-          </label>
-          <select
-            value={variantId}
-            onChange={(e) => setVariantId(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-ink px-4 py-2.5 text-sm text-white focus:border-bolt/60 focus:outline-none focus:ring-2 focus:ring-bolt/20"
-          >
-            {product.variants!.map((v) => (
-              <option key={v.id} value={v.id} className="bg-ink">
-                {v.label} · {formatGBP(v.price)}
-              </option>
-            ))}
-          </select>
+      {/* EICR gets the dedicated Residential / Commercial configurator */}
+      {product.id === "eicr" ? (
+        <div className="relative">
+          <EicrConfigurator />
         </div>
-      )}
+      ) : (
+        <>
+          {requiresVariant && (
+            <div className="relative mt-5">
+              <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-ash">
+                {product.variantLabel}
+              </label>
+              <select
+                value={variantId}
+                onChange={(e) => setVariantId(e.target.value)}
+                className="w-full rounded-xl border border-white/10 bg-ink px-4 py-2.5 text-sm text-white focus:border-bolt/60 focus:outline-none focus:ring-2 focus:ring-bolt/20"
+              >
+                {product.variants!.map((v) => (
+                  <option key={v.id} value={v.id} className="bg-ink">
+                    {v.label} · {formatGBP(v.price)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
-      <div className="relative mt-6 flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-5">
-        <div>
-          <p className="font-display text-3xl font-bold text-gradient-bolt sm:text-4xl">
-            {formatGBP(currentPrice)}
-          </p>
-          <p className="mt-0.5 text-[11px] uppercase tracking-wider text-ash">
-            {product.unit} · ex VAT · pay 50% now
-          </p>
-        </div>
-        <AddToCartButton productId={product.id} variantId={variantId} />
-      </div>
+          <div className="relative mt-6 flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-5">
+            <div>
+              <p className="font-display text-3xl font-bold text-gradient-bolt sm:text-4xl">
+                {formatGBP(currentPrice)}
+              </p>
+              <p className="mt-0.5 text-[11px] uppercase tracking-wider text-ash">
+                {product.unit} · ex VAT · pay 50% now
+              </p>
+            </div>
+            <AddToCartButton productId={product.id} variantId={variantId} />
+          </div>
+        </>
+      )}
     </motion.article>
   );
 }
