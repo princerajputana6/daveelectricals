@@ -22,7 +22,7 @@ export const nav = [
 export const stats = [
   { value: 10, suffix: "+", label: "Years of experience" },
   { value: 24, suffix: "/7", label: "Emergency call-outs" },
-  { value: 1000, suffix: "+", label: "Projects completed" },
+  { value: 2000, suffix: "+", label: "Projects completed" },
   { value: 12, suffix: "mo", label: "Workmanship guarantee" },
 ];
 
