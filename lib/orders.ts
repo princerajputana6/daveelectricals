@@ -54,6 +54,8 @@ export type Order = {
     email: string;
     phone: string;
     address: string;
+    /** Customer's preferred date for the visit (ISO yyyy-mm-dd) */
+    preferredDate: string;
     notes?: string;
   };
   items: OrderItem[];

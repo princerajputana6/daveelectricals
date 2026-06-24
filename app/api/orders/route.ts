@@ -33,10 +33,11 @@ export async function POST(req: Request) {
       !customer.name ||
       !customer.email ||
       !customer.phone ||
-      !customer.address
+      !customer.address ||
+      !customer.preferredDate
     ) {
       return NextResponse.json(
-        { error: "Please complete your contact details." },
+        { error: "Please complete your contact, address and preferred date." },
         { status: 400 },
       );
     }
@@ -114,6 +115,7 @@ export async function POST(req: Request) {
         email: String(customer.email).trim().toLowerCase(),
         phone: String(customer.phone).trim(),
         address: String(customer.address).trim(),
+        preferredDate: String(customer.preferredDate).trim(),
         notes: customer.notes ? String(customer.notes).trim() : undefined,
       },
       items: orderItems,

@@ -1,41 +1,36 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { accreditations } from "@/lib/content";
-import { CheckIcon } from "./Icons";
 
+/**
+ * Horizontal, auto-scrolling strip of individual accreditation logos.
+ * No card chrome — each badge is shown as its own logo on a clean tile so
+ * City & Guilds, FIA, NAPIT, etc. read as the distinct entities they are.
+ *
+ * Logos are loaded from /public/accreditations/ (see lib/content.ts).
+ */
 export default function Accreditations() {
+  // Duplicate the list so the marquee loops seamlessly.
+  const loop = [...accreditations, ...accreditations];
+
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      {accreditations.map((a, i) => (
-        <motion.div
-          key={a.name}
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.55, delay: i * 0.08 }}
-          whileHover={{ y: -6 }}
-          className="group relative flex flex-col items-center overflow-hidden rounded-2xl border border-zinc-200 bg-white p-7 text-center shadow-sm transition-shadow hover:shadow-xl"
-        >
-          <span
-            className="absolute inset-x-0 top-0 h-1.5"
-            style={{ background: a.accent }}
-          />
+    <div className="group relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
+      <div className="flex w-max animate-marquee items-center gap-5 py-4 group-hover:[animation-play-state:paused]">
+        {loop.map((a, i) => (
           <div
-            className="grid h-20 w-20 place-items-center rounded-full font-display text-2xl font-bold text-white shadow-md"
-            style={{ background: a.accent }}
+            key={`${a.name}-${i}`}
+            className="h-40 w-40 shrink-0 overflow-hidden rounded-2xl border-[10px] border-bolt bg-white shadow-sm transition-shadow hover:shadow-md sm:h-44 sm:w-44"
           >
-            {a.short}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={a.src}
+              alt={a.name}
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
           </div>
-          <h3 className="mt-5 font-display text-lg font-bold leading-tight text-ink">
-            {a.name}
-          </h3>
-          <p className="mt-1.5 flex items-center justify-center gap-1.5 text-xs font-medium text-zinc-600">
-            <CheckIcon className="h-4 w-4 text-emerald-500" />
-            {a.detail}
-          </p>
-        </motion.div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

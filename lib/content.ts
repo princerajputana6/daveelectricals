@@ -266,31 +266,27 @@ export const heroHighlight = {
   subtitle: "Discounted rates for bulk EICRs",
 };
 
-export const accreditations = [
-  {
-    name: "City & Guilds",
-    detail: "Level 3 Qualified",
-    accent: "#ec008c",
-    short: "C&G",
-  },
-  {
-    name: "FIA",
-    detail: "Fire Industry Association",
-    accent: "#d62828",
-    short: "FIA",
-  },
-  {
-    name: "PAT",
-    detail: "Portable Appliance Testing",
-    accent: "#2ecc71",
-    short: "PAT",
-  },
-  {
-    name: "Registered Competent Person",
-    detail: "Electrical",
-    accent: "#1aa39c",
-    short: "RCP",
-  },
+export type Accreditation = {
+  /** Brand / scheme name — used for the image alt text */
+  name: string;
+  /** Logo image living in /public/accreditations/ */
+  src: string;
+};
+
+/**
+ * Individual accreditation / certification logos shown as a scrolling strip
+ * on the home and services pages. Drop each logo (transparent PNG or SVG)
+ * into /public/accreditations/ using the filenames below.
+ */
+export const accreditations: Accreditation[] = [
+  { name: "NAPIT Registered", src: "/accreditations/napit.jpeg" },
+  { name: "UKAS — United Kingdom Accreditation Service", src: "/accreditations/ukas.jpeg" },
+  { name: "TrustMark — Government Endorsed Quality", src: "/accreditations/trustmark.jpeg" },
+  { name: "EAL Recognised Partner", src: "/accreditations/eal.jpeg" },
+  { name: "City & Guilds — Level 3 Qualified", src: "/accreditations/city-and-guilds.jpeg" },
+  { name: "FIA — Fire Industry Association", src: "/accreditations/fia.jpeg" },
+  { name: "Part P — Electrical Safety Registered Installer", src: "/accreditations/part-p.jpeg" },
+  { name: "Registered Competent Person — Electrical", src: "/accreditations/registered-competent-person.jpeg" },
 ];
 
 export type ClientBrand = {

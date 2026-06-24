@@ -7,7 +7,7 @@ import { company, badges, heroBackground } from "@/lib/content";
 import { ArrowIcon, BoltIcon, PhoneIcon, ShieldIcon, StarIcon } from "./Icons";
 import ElectricBackground from "./ElectricBackground";
 
-const headline = ["Powering", "homes &", "business"];
+const headline = ["Powering", "homes & business"];
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -23,7 +23,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative flex min-h-[100svh] items-center overflow-hidden bg-ink"
+      className="relative flex min-h-[100svh] items-center overflow-hidden"
     >
       {/* Image background — drop an image at public/hero-bg.jpg or set NEXT_PUBLIC_HERO_BG_URL */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -64,12 +64,12 @@ export default function Hero() {
 
       {/* Overlays */}
       <div className="grid-bg absolute inset-0 opacity-40" />
-      <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/40 to-ink/75" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,212,0,0.14),transparent_55%)]" />
 
       <motion.div
         style={{ y, opacity }}
-        className="relative mx-auto w-full max-w-7xl px-5 pb-20 pt-32 sm:px-8"
+        className="relative mx-auto flex w-full max-w-5xl flex-col items-center px-5 pb-20 pt-32 text-center sm:px-8"
       >
         {/* Landlord Safety Certification — specialist callout chip */}
         <motion.div
@@ -86,7 +86,7 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        <h1 className="font-display text-6xl font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-[8rem]">
+        <h1 className="font-display text-4xl font-bold leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
           {headline.map((line, li) => (
             <span key={line} className="block overflow-hidden">
               <motion.span
@@ -97,7 +97,7 @@ export default function Hero() {
                   delay: 0.15 + li * 0.12,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className={`block ${li === 2 ? "text-gradient-bolt" : "text-white"}`}
+                className={`block whitespace-nowrap ${li === 1 ? "text-bolt" : "text-white"}`}
               >
                 {line}
               </motion.span>
@@ -120,7 +120,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.75 }}
-          className="mt-9 flex flex-wrap items-center gap-4"
+          className="mt-9 flex flex-wrap items-center justify-center gap-4"
         >
           <Link
             href="/contact"
@@ -142,7 +142,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.95 }}
-          className="mt-12 flex flex-wrap items-center gap-x-7 gap-y-3"
+          className="mt-12 flex flex-wrap items-center justify-center gap-x-7 gap-y-3"
         >
           <div className="flex items-center gap-1.5">
             {[...Array(5)].map((_, i) => (

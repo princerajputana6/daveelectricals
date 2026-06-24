@@ -56,8 +56,14 @@ export default function CheckoutForm({
     email: user.email,
     phone: "",
     address: "",
+    preferredDate: "",
     notes: "",
   });
+
+  // Earliest selectable visit date — today, in local yyyy-mm-dd.
+  const minDate = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 10);
 
   const update = (k: string, v: string) =>
     setForm((f) => ({ ...f, [k]: v }));
@@ -67,6 +73,18 @@ export default function CheckoutForm({
     setError(null);
     if (count === 0) {
       setError("Your cart is empty.");
+      return;
+    }
+    if (
+      !form.name.trim() ||
+      !form.email.trim() ||
+      !form.phone.trim() ||
+      !form.address.trim() ||
+      !form.preferredDate
+    ) {
+      setError(
+        "Please complete your name, phone, email, service address and preferred visit date.",
+      );
       return;
     }
     if (!window.Razorpay) {
@@ -224,6 +242,17 @@ export default function CheckoutForm({
                 onChange={(e) => update("address", e.target.value)}
                 placeholder="House / Flat number, Street, Postcode"
                 className={`${inputClass} resize-none`}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Preferred visit date</label>
+              <input
+                required
+                type="date"
+                min={minDate}
+                value={form.preferredDate}
+                onChange={(e) => update("preferredDate", e.target.value)}
+                className={`${inputClass} [color-scheme:dark]`}
               />
             </div>
             <div>

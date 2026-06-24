@@ -107,7 +107,7 @@ export default function HomePage() {
       </section>
 
       {/* Services */}
-      <section className="relative bg-coal py-16 sm:py-24">
+      <section className="relative bg-coal/70 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <SectionHeading
@@ -148,7 +148,7 @@ export default function HomePage() {
       </section>
 
       {/* Our Reach teaser */}
-      <section className="bg-coal py-16 sm:py-24">
+      <section className="bg-coal/70 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 text-center sm:px-8">
           <SectionHeading
             eyebrow="Our Reach"

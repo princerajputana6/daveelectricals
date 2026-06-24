@@ -49,6 +49,7 @@ export type OrderPublic = {
     email: string;
     phone: string;
     address: string;
+    preferredDate?: string;
     notes?: string;
   };
   items: {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
-import M25CoverageMap from "@/components/M25CoverageMap";
+import M25Map from "@/components/M25Map";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import QuoteCTA from "@/components/QuoteCTA";
@@ -105,9 +105,9 @@ export default function OurReachPage() {
         intro="Dave Electrical Services covers domestic, commercial, industrial and emergency electrical work across the whole M25 ring — central London, every borough, and every postcode in between."
       />
 
-      {/* M25 stylised coverage graphic */}
+      {/* Real map — M25 orbital highlighted */}
       <section className="mx-auto max-w-7xl px-5 pb-12 sm:px-8">
-        <M25CoverageMap />
+        <M25Map />
       </section>
 
       {/* Coverage promises */}
@@ -140,7 +140,7 @@ export default function OurReachPage() {
       </section>
 
       {/* Areas covered */}
-      <section className="bg-coal py-16 sm:py-20">
+      <section className="bg-coal/70 py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="Areas we cover"

@@ -186,6 +186,14 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
                 {order.paymentMode}
               </p>
             </div>
+            {order.customer.preferredDate && (
+              <div>
+                <p className="text-xs text-ash">Preferred visit date</p>
+                <p className="font-semibold text-white">
+                  {order.customer.preferredDate}
+                </p>
+              </div>
+            )}
             <div className="sm:col-span-2">
               <p className="text-xs text-ash">Address</p>
               <p className="text-white">{order.customer.address}</p>

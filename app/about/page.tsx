@@ -88,7 +88,7 @@ export default function AboutPage() {
       </section>
 
       {/* Sectors */}
-      <section className="bg-coal py-16 sm:py-24">
+      <section className="bg-coal/70 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="Sectors we serve"
@@ -156,7 +156,7 @@ export default function AboutPage() {
       </section>
 
       {/* Guarantee */}
-      <section className="bg-coal py-16 sm:py-24">
+      <section className="bg-coal/70 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="Our guarantee"

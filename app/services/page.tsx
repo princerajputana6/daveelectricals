@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
-import ServiceCard from "@/components/ServiceCard";
 import Reveal from "@/components/Reveal";
 import EmergencyLightingFaq from "@/components/EmergencyLightingFaq";
 import TestingRegime from "@/components/TestingRegime";
@@ -9,7 +8,6 @@ import Accreditations from "@/components/Accreditations";
 import ShopHighlights from "@/components/ShopHighlights";
 import QuoteCTA from "@/components/QuoteCTA";
 import CTABanner from "@/components/CTABanner";
-import { services } from "@/lib/content";
 import { BoltIcon, CheckIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
@@ -63,7 +61,7 @@ export default function ServicesPage() {
       />
 
       {/* Bookable products — Shop */}
-      <section className="relative bg-ink py-16 sm:py-20">
+      <section className="relative bg-ink/60 py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="Book online"
@@ -73,20 +71,6 @@ export default function ServicesPage() {
           <div className="mt-12">
             <ShopHighlights />
           </div>
-        </div>
-      </section>
-
-      {/* All services grid */}
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
-        <SectionHeading
-          eyebrow="What we offer"
-          title="Every service, fully certified"
-          description="From a single fault repair to a full commercial fit-out — our team handles installation, maintenance, testing and compliance under one roof."
-        />
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, i) => (
-            <ServiceCard key={service.slug} service={service} index={i} expanded />
-          ))}
         </div>
       </section>
 
@@ -148,7 +132,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Emergency Lighting */}
-      <section className="bg-coal py-16 sm:py-24">
+      <section className="bg-coal/70 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="Emergency Lighting"
