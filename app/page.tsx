@@ -12,6 +12,7 @@ import QuoteCTA from "@/components/QuoteCTA";
 import CTABanner from "@/components/CTABanner";
 import { services, accreditationPoints, company } from "@/lib/content";
 import { ArrowIcon, BoltIcon, CheckIcon, ShieldIcon } from "@/components/Icons";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
@@ -63,7 +64,11 @@ export default function HomePage() {
             <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-graphite to-coal p-8">
               <div className="grid-bg absolute inset-0 opacity-40" />
               <div className="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-bolt/15 blur-3xl" />
-              <ShieldIcon className="relative h-12 w-12 text-bolt" />
+              <Image
+                src="/accreditations/napit.jpeg"
+                alt="NAPIT Logo"
+                className="relative h-12 w-12"
+              />
               <h3 className="relative mt-5 font-display text-2xl font-bold text-white">
                 NAPIT Registered &amp; Certified
               </h3>
