@@ -1,6 +1,12 @@
 import Link from "next/link";
-import { company, nav, services, badges } from "@/lib/content";
-import { MailIcon, PhoneIcon, PinIcon } from "./Icons";
+import { company, nav, services } from "@/lib/content";
+import {
+  MailIcon,
+  PhoneIcon,
+  PinIcon,
+  LinkedInIcon,
+  InstagramIcon,
+} from "./Icons";
 import Logo from "./Logo";
 
 export default function Footer() {
@@ -15,16 +21,6 @@ export default function Footer() {
               NAPIT registered electricians delivering safe, compliant and
               high-quality workmanship across West London for over a decade.
             </p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {badges.slice(0, 2).map((b) => (
-                <span
-                  key={b}
-                  className="rounded-full border border-bolt/30 bg-bolt/5 px-3 py-1 text-[11px] font-semibold text-bolt"
-                >
-                  {b}
-                </span>
-              ))}
-            </div>
           </div>
 
           <div>
@@ -74,11 +70,7 @@ export default function Footer() {
                   className="flex items-start gap-3 text-ash transition-colors hover:text-bolt"
                 >
                   <PhoneIcon className="mt-0.5 h-4 w-4 shrink-0 text-bolt" />
-                  <span>
-                    {company.phonePrimary}
-                    <br />
-                    {company.phoneMobile}
-                  </span>
+                  <span>{company.phonePrimary}</span>
                 </a>
               </li>
               <li>
@@ -95,6 +87,28 @@ export default function Footer() {
                 {company.address}
               </li>
             </ul>
+
+            {/* Social links */}
+            <div className="mt-6 flex items-center gap-3">
+              <a
+                href={company.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Dave Electrical Services on LinkedIn"
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/10 text-ash transition-colors hover:border-bolt/50 hover:bg-bolt/10 hover:text-bolt"
+              >
+                <LinkedInIcon className="h-5 w-5" />
+              </a>
+              <a
+                href={company.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Dave Electrical Services on Instagram"
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/10 text-ash transition-colors hover:border-bolt/50 hover:bg-bolt/10 hover:text-bolt"
+              >
+                <InstagramIcon className="h-5 w-5" />
+              </a>
+            </div>
           </div>
         </div>
 

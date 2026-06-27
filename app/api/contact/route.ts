@@ -61,7 +61,7 @@ Submission ID: ${result.insertedId.toString()}`;
 
     const html = `
       <div style="font-family:system-ui,sans-serif;max-width:600px">
-        <div style="background:#050505;color:#ffd400;padding:16px 22px;font-weight:700;font-size:18px">
+        <div style="background:#050505;color:#e2e61f;padding:16px 22px;font-weight:700;font-size:18px">
           Dave Electrical — Website Enquiry
         </div>
         <div style="border:1px solid #eee;border-top:0;padding:22px;color:#111">
@@ -72,7 +72,7 @@ Submission ID: ${result.insertedId.toString()}`;
             <tr><td style="padding:8px 0;color:#666">Phone</td><td>${submission.phone || "—"}</td></tr>
             <tr><td style="padding:8px 0;color:#666">Service</td><td>${submission.service}</td></tr>
           </table>
-          <div style="margin-top:18px;padding:14px;background:#fafafa;border-left:3px solid #ffd400;white-space:pre-wrap">${submission.message}</div>
+          <div style="margin-top:18px;padding:14px;background:#fafafa;border-left:3px solid #e2e61f;white-space:pre-wrap">${submission.message}</div>
           <p style="margin:18px 0 0;color:#888;font-size:12px">Submission ID: ${result.insertedId.toString()}</p>
         </div>
       </div>`;

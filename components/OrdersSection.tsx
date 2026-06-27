@@ -170,7 +170,7 @@ export default function OrdersSection({
           email: user.email,
           contact: order.customer.phone,
         },
-        theme: { color: "#ffd400" },
+        theme: { color: "#e2e61f" },
         modal: { ondismiss: () => setWorking(null) },
         handler: async (resp) => {
           const v = await fetch(`/api/orders/${order.id}/verify`, {

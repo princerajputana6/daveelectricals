@@ -97,7 +97,7 @@ export default function ContactForm() {
             </h3>
             <p className="mt-2 max-w-sm text-sm text-ash">
               Your message has been sent. We&apos;ll be in touch shortly. Prefer
-              to talk? Call us on {company.phoneMobile}.
+              to talk? Call us on {company.phonePrimary}.
             </p>
           </motion.div>
         ) : (

@@ -95,15 +95,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Accreditations — white section */}
-      <section className="relative bg-white py-16 sm:py-24">
+      {/* Accreditations */}
+      <section className="relative py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="Accreditations"
             title="Qualified, registered & certified"
             description="Industry-recognised qualifications and registrations that demonstrate our competence and commitment to safety standards."
             align="center"
-            tone="light"
           />
           <div className="mt-12">
             <Accreditations />

@@ -128,9 +128,9 @@ export default function M25CoverageMap() {
                 </feMerge>
               </filter>
               <radialGradient id="ringFill" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#ffd400" stopOpacity="0.25" />
-                <stop offset="50%" stopColor="#ffd400" stopOpacity="0.12" />
-                <stop offset="100%" stopColor="#ffd400" stopOpacity="0.05" />
+                <stop offset="0%" stopColor="#e2e61f" stopOpacity="0.25" />
+                <stop offset="50%" stopColor="#e2e61f" stopOpacity="0.12" />
+                <stop offset="100%" stopColor="#e2e61f" stopOpacity="0.05" />
               </radialGradient>
               <linearGradient id="thames" x1="0" x2="1">
                 <stop offset="0%" stopColor="#2a3a4a" />
@@ -191,7 +191,7 @@ export default function M25CoverageMap() {
               cy="51"
               r="33"
               fill="none"
-              stroke="#ffd400"
+              stroke="#e2e61f"
               strokeWidth="1.6"
               filter="url(#m25glow)"
               initial={{ pathLength: 0, opacity: 0 }}
@@ -204,7 +204,7 @@ export default function M25CoverageMap() {
               cy="51"
               r="33"
               fill="none"
-              stroke="#fff07a"
+              stroke="#eef29a"
               strokeOpacity="0.6"
               strokeWidth="0.35"
               strokeDasharray="0.5 1.2"
@@ -221,7 +221,7 @@ export default function M25CoverageMap() {
                     width="7"
                     height="2.8"
                     rx="0.4"
-                    fill="#ffd400"
+                    fill="#e2e61f"
                   />
                   <text
                     x={p.x}
@@ -254,7 +254,7 @@ export default function M25CoverageMap() {
                     cx={p.x}
                     cy={p.y}
                     r="0.9"
-                    fill="#ffd400"
+                    fill="#e2e61f"
                   />
                   <text
                     x={labelOffset.x}
@@ -289,7 +289,7 @@ export default function M25CoverageMap() {
               cx="50"
               cy="54"
               r="1.4"
-              fill="#ffd400"
+              fill="#e2e61f"
               animate={{ opacity: [1, 0.4, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />

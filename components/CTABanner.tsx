@@ -42,7 +42,7 @@ export default function CTABanner() {
               <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <a
-              href={`tel:${company.phoneMobile}`}
+              href={`tel:${company.phonePrimary}`}
               className="flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3.5 font-semibold text-white transition-colors hover:border-bolt/40 hover:text-bolt"
             >
               <PhoneIcon className="h-5 w-5" />

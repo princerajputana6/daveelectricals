@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <section className="relative flex min-h-[80svh] items-center justify-center overflow-hidden bg-ink px-5">
       <div className="grid-bg absolute inset-0 opacity-40" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,212,0,0.12),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(226, 230, 31,0.12),transparent_60%)]" />
       <div className="relative text-center">
         <BoltIcon className="mx-auto h-14 w-14 text-bolt" />
         <p className="mt-6 font-display text-8xl font-bold text-gradient-bolt">

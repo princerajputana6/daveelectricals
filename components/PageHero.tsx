@@ -16,7 +16,7 @@ export default function PageHero({
   return (
     <section className="relative overflow-hidden bg-ink pb-16 pt-36 sm:pb-24 sm:pt-44">
       <div className="grid-bg absolute inset-0 opacity-40" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-10%,rgba(255,212,0,0.16),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-10%,rgba(226, 230, 31,0.16),transparent_60%)]" />
       <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-bolt/10 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">

@@ -74,8 +74,8 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* PAT Testing deep-dive — white section */}
-      <section className="bg-white py-16 sm:py-24">
+      {/* PAT Testing deep-dive */}
+      <section className="py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <div>
@@ -83,10 +83,9 @@ export default function ServicesPage() {
                 eyebrow="PAT Testing Made Simple"
                 title="Why choose Dave Electrical for PAT Testing?"
                 description="Every business uses electrical appliances of some kind, making Portable Appliance Testing vital. PAT Testing gives you peace of mind by identifying electrical faults and offering advice to make sure your business avoids dangerous accidents."
-                tone="light"
               />
               <Reveal delay={0.2}>
-                <p className="mt-5 text-sm leading-relaxed text-zinc-700">
+                <p className="mt-5 text-sm leading-relaxed text-ash">
                   Even though we&apos;re cost-friendly, we never compromise on
                   safety. Our professional engineers are fully accredited and
                   will perform a thorough service, with an itemised report and
@@ -102,9 +101,9 @@ export default function ServicesPage() {
                 {patHighlights.map((p) => (
                   <li
                     key={p}
-                    className="flex items-start gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm font-medium text-zinc-800"
+                    className="flex items-start gap-3 rounded-xl border border-white/10 bg-graphite p-4 text-sm font-medium text-zinc-200"
                   >
-                    <CheckIcon className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" />
+                    <CheckIcon className="mt-0.5 h-5 w-5 shrink-0 text-bolt" />
                     {p}
                   </li>
                 ))}
@@ -113,11 +112,11 @@ export default function ServicesPage() {
           </div>
 
           <Reveal delay={0.3}>
-            <div className="mt-10 rounded-2xl border-l-4 border-bolt bg-zinc-100 p-6">
-              <p className="font-display text-base font-bold text-ink">
+            <div className="mt-10 rounded-2xl border-l-4 border-bolt bg-graphite p-6">
+              <p className="font-display text-base font-bold text-white">
                 Your legal obligations
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-700">
+              <p className="mt-2 text-sm leading-relaxed text-ash">
                 The Electricity at Work Regulations are in place to prevent
                 death or personal injury caused by electrics in the workplace.
                 Business owners without a record of safety measures will be
@@ -183,25 +182,24 @@ export default function ServicesPage() {
       </section>
 
       {/* Process */}
-      <section className="bg-white py-16 sm:py-24">
+      <section className="py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="How we work"
             title="A simple, transparent process"
             align="center"
-            tone="light"
           />
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {process.map((step, i) => (
               <Reveal key={step.title} delay={i * 0.1}>
-                <div className="relative h-full rounded-2xl border border-zinc-200 bg-zinc-50 p-7">
-                  <span className="font-display text-5xl font-bold text-bolt-deep">
+                <div className="relative h-full rounded-2xl border border-white/10 bg-graphite p-7">
+                  <span className="font-display text-5xl font-bold text-bolt">
                     0{i + 1}
                   </span>
-                  <h3 className="mt-3 font-display text-lg font-bold text-ink">
+                  <h3 className="mt-3 font-display text-lg font-bold text-white">
                     {step.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                  <p className="mt-2 text-sm leading-relaxed text-ash">
                     {step.body}
                   </p>
                   {i < process.length - 1 && (
@@ -240,14 +238,13 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Accreditations — white */}
-      <section className="bg-white py-16 sm:py-24">
+      {/* Accreditations */}
+      <section className="py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="Accreditations"
             title="Qualified, registered & certified"
             align="center"
-            tone="light"
           />
           <div className="mt-12">
             <Accreditations />

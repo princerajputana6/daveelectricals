@@ -18,7 +18,7 @@ export default function AuthShell({
   return (
     <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-ink px-5 py-32">
       <div className="grid-bg absolute inset-0 opacity-40" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-10%,rgba(255,212,0,0.18),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-10%,rgba(226, 230, 31,0.18),transparent_60%)]" />
       <div className="absolute -left-32 top-1/3 h-72 w-72 rounded-full bg-bolt/15 blur-3xl" />
       <div className="absolute -right-24 bottom-10 h-72 w-72 rounded-full bg-bolt/10 blur-3xl" />
 

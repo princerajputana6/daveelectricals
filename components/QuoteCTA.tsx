@@ -8,7 +8,7 @@ export default function QuoteCTA() {
   return (
     <section className="relative bg-ink">
       <div className="relative overflow-hidden px-5 py-14 text-center sm:px-8 sm:py-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,212,0,0.1),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(226, 230, 31,0.1),transparent_60%)]" />
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}

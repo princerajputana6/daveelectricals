@@ -12,7 +12,7 @@ export default function HazardStripe({
       style={{
         height,
         backgroundImage:
-          "repeating-linear-gradient(-45deg, #ffd400 0 28px, #050505 28px 56px)",
+          "repeating-linear-gradient(-45deg, #e2e61f 0 28px, #050505 28px 56px)",
       }}
     />
   );

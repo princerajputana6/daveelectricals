@@ -113,11 +113,11 @@ export default function Navbar({ user }: { user: User }) {
             )}
 
             <a
-              href={`tel:${company.phoneMobile}`}
+              href={`tel:${company.phonePrimary}`}
               className="group hidden items-center gap-2 rounded-full bg-bolt px-4 py-2.5 text-sm font-bold text-ink transition-transform hover:scale-[1.04] md:flex"
             >
               <PhoneIcon className="h-4 w-4" />
-              <span>{company.phoneMobile}</span>
+              <span>{company.phonePrimary}</span>
             </a>
             <CartBadge />
             <button
@@ -205,11 +205,11 @@ export default function Navbar({ user }: { user: User }) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.55 }}
-                href={`tel:${company.phoneMobile}`}
+                href={`tel:${company.phonePrimary}`}
                 className="mt-5 flex w-fit items-center gap-2 rounded-full bg-bolt px-6 py-3.5 font-bold text-ink"
               >
                 <PhoneIcon className="h-5 w-5" />
-                Call {company.phoneMobile}
+                Call {company.phonePrimary}
               </motion.a>
             </div>
           </motion.div>

@@ -64,7 +64,7 @@ export default function ElectricBackground() {
       ctx.clearRect(0, 0, w, h);
 
       ctx.lineWidth = 1;
-      ctx.strokeStyle = "rgba(255, 212, 0, 0.07)";
+      ctx.strokeStyle = "rgba(226, 230, 31, 0.07)";
       for (const [a, b] of edges) {
         ctx.beginPath();
         ctx.moveTo(nodes[a].x, nodes[a].y);
@@ -75,7 +75,7 @@ export default function ElectricBackground() {
       for (const node of nodes) {
         ctx.beginPath();
         ctx.arc(node.x, node.y, 1.4, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(255, 212, 0, 0.22)";
+        ctx.fillStyle = "rgba(226, 230, 31, 0.22)";
         ctx.fill();
       }
 
@@ -89,14 +89,14 @@ export default function ElectricBackground() {
 
         const grad = ctx.createRadialGradient(x, y, 0, x, y, 16);
         grad.addColorStop(0, "rgba(255, 240, 122, 0.95)");
-        grad.addColorStop(0.4, "rgba(255, 212, 0, 0.55)");
-        grad.addColorStop(1, "rgba(255, 212, 0, 0)");
+        grad.addColorStop(0.4, "rgba(226, 230, 31, 0.55)");
+        grad.addColorStop(1, "rgba(226, 230, 31, 0)");
         ctx.fillStyle = grad;
         ctx.beginPath();
         ctx.arc(x, y, 16, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.fillStyle = "#fff7c2";
+        ctx.fillStyle = "#f4f6b0";
         ctx.beginPath();
         ctx.arc(x, y, 2.2, 0, Math.PI * 2);
         ctx.fill();

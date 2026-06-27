@@ -14,15 +14,15 @@ import {
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact Dave Electrical Services — call 02035244041 or 07944437459, email info@daveelectrical.co.uk, or visit us at 7 Nursery Gardens, Hounslow, London TW4 5EY.",
+    "Contact Dave Electrical Services — call 02035244041, email info@daveelectrical.co.uk, or visit us at 7 Nursery Gardens, Hounslow, London TW4 5EY.",
 };
 
 const details = [
   {
     icon: PhoneIcon,
     label: "Call us on",
-    lines: [company.phonePrimary, company.phoneMobile],
-    href: `tel:${company.phoneMobile}`,
+    lines: [company.phonePrimary],
+    href: `tel:${company.phonePrimary}`,
   },
   {
     icon: MailIcon,

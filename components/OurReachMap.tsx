@@ -69,7 +69,7 @@ export default function OurReachMap() {
       }).addTo(map);
 
       const customIcon = L.divIcon({
-        html: `<div style="background:#ffd400;border:3px solid #050505;border-radius:50% 50% 50% 0;width:28px;height:28px;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,0.4)"></div>`,
+        html: `<div style="background:#e2e61f;border:3px solid #050505;border-radius:50% 50% 50% 0;width:28px;height:28px;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,0.4)"></div>`,
         iconSize: [28, 28],
         iconAnchor: [14, 28],
         className: "",

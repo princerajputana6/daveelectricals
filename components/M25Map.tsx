@@ -108,27 +108,44 @@ export default function M25Map() {
         },
       ).addTo(map);
 
-      // Soft glow underlay, then the bright M25 line on top.
+      // Subtle coverage-area fill inside the orbital — "we cover inside the M25".
+      L.polygon(M25_PATH, {
+        color: "transparent",
+        fillColor: "#e2e61f",
+        fillOpacity: 0.06,
+        interactive: false,
+      }).addTo(map);
+
+      // Soft glow underlay, the bright M25 line, then an animated flowing dash.
       L.polyline(M25_PATH, {
-        color: "#ffd400",
-        weight: 12,
-        opacity: 0.22,
+        color: "#e2e61f",
+        weight: 13,
+        opacity: 0.2,
         lineJoin: "round",
         lineCap: "round",
+        interactive: false,
       }).addTo(map);
 
       const m25 = L.polyline(M25_PATH, {
-        color: "#ffd400",
+        color: "#e2e61f",
         weight: 4,
         opacity: 1,
         lineJoin: "round",
         lineCap: "round",
       }).addTo(map);
 
+      L.polyline(M25_PATH, {
+        color: "#f4f6b0",
+        weight: 2,
+        opacity: 0.9,
+        className: "m25-flow",
+        interactive: false,
+      }).addTo(map);
+
       // Small permanent "M25" badges pinned onto the ring (north & south).
       const badge = (text: string) =>
         L.divIcon({
-          html: `<span style="display:inline-block;background:#ffd400;color:#050505;font-family:system-ui,sans-serif;font-weight:800;font-size:11px;letter-spacing:0.04em;padding:2px 8px;border-radius:999px;border:1.5px solid #050505;box-shadow:0 2px 6px rgba(0,0,0,0.5)">${text}</span>`,
+          html: `<span style="display:inline-block;background:#e2e61f;color:#050505;font-family:system-ui,sans-serif;font-weight:800;font-size:11px;letter-spacing:0.04em;padding:2px 8px;border-radius:999px;border:1.5px solid #050505;box-shadow:0 2px 6px rgba(0,0,0,0.5)">${text}</span>`,
           className: "",
           iconSize: [44, 20],
           iconAnchor: [22, 10],
@@ -175,6 +192,23 @@ export default function M25Map() {
         className="h-[420px] w-full bg-coal sm:h-[560px]"
         aria-label="Map of London with the M25 motorway highlighted"
       />
+
+      {/* Legend bar */}
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-white/10 bg-coal px-6 py-3.5 sm:px-8">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-ash">
+          <span className="flex items-center gap-2">
+            <span className="h-1 w-7 rounded-full bg-bolt" />
+            M25 orbital
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="h-3 w-4 rounded-sm bg-bolt/15 ring-1 ring-bolt/40" />
+            Coverage area
+          </span>
+        </div>
+        <p className="text-xs font-medium text-ash">
+          Drag to explore · pinch / use <span className="text-bolt">+ −</span> to zoom
+        </p>
+      </div>
     </div>
   );
 }

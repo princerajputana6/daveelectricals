@@ -61,8 +61,8 @@ export default function WaveBackground() {
 
     /* Two-tone wireframe via vertex colors so the mesh fades to amber at distance */
     const colors = new Float32Array(geometry.attributes.position.count * 3);
-    const colorNear = new THREE.Color(0xffd400); // bolt
-    const colorFar = new THREE.Color(0x5a4400); // deep amber
+    const colorNear = new THREE.Color(0xe2e61f); // bolt
+    const colorFar = new THREE.Color(0x5a5d10); // deep amber
     const positions = geometry.attributes.position;
     for (let i = 0; i < positions.count; i++) {
       const z = positions.getZ(i); // since plane was rotated, z is depth

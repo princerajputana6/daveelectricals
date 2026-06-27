@@ -9,6 +9,10 @@ export const company = {
   certificate: "NAP/30178/18/1",
   whatsapp: "447944437459",
   yearsExperience: 10,
+  social: {
+    linkedin: "https://www.linkedin.com/company/daveelectricalservices/",
+    instagram: "https://www.instagram.com/daveelectricalservices/",
+  },
 };
 
 export const nav = [
@@ -22,7 +26,7 @@ export const nav = [
 export const stats = [
   { value: 10, suffix: "+", label: "Years of experience" },
   { value: 24, suffix: "/7", label: "Emergency call-outs" },
-  { value: 2000, suffix: "+", label: "Projects completed" },
+  { value: 5000, suffix: "+", label: "Projects completed" },
   { value: 12, suffix: "mo", label: "Workmanship guarantee" },
 ];
 

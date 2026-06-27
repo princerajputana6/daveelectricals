@@ -132,7 +132,7 @@ ${company.phonePrimary} · ${company.email}`;
 
     const html = `
       <div style="font-family:system-ui,sans-serif;max-width:600px;margin:auto">
-        <div style="background:#050505;color:#ffd400;padding:18px 24px;font-weight:800;font-size:18px;letter-spacing:.5px">
+        <div style="background:#050505;color:#e2e61f;padding:18px 24px;font-weight:800;font-size:18px;letter-spacing:.5px">
           DAVE ELECTRICAL · CERTIFICATE ISSUED
         </div>
         <div style="border:1px solid #eee;border-top:0;padding:24px;color:#111;line-height:1.55">
@@ -147,9 +147,9 @@ ${company.phonePrimary} · ${company.email}`;
           ${
             fullyPaid
               ? `<p style="background:#ecfdf5;border-left:4px solid #10b981;padding:12px 14px;margin:18px 0">Your account is fully paid — your certificate is ready to download.</p>`
-              : `<p style="background:#fffbeb;border-left:4px solid #ffd400;padding:12px 14px;margin:18px 0"><strong>£${order.balance.toFixed(2)} balance owed.</strong> The certificate is visible (blurred) in your account; download will unlock once the balance is paid.</p>`
+              : `<p style="background:#fffbeb;border-left:4px solid #e2e61f;padding:12px 14px;margin:18px 0"><strong>£${order.balance.toFixed(2)} balance owed.</strong> The certificate is visible (blurred) in your account; download will unlock once the balance is paid.</p>`
           }
-          <p><a href="${certUrl}" style="display:inline-block;background:#ffd400;color:#050505;padding:12px 22px;border-radius:999px;text-decoration:none;font-weight:700">View certificate</a></p>
+          <p><a href="${certUrl}" style="display:inline-block;background:#e2e61f;color:#050505;padding:12px 22px;border-radius:999px;text-decoration:none;font-weight:700">View certificate</a></p>
           <p style="color:#666;font-size:12px;margin-top:24px">Dave Electrical Services Limited · ${company.phonePrimary} · ${company.email}</p>
         </div>
       </div>`;

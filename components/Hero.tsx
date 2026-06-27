@@ -55,7 +55,7 @@ export default function Hero() {
       {/* Overlays */}
       <div className="grid-bg absolute inset-0 opacity-40" />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/40 to-ink/75" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,212,0,0.14),transparent_55%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(226, 230, 31,0.14),transparent_55%)]" />
 
       <motion.div
         style={{ y, opacity }}
@@ -120,11 +120,11 @@ export default function Hero() {
             <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Link>
           <a
-            href={`tel:${company.phoneMobile}`}
+            href={`tel:${company.phonePrimary}`}
             className="group flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3.5 font-semibold text-white backdrop-blur-sm transition-colors hover:border-bolt/40 hover:text-bolt"
           >
             <PhoneIcon className="h-5 w-5" />
-            {company.phoneMobile}
+            {company.phonePrimary}
           </a>
         </motion.div>
 

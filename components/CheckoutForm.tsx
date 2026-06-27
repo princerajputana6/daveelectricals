@@ -133,7 +133,7 @@ export default function CheckoutForm({
           email: form.email,
           contact: form.phone,
         },
-        theme: { color: "#ffd400" },
+        theme: { color: "#e2e61f" },
         modal: {
           ondismiss: () => setPending(false),
         },
