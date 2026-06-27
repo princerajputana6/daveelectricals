@@ -5,7 +5,6 @@ import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { company, badges, heroBackground } from "@/lib/content";
 import { ArrowIcon, BoltIcon, PhoneIcon, ShieldIcon, StarIcon } from "./Icons";
-import ElectricBackground from "./ElectricBackground";
 
 const headline = ["Powering", "homes & business"];
 
@@ -52,15 +51,6 @@ export default function Hero() {
       >
         <source src="/hero.mp4" type="video/mp4" />
       </video>
-
-      {/* Animated electric circuit — kept as a subtle accent even with image */}
-      <div
-        className={`absolute inset-0 transition-opacity duration-700 ${
-          imageReady ? "opacity-30" : "opacity-100"
-        }`}
-      >
-        <ElectricBackground />
-      </div>
 
       {/* Overlays */}
       <div className="grid-bg absolute inset-0 opacity-40" />

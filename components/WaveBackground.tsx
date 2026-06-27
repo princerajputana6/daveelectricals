@@ -87,27 +87,6 @@ export default function WaveBackground() {
     /* Cache the original positions so we can displace them each frame */
     const original = positions.array.slice() as Float32Array;
 
-    /* ─── Subtle starfield for depth ─── */
-    const STAR_COUNT = 600;
-    const starPositions = new Float32Array(STAR_COUNT * 3);
-    for (let i = 0; i < STAR_COUNT; i++) {
-      starPositions[i * 3] = (Math.random() - 0.5) * 60;
-      starPositions[i * 3 + 1] = Math.random() * 12 + 2;
-      starPositions[i * 3 + 2] = -Math.random() * 30 - 4;
-    }
-    const starGeo = new THREE.BufferGeometry();
-    starGeo.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
-    const starMat = new THREE.PointsMaterial({
-      color: 0xfff07a,
-      size: 0.06,
-      sizeAttenuation: true,
-      transparent: true,
-      opacity: 0.6,
-      depthWrite: false,
-    });
-    const stars = new THREE.Points(starGeo, starMat);
-    scene.add(stars);
-
     /* ─── Scroll + mouse parallax ─── */
     let scrollFrac = 0;
     let mouseX = 0;
@@ -156,16 +135,13 @@ export default function WaveBackground() {
       }
       positions.needsUpdate = true;
 
-      /* Slow drift of stars */
-      stars.position.x = Math.sin(t * 0.08) * 0.4;
+      /* Smoothly track mouse for parallax — the wave visibly reacts to the cursor */
+      mouseX += (tMouseX - mouseX) * 0.05;
+      mouseY += (tMouseY - mouseY) * 0.05;
 
-      /* Smoothly track mouse for parallax */
-      mouseX += (tMouseX - mouseX) * 0.04;
-      mouseY += (tMouseY - mouseY) * 0.04;
-
-      camera.position.x = mouseX * 0.6;
-      camera.position.y = 3.2 - mouseY * 0.4 - scrollFrac * 1.2;
-      camera.lookAt(0, 0, -4 + scrollFrac * 2);
+      camera.position.x = mouseX * 1.4;
+      camera.position.y = 3.2 - mouseY * 0.8 - scrollFrac * 1.2;
+      camera.lookAt(mouseX * 0.6, mouseY * 0.3, -4 + scrollFrac * 2);
 
       renderer.render(scene, camera);
       frameId = requestAnimationFrame(animate);
@@ -180,8 +156,6 @@ export default function WaveBackground() {
       window.removeEventListener("resize", onResize);
       geometry.dispose();
       wireMaterial.dispose();
-      starGeo.dispose();
-      starMat.dispose();
       renderer.dispose();
       if (renderer.domElement.parentNode === container) {
         container.removeChild(renderer.domElement);
