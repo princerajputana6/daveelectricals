@@ -47,13 +47,6 @@ const M25_PATH: [number, number][] = [
   [51.692, -0.187], // back to J23 — close the loop
 ];
 
-const BASES = [
-  { name: "Hounslow", lat: 51.4677, lng: -0.361 },
-  { name: "Twickenham", lat: 51.4489, lng: -0.3314 },
-  { name: "Feltham", lat: 51.4473, lng: -0.4082 },
-  { name: "Cranford", lat: 51.4856, lng: -0.4313 },
-];
-
 export default function M25Map() {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<unknown>(null);
@@ -130,24 +123,23 @@ export default function M25Map() {
         opacity: 1,
         lineJoin: "round",
         lineCap: "round",
-      })
-        .addTo(map)
-        .bindTooltip("M25 — London orbital motorway", { sticky: true });
+      }).addTo(map);
 
-      // Service-base markers for context.
-      const baseIcon = L.divIcon({
-        html: `<div style="background:#ffd400;border:3px solid #050505;border-radius:50% 50% 50% 0;width:22px;height:22px;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,0.5)"></div>`,
-        iconSize: [22, 22],
-        iconAnchor: [11, 22],
-        className: "",
-      });
-      BASES.forEach((b) => {
-        L.marker([b.lat, b.lng], { icon: baseIcon })
-          .addTo(map)
-          .bindPopup(
-            `<div style="font-family:sans-serif"><strong style="color:#050505">${b.name}</strong></div>`,
-          );
-      });
+      // Small permanent "M25" badges pinned onto the ring (north & south).
+      const badge = (text: string) =>
+        L.divIcon({
+          html: `<span style="display:inline-block;background:#ffd400;color:#050505;font-family:system-ui,sans-serif;font-weight:800;font-size:11px;letter-spacing:0.04em;padding:2px 8px;border-radius:999px;border:1.5px solid #050505;box-shadow:0 2px 6px rgba(0,0,0,0.5)">${text}</span>`,
+          className: "",
+          iconSize: [44, 20],
+          iconAnchor: [22, 10],
+        });
+      L.marker([51.713, -0.27], { icon: badge("M25"), interactive: false }).addTo(map); // north (London Colney)
+      L.marker([51.236, -0.035], { icon: badge("M25"), interactive: false }).addTo(map); // south (Godstone)
+      L.marker([51.484, 0.282], { icon: badge("M25"), interactive: false }).addTo(map); // east (Thurrock)
+      L.marker([51.378, -0.508], { icon: badge("M25"), interactive: false }).addTo(map); // west (Chertsey)
+
+      // Hover tooltip on the line itself.
+      m25.bindTooltip("M25 — London orbital motorway", { sticky: true });
 
       map.fitBounds(m25.getBounds(), { padding: [40, 40] });
 

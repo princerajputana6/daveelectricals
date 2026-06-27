@@ -25,6 +25,97 @@ export type Product = {
   price?: number;
 };
 
+/* ───────── Multi-option product matrices (Emergency Light / Fire Alarm) ────
+ * These products have several dropdowns that each affect the price. We
+ * enumerate every combination into flat variants with composite ids so the
+ * server can re-price any selection by id (preventing client-side tampering).
+ * The configurator components build the same composite id from the dropdowns. */
+
+export const CERT_OPTIONS = [
+  { id: "std", label: "Standard — within 24–48 hours after site visit", price: 0 },
+  { id: "exp", label: "Express — within 2–4 hours after site visit", price: 30 },
+] as const;
+
+// Emergency Light Testing — base tiers (number of EM lights tested)
+export const EL_TIERS = [
+  { id: "5x", lights: 5, price: 109 },
+  { id: "10x", lights: 10, price: 159 },
+  { id: "20x", lights: 20, price: 200 },
+  { id: "40x", lights: 40, price: 280 },
+  { id: "60x", lights: 60, price: 360 },
+  { id: "80x", lights: 80, price: 440 },
+  { id: "100x", lights: 100, price: 520 },
+  { id: "120x", lights: 120, price: 600 },
+  { id: "140x", lights: 140, price: 680 },
+] as const;
+export const EL_ADDON_PRICE = 5;
+export const EL_ADDON_MAX = 10;
+
+export function emergencyLightVariantId(
+  tierId: string,
+  add: number,
+  certId: string,
+) {
+  return `el-${tierId}-a${add}-${certId}`;
+}
+
+function emergencyLightVariants(): ProductVariant[] {
+  const out: ProductVariant[] = [];
+  for (const t of EL_TIERS) {
+    for (let add = 0; add <= EL_ADDON_MAX; add++) {
+      for (const c of CERT_OPTIONS) {
+        out.push({
+          id: emergencyLightVariantId(t.id, add, c.id),
+          label:
+            `EM Lights ${t.lights}X` +
+            (add > 0 ? ` · +${add} extra test${add > 1 ? "s" : ""}` : "") +
+            (c.price > 0 ? " · Express cert" : ""),
+          price: t.price + add * EL_ADDON_PRICE + c.price,
+        });
+      }
+    }
+  }
+  return out;
+}
+
+// Fire Alarm Testing — system type
+export const FA_TYPES = [
+  { id: "basic", label: "Basic battery alarms & heat detector", price: 69.99 },
+  { id: "mains", label: "Mains wired alarm & interlinked heat detector", price: 89.99 },
+  { id: "zone8", label: "Up to 8 zone alarm system", price: 129.99 },
+] as const;
+export const FA_FAULT = [
+  { id: "no", label: "Not required", price: 0 },
+  { id: "yes", label: "Fault find / fix — £150 for the first hour", price: 150 },
+] as const;
+
+export function fireAlarmVariantId(
+  typeId: string,
+  faultId: string,
+  certId: string,
+) {
+  return `fa-${typeId}-${faultId}-${certId}`;
+}
+
+function fireAlarmVariants(): ProductVariant[] {
+  const out: ProductVariant[] = [];
+  for (const t of FA_TYPES) {
+    for (const f of FA_FAULT) {
+      for (const c of CERT_OPTIONS) {
+        out.push({
+          id: fireAlarmVariantId(t.id, f.id, c.id),
+          label:
+            t.label +
+            (f.price > 0 ? " · +Fault find/fix" : "") +
+            (c.price > 0 ? " · Express cert" : ""),
+          price: +(t.price + f.price + c.price).toFixed(2),
+        });
+      }
+    }
+  }
+  return out;
+}
+
 export const products: Product[] = [
   {
     id: "eicr",
@@ -100,22 +191,39 @@ export const products: Product[] = [
     description:
       "Fire alarm testing carried out by qualified engineers. Full system inspection, fault reporting and certification — designed to keep your property safe and your insurance valid.",
     unit: "per visit",
+    badge: "From £69.99",
     iconKey: "bulb",
     accent: "#ffd400",
-    variants: [
-      { id: "fa-1", label: "1 device / call point", price: 110 },
-      { id: "fa-2", label: "2 devices / call points", price: 110 },
-      { id: "fa-3", label: "3 devices / call points", price: 110 },
-      { id: "fa-4", label: "4 devices / call points", price: 110 },
-      { id: "fa-5", label: "5 devices / call points", price: 110 },
-    ],
-    variantLabel: "Number of devices",
-    price: 110,
+    variants: fireAlarmVariants(),
+    variantLabel: "Alarm type",
+    price: 69.99,
     highlights: [
       "Inspection & fault reporting",
       "Compliance certification",
       "Qualified, NAPIT-registered engineers",
       "Insurance & council approved",
+    ],
+  },
+  {
+    id: "emergency-light-testing",
+    slug: "emergency-light-testing",
+    name: "Emergency Light Testing",
+    shortName: "Emergency Light Testing",
+    tagline: "For all business sectors — from £109",
+    description:
+      "London emergency light testing & inspection deals. Multi-service engineers and surveyors to save you multiple service visits — everything is covered under one order, with the date and approximate time confirmed by email.",
+    unit: "per visit",
+    badge: "From £109",
+    iconKey: "bulb",
+    accent: "#ffd400",
+    variants: emergencyLightVariants(),
+    variantLabel: "Number of tests",
+    price: 109,
+    highlights: [
+      "Itemised report & legal certificate",
+      "Additional tests at £5 per light",
+      "Standard or express certificate delivery",
+      "Multi-service engineers — one visit",
     ],
   },
   {

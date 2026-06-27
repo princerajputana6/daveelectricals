@@ -6,6 +6,8 @@ import { products, formatGBP, type Product } from "@/lib/products";
 import { serviceIcons, CheckIcon, BoltIcon } from "./Icons";
 import AddToCartButton from "./AddToCartButton";
 import EicrConfigurator from "./EicrConfigurator";
+import EmergencyLightConfigurator from "./EmergencyLightConfigurator";
+import FireAlarmConfigurator from "./FireAlarmConfigurator";
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
   const Icon = serviceIcons[product.iconKey];
@@ -65,10 +67,18 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         ))}
       </ul>
 
-      {/* EICR gets the dedicated Residential / Commercial configurator */}
+      {/* Products with several priced dropdowns get a dedicated configurator */}
       {product.id === "eicr" ? (
         <div className="relative">
           <EicrConfigurator />
+        </div>
+      ) : product.id === "emergency-light-testing" ? (
+        <div className="relative">
+          <EmergencyLightConfigurator />
+        </div>
+      ) : product.id === "fire-alarm-testing" ? (
+        <div className="relative">
+          <FireAlarmConfigurator />
         </div>
       ) : (
         <>

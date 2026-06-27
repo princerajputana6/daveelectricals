@@ -19,7 +19,7 @@ export default function QuoteCTA() {
           Call us now to arrange a FREE Quote
         </motion.p>
         <motion.a
-          href={`tel:${company.phoneMobile}`}
+          href={`tel:${company.phonePrimary}`}
           initial={{ opacity: 0, scale: 0.92 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.4 }}
@@ -27,7 +27,7 @@ export default function QuoteCTA() {
           whileHover={{ scale: 1.03 }}
           className="relative mt-4 block font-display text-5xl font-bold tracking-tight text-white sm:text-7xl lg:text-8xl"
         >
-          079 4443 7459
+          0203 524 4041
         </motion.a>
         <motion.p
           initial={{ opacity: 0 }}

@@ -66,7 +66,7 @@ export default function ServicesPage() {
           <SectionHeading
             eyebrow="Book online"
             title="Pick a service, pay your way"
-            description="Book any of our six most-requested electrical services online. Choose 50% deposit (pay the rest on completion) or pay in full upfront. All prices in GBP, ex VAT."
+            description="Book our most-requested electrical services online. Choose 50% deposit (pay the rest on completion) or pay in full upfront. All prices in GBP, ex VAT."
           />
           <div className="mt-12">
             <ShopHighlights />
