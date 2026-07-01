@@ -126,7 +126,7 @@ export default function CartView() {
           <ArrowIcon className="h-5 w-5" />
         </Link>
         <p className="mt-4 text-center text-[11px] text-ash">
-          Secure payments via Razorpay · GBP only
+          Secure payments via Stripe · GBP only
         </p>
       </aside>
     </div>

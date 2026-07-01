@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getSession } from "@/lib/auth";
 import { findProduct, priceFor, toPence, currency as cur } from "@/lib/products";
-import { getRazorpay } from "@/lib/razorpay";
+import { getStripe } from "@/lib/stripe";
 import { ordersCol, publicOrder, type Order } from "@/lib/orders";
 
 export const runtime = "nodejs";
@@ -93,26 +93,51 @@ export async function POST(req: Request) {
 
     // Amount the user is paying upfront — either 50% deposit or 100% full
     const upfrontAmount = paymentMode === "full" ? subtotal : deposit;
-
-    const rzp = getRazorpay();
-    const rzpOrder = await rzp.orders.create({
-      amount: toPence(upfrontAmount),
-      currency: cur.code,
-      receipt: `${paymentMode === "full" ? "fp" : "dp"}_${_id.toString().slice(-12)}`,
-      notes: {
-        type: paymentMode === "full" ? "full" : "deposit",
-        appOrderId: _id.toString(),
-        userId: session.uid,
-      },
-    });
+    const kind = paymentMode === "full" ? "full" : "deposit";
 
     const now = new Date();
+    const email = String(customer.email).trim().toLowerCase();
+
+    // Create the Stripe Checkout Session for the upfront charge.
+    const origin =
+      req.headers.get("origin") || new URL(req.url).origin;
+    const stripe = getStripe();
+    const checkoutSession = await stripe.checkout.sessions.create({
+      mode: "payment",
+      customer_email: email,
+      line_items: [
+        {
+          quantity: 1,
+          price_data: {
+            currency: cur.code.toLowerCase(),
+            unit_amount: toPence(upfrontAmount),
+            product_data: {
+              name:
+                paymentMode === "full"
+                  ? "Dave Electrical — full payment"
+                  : "Dave Electrical — 50% deposit",
+              description: orderItems
+                .map((i) => `${i.qty}× ${i.name}`)
+                .join(", ")
+                .slice(0, 250),
+            },
+          },
+        },
+      ],
+      metadata: { appOrderId: _id.toString(), kind, userId: session.uid },
+      payment_intent_data: {
+        metadata: { appOrderId: _id.toString(), kind },
+      },
+      success_url: `${origin}/api/orders/${_id.toString()}/confirm?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/checkout?cancelled=1`,
+    });
+
     const doc: Order = {
       _id,
       userId: session.uid,
       customer: {
         name: String(customer.name).trim(),
-        email: String(customer.email).trim().toLowerCase(),
+        email,
         phone: String(customer.phone).trim(),
         address: String(customer.address).trim(),
         preferredDate: String(customer.preferredDate).trim(),
@@ -127,7 +152,7 @@ export async function POST(req: Request) {
       status: paymentMode === "full" ? "pending_payment" : "pending_deposit",
       payments: {
         deposit: {
-          razorpayOrderId: rzpOrder.id,
+          stripeSessionId: checkoutSession.id,
           amount: upfrontAmount,
           currency: cur.code,
           status: "created",
@@ -142,12 +167,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ok: true,
       order: publicOrder(doc),
-      razorpay: {
-        keyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        orderId: rzpOrder.id,
-        amount: toPence(upfrontAmount),
-        currency: cur.code,
-      },
+      checkoutUrl: checkoutSession.url,
     });
   } catch (err) {
     console.error("[orders POST]", err);

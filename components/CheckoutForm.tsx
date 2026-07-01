@@ -1,38 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Script from "next/script";
 import { motion } from "framer-motion";
 import { useCart } from "./CartProvider";
 import { formatGBP } from "@/lib/products";
 import { ArrowIcon, CheckIcon } from "./Icons";
-
-type RazorpayCheckoutOptions = {
-  key: string;
-  order_id: string;
-  amount: number;
-  currency: string;
-  name: string;
-  description: string;
-  prefill?: { name?: string; email?: string; contact?: string };
-  theme?: { color?: string };
-  handler: (resp: RazorpayResponse) => void;
-  modal?: { ondismiss?: () => void };
-};
-
-type RazorpayResponse = {
-  razorpay_payment_id: string;
-  razorpay_order_id: string;
-  razorpay_signature: string;
-};
-
-declare global {
-  interface Window {
-    Razorpay?: new (opts: RazorpayCheckoutOptions) => { open: () => void };
-  }
-}
 
 const inputClass =
   "w-full rounded-xl border border-white/10 bg-ink px-4 py-3 text-sm text-white placeholder:text-ash transition-colors focus:border-bolt/60 focus:outline-none focus:ring-2 focus:ring-bolt/20";
@@ -44,8 +17,7 @@ export default function CheckoutForm({
 }: {
   user: { name: string; email: string };
 }) {
-  const router = useRouter();
-  const { lines, subtotal, deposit, balance, clear, count } = useCart();
+  const { lines, subtotal, deposit, balance, count } = useCart();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [paymentMode, setPaymentMode] = useState<"split" | "full">("split");
@@ -87,16 +59,10 @@ export default function CheckoutForm({
       );
       return;
     }
-    if (!window.Razorpay) {
-      setError(
-        "Payment library hasn't loaded yet. Please wait a moment and try again.",
-      );
-      return;
-    }
     setPending(true);
 
     try {
-      // 1. Create the app order + Razorpay deposit order
+      // Create the app order + Stripe Checkout Session, then redirect to Stripe.
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -111,55 +77,13 @@ export default function CheckoutForm({
         }),
       });
       const data = await res.json();
-      if (!res.ok) {
-        setError(data?.error || "Could not create order.");
+      if (!res.ok || !data.checkoutUrl) {
+        setError(data?.error || "Could not start checkout. Please try again.");
         setPending(false);
         return;
       }
-
-      // 2. Open Razorpay checkout
-      const rzp = new window.Razorpay({
-        key: data.razorpay.keyId,
-        order_id: data.razorpay.orderId,
-        amount: data.razorpay.amount,
-        currency: data.razorpay.currency,
-        name: "Dave Electrical Services",
-        description:
-          paymentMode === "full"
-            ? `Full payment for order #${data.order.id.slice(-6).toUpperCase()}`
-            : `50% deposit for order #${data.order.id.slice(-6).toUpperCase()}`,
-        prefill: {
-          name: form.name,
-          email: form.email,
-          contact: form.phone,
-        },
-        theme: { color: "#e2e61f" },
-        modal: {
-          ondismiss: () => setPending(false),
-        },
-        handler: async (resp) => {
-          try {
-            const v = await fetch(`/api/orders/${data.order.id}/verify`, {
-              method: "POST",
-              headers: { "content-type": "application/json" },
-              body: JSON.stringify({ ...resp, type: "deposit" }),
-            });
-            const vd = await v.json();
-            if (!v.ok) {
-              setError(vd?.error || "Payment could not be verified.");
-              setPending(false);
-              return;
-            }
-            clear();
-            router.push(`/account?paid=${data.order.id}`);
-            router.refresh();
-          } catch {
-            setError("Could not verify payment. Please contact us.");
-            setPending(false);
-          }
-        },
-      });
-      rzp.open();
+      // Hand off to Stripe's secure hosted checkout.
+      window.location.href = data.checkoutUrl;
     } catch {
       setError("Network error. Please try again.");
       setPending(false);
@@ -188,7 +112,6 @@ export default function CheckoutForm({
 
   return (
     <>
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
       <div className="grid gap-8 lg:grid-cols-[1.5fr_1fr]">
         <form
           onSubmit={handlePayment}
@@ -383,7 +306,7 @@ export default function CheckoutForm({
             )}
           </button>
           <p className="mt-3 text-center text-[11px] text-ash">
-            You&apos;ll be redirected to Razorpay&apos;s secure checkout. No card
+            You&apos;ll be redirected to Stripe&apos;s secure checkout. No card
             details are stored on our servers.
           </p>
         </form>
@@ -439,7 +362,7 @@ export default function CheckoutForm({
               <CheckIcon className="h-4 w-4" /> How payment works
             </p>
             <ol className="mt-2 space-y-1.5 text-xs text-ash">
-              <li>1. Pay 50% deposit now via Razorpay (GBP)</li>
+              <li>1. Pay 50% deposit now via Stripe (GBP)</li>
               <li>2. We schedule and carry out the work</li>
               <li>3. Your certificate is issued and shows in your account</li>
               <li>4. Pay the remaining 50% balance once complete</li>

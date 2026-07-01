@@ -412,7 +412,7 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
             </h3>
             <p className="mt-1 text-xs text-amber-100/80">
               Use this when the customer pays the {formatGBP(order.balance)}{" "}
-              balance outside Razorpay (e.g. bank transfer). This unlocks the
+              balance outside Stripe (e.g. bank transfer). This unlocks the
               certificate download for them.
             </p>
             <button

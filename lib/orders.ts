@@ -25,9 +25,8 @@ export type OrderItem = {
 };
 
 export type PaymentRecord = {
-  razorpayOrderId?: string;
-  razorpayPaymentId?: string;
-  razorpaySignature?: string;
+  stripeSessionId?: string;
+  stripePaymentIntentId?: string;
   amount: number; // pounds
   currency: string;
   status: "created" | "paid" | "failed";
@@ -94,7 +93,6 @@ export function publicOrder(o: Order) {
     payments: {
       deposit: o.payments.deposit
         ? {
-            razorpayOrderId: o.payments.deposit.razorpayOrderId,
             amount: o.payments.deposit.amount,
             currency: o.payments.deposit.currency,
             status: o.payments.deposit.status,
@@ -104,7 +102,6 @@ export function publicOrder(o: Order) {
         : null,
       balance: o.payments.balance
         ? {
-            razorpayOrderId: o.payments.balance.razorpayOrderId,
             amount: o.payments.balance.amount,
             currency: o.payments.balance.currency,
             status: o.payments.balance.status,

@@ -9,7 +9,7 @@ export default function Logo({ className = "" }: { className?: string }) {
         width={199}
         height={103}
         priority
-        className="h-11 w-auto rounded-md"
+        className="h-16 w-auto rounded-md"
       />
     </span>
   );

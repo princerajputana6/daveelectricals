@@ -120,6 +120,17 @@ body {
 .leaflet-control-attribution a {
   color: var(--color-bolt) !important;
 }
+.leaflet-tooltip.pc-tip {
+  background: #0c0c0d;
+  color: var(--color-bolt);
+  border: 1px solid rgba(226, 230, 31, 0.4);
+  font-weight: 700;
+  font-size: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+.leaflet-tooltip.pc-tip::before {
+  border-top-color: #0c0c0d;
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

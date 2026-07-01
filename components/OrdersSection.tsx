@@ -1,39 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Script from "next/script";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { formatGBP } from "@/lib/products";
+import { useCart } from "./CartProvider";
 import { ArrowIcon, BoltIcon, CheckIcon, ShieldIcon } from "./Icons";
 
-declare global {
-  interface Window {
-    Razorpay?: new (opts: RazorpayOpts) => { open: () => void };
-  }
-}
-
-type RazorpayOpts = {
-  key: string;
-  order_id: string;
-  amount: number;
-  currency: string;
-  name: string;
-  description: string;
-  prefill?: { name?: string; email?: string; contact?: string };
-  theme?: { color?: string };
-  handler: (resp: RazorpayResp) => void;
-  modal?: { ondismiss?: () => void };
-};
-
-type RazorpayResp = {
-  razorpay_payment_id: string;
-  razorpay_order_id: string;
-  razorpay_signature: string;
-};
-
 type Payment = {
-  razorpayOrderId?: string;
   amount: number;
   currency: string;
   status: "created" | "paid" | "failed";
@@ -114,38 +88,30 @@ const STATUS_COLOR: Record<OrderPublic["status"], string> = {
 
 export default function OrdersSection({
   initial,
-  user,
 }: {
   initial: OrderPublic[];
-  user: { name: string; email: string };
+  user?: { name: string; email: string };
 }) {
   const router = useRouter();
   const search = useSearchParams();
   const justPaid = search.get("paid");
+  const { clear } = useCart();
   const [orders, setOrders] = useState<OrderPublic[]>(initial);
   const [working, setWorking] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!justPaid) return;
+    // Payment succeeded on Stripe and redirected back — empty the cart.
+    clear();
     const t = setTimeout(() => {
-      // Clear ?paid= from URL after 5s
+      // Clear ?paid= from URL after 6s
       router.replace("/account");
     }, 6000);
     return () => clearTimeout(t);
-  }, [justPaid, router]);
-
-  const refresh = async () => {
-    const r = await fetch("/api/orders");
-    const d = await r.json();
-    if (d.orders) setOrders(d.orders);
-  };
+  }, [justPaid, router, clear]);
 
   const payBalance = async (order: OrderPublic) => {
-    if (!window.Razorpay) {
-      setError("Payment library hasn't loaded — please reload the page.");
-      return;
-    }
     setError(null);
     setWorking(order.id);
     try {
@@ -153,43 +119,13 @@ export default function OrdersSection({
         method: "POST",
       });
       const data = await res.json();
-      if (!res.ok) {
+      if (!res.ok || !data.checkoutUrl) {
         setError(data?.error || "Could not start balance payment.");
         setWorking(null);
         return;
       }
-      const rzp = new window.Razorpay({
-        key: data.razorpay.keyId,
-        order_id: data.razorpay.orderId,
-        amount: data.razorpay.amount,
-        currency: data.razorpay.currency,
-        name: "Dave Electrical Services",
-        description: `Balance payment for order #${order.id.slice(-6).toUpperCase()}`,
-        prefill: {
-          name: user.name,
-          email: user.email,
-          contact: order.customer.phone,
-        },
-        theme: { color: "#e2e61f" },
-        modal: { ondismiss: () => setWorking(null) },
-        handler: async (resp) => {
-          const v = await fetch(`/api/orders/${order.id}/verify`, {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ ...resp, type: "balance" }),
-          });
-          const vd = await v.json();
-          if (!v.ok) {
-            setError(vd?.error || "Could not verify payment.");
-            setWorking(null);
-            return;
-          }
-          await refresh();
-          setWorking(null);
-          router.refresh();
-        },
-      });
-      rzp.open();
+      // Redirect to Stripe's secure hosted checkout for the balance.
+      window.location.href = data.checkoutUrl;
     } catch {
       setError("Network error. Please try again.");
       setWorking(null);
@@ -200,7 +136,6 @@ export default function OrdersSection({
 
   return (
     <>
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
 
       <AnimatePresence>
         {justPaid && (

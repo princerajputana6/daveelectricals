@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
-import M25Map from "@/components/M25Map";
+import PostcodeMap from "@/components/PostcodeMap";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import QuoteCTA from "@/components/QuoteCTA";
@@ -49,9 +49,9 @@ export default function OurReachPage() {
         intro="Dave Electrical Services covers domestic, commercial, industrial and emergency electrical work across the whole M25 ring — central London, every borough, and every postcode in between."
       />
 
-      {/* Real map — M25 orbital highlighted */}
+      {/* London postcode-district coverage map */}
       <section className="mx-auto max-w-7xl px-5 pb-12 sm:px-8">
-        <M25Map />
+        <PostcodeMap />
       </section>
 
       {/* Coverage promises */}
