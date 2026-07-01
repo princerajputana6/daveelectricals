@@ -33,6 +33,29 @@ const AREA_COLORS: Record<string, string> = {
   IG: "#efe14b", // Ilford — yellow
 };
 
+// Postcode-area → place / town name, shown on hover.
+const AREA_NAMES: Record<string, string> = {
+  EN: "Enfield",
+  N: "North London",
+  NW: "North West London",
+  E: "East London",
+  EC: "City of London",
+  WC: "West Central London",
+  W: "West London",
+  SW: "South West London",
+  SE: "South East London",
+  HA: "Harrow",
+  UB: "Uxbridge",
+  TW: "Twickenham",
+  KT: "Kingston upon Thames",
+  SM: "Sutton",
+  CR: "Croydon",
+  BR: "Bromley",
+  DA: "Dartford",
+  RM: "Romford",
+  IG: "Ilford",
+};
+
 // Areas we highlight in the legend (the boroughs we actively serve).
 const LEGEND: { area: string; label: string }[] = [
   { area: "TW", label: "Twickenham · Hounslow" },
@@ -106,13 +129,13 @@ export default function PostcodeMap() {
           return {
             fillColor: AREA_COLORS[area] || "#8e8e93",
             fillOpacity: 0.82,
-            color: "#0a0a0a",
-            weight: 0.6,
+            color: "#000000",
+            weight: 1,
           };
         },
         onEachFeature: (feature, lyr) => {
           const p = (feature.properties || {}) as Feat["properties"];
-          lyr.bindTooltip(p.district, {
+          lyr.bindTooltip(AREA_NAMES[p.area] || p.district, {
             sticky: true,
             direction: "top",
             className: "pc-tip",
@@ -121,8 +144,8 @@ export default function PostcodeMap() {
             setStyle: (s: Record<string, unknown>) => void;
           };
           lyr.on({
-            mouseover: () => path.setStyle({ weight: 1.6, color: "#ffffff" }),
-            mouseout: () => path.setStyle({ weight: 0.6, color: "#0a0a0a" }),
+            mouseover: () => path.setStyle({ weight: 2.4, color: "#000000" }),
+            mouseout: () => path.setStyle({ weight: 1, color: "#000000" }),
           });
         },
       }).addTo(map);
@@ -137,6 +160,24 @@ export default function PostcodeMap() {
         lineCap: "round",
         interactive: false,
       }).addTo(map);
+
+      // "M25" written onto the ring at the four compass points.
+      const m25Badge = L.divIcon({
+        html: `<span style="display:inline-block;background:#000000;color:#e2e61f;font-family:system-ui,sans-serif;font-weight:800;font-size:11px;letter-spacing:0.05em;padding:2px 8px;border-radius:999px;border:1.5px solid #e2e61f;box-shadow:0 2px 6px rgba(0,0,0,0.6)">M25</span>`,
+        className: "",
+        iconSize: [44, 20],
+        iconAnchor: [22, 10],
+      });
+      (
+        [
+          [51.713, -0.27],
+          [51.236, -0.035],
+          [51.484, 0.282],
+          [51.378, -0.508],
+        ] as [number, number][]
+      ).forEach((pt) =>
+        L.marker(pt, { icon: m25Badge, interactive: false }).addTo(map),
+      );
 
       const bounds = layer.getBounds();
       map.fitBounds(bounds, { padding: [20, 20] });
