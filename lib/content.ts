@@ -2,12 +2,11 @@ export const company = {
   name: "Dave Electrical Services",
   legalName: "Dave Electrical Services Limited",
   phonePrimary: "02035244041",
-  phoneMobile: "07944437459",
   email: "info@daveelectrical.co.uk",
   address: "7 Nursery Gardens, Hounslow, London TW4 5EY",
   napit: "NAPIT Registered — 30178",
   certificate: "NAP/30178/18/1",
-  whatsapp: "447944437459",
+  whatsapp: "442035244041",
   yearsExperience: 10,
   social: {
     linkedin: "https://www.linkedin.com/company/daveelectricalservices/",

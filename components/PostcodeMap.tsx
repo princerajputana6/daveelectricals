@@ -114,6 +114,13 @@ export default function PostcodeMap() {
         attributionControl: false,
       });
 
+      // Subtle dark basemap for geographic grounding (Thames, coastline, the
+      // land beyond the districts) so the coloured shapes don't float.
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
+        { subdomains: "abcd", maxZoom: 19 },
+      ).addTo(map);
+
       let geo: { features: Feat[] } | null = null;
       try {
         const res = await fetch("/postcodes-london.geojson");
@@ -150,7 +157,41 @@ export default function PostcodeMap() {
         },
       }).addTo(map);
 
-      // M25 coverage ring on top.
+      // Permanent area-code labels at the centre of each postcode area.
+      const areaBounds: Record<string, L.LatLngBounds> = {};
+      layer.eachLayer((l) => {
+        const lyr = l as unknown as {
+          feature?: { properties?: Feat["properties"] };
+          getBounds?: () => L.LatLngBounds;
+        };
+        const a = lyr.feature?.properties?.area;
+        const b = lyr.getBounds?.();
+        if (!a || !b) return;
+        areaBounds[a] = areaBounds[a] ? areaBounds[a].extend(b) : b;
+      });
+      Object.entries(areaBounds).forEach(([a, b]) => {
+        const label = L.divIcon({
+          html: `<span style="display:inline-block;background:rgba(0,0,0,0.66);color:#ffffff;font-family:system-ui,sans-serif;font-weight:800;font-size:12px;letter-spacing:0.03em;padding:1px 7px;border-radius:5px;border:1px solid rgba(255,255,255,0.28);text-shadow:0 1px 2px rgba(0,0,0,0.8)">${a}</span>`,
+          className: "",
+          iconSize: [32, 18],
+          iconAnchor: [16, 9],
+        });
+        L.marker(b.getCenter(), {
+          icon: label,
+          interactive: false,
+          keyboard: false,
+        }).addTo(map);
+      });
+
+      // M25 coverage ring — soft glow underlay + bright dashed ring on top.
+      L.polyline(M25_PATH, {
+        color: "#e2e61f",
+        weight: 11,
+        opacity: 0.18,
+        lineJoin: "round",
+        lineCap: "round",
+        interactive: false,
+      }).addTo(map);
       L.polyline(M25_PATH, {
         color: "#e2e61f",
         weight: 3.5,
