@@ -32,7 +32,7 @@ const details = [
   },
   {
     icon: PinIcon,
-    label: "Visit us at",
+    label: "Our office",
     lines: [company.address],
   },
   {

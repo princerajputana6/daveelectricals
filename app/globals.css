@@ -139,3 +139,17 @@ body {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ── Custom electric cursor (WEB changes V1.1 — Sr 1 & 2) ───────────────── */
+/* Hide the native cursor site-wide only while the custom bolt cursor is
+   active (non-touch, motion allowed). Touch / reduced-motion users keep the
+   normal system cursor because the component never mounts for them. */
+.electric-cursor-active,
+.electric-cursor-active * {
+  cursor: none !important;
+}
+/* Subtle click "screen shake" — applied to page content only so the fixed
+   navbar stays put. Defaults to no transform when the bolt isn't discharging. */
+.electric-cursor-active main {
+  transform: var(--electric-shake, none);
+}

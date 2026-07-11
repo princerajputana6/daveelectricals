@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { products, formatGBP, type Product } from "@/lib/products";
-import { serviceIcons, CheckIcon, BoltIcon } from "./Icons";
+import { serviceIcons, CheckIcon, BoltIcon, ArrowIcon } from "./Icons";
 import AddToCartButton from "./AddToCartButton";
 import EicrConfigurator from "./EicrConfigurator";
 import EmergencyLightConfigurator from "./EmergencyLightConfigurator";
@@ -67,8 +68,26 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         ))}
       </ul>
 
-      {/* Products with several priced dropdowns get a dedicated configurator */}
-      {product.id === "eicr" ? (
+      {/* Same-day emergency is booked by slot (Sr21) — no cart, pay in full */}
+      {product.id === "same-day-call-out" ? (
+        <div className="relative mt-6 flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-5">
+          <div>
+            <p className="font-display text-3xl font-bold text-gradient-bolt sm:text-4xl">
+              {formatGBP(product.price ?? 0)}
+            </p>
+            <p className="mt-0.5 text-[11px] uppercase tracking-wider text-ash">
+              {product.unit} · ex VAT · pay in full
+            </p>
+          </div>
+          <Link
+            href="/book"
+            className="group flex items-center gap-2 rounded-full bg-bolt px-6 py-3 font-bold text-ink transition-transform hover:scale-[1.04] no-underline"
+          >
+            Book your slot
+            <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
+      ) : product.id === "eicr" ? (
         <div className="relative">
           <EicrConfigurator />
         </div>

@@ -8,10 +8,12 @@ import {
   InstagramIcon,
 } from "./Icons";
 import Logo from "./Logo";
+import HazardStripe from "./HazardStripe";
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-white/10 bg-coal">
+    <footer className="relative bg-coal">
+      <HazardStripe height={10} />
       <div className="grid-bg pointer-events-none absolute inset-0 opacity-50" />
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
@@ -19,7 +21,8 @@ export default function Footer() {
             <Logo />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ash">
               NAPIT registered electricians delivering safe, compliant and
-              high-quality workmanship across West London for over a decade.
+              high-quality workmanship within &amp; surrounding the M25 for over
+              15 years.
             </p>
           </div>
 
@@ -117,7 +120,7 @@ export default function Footer() {
             © {new Date().getFullYear()} {company.legalName}. All rights reserved.
           </p>
           <p className="text-xs text-ash">
-            {company.napit} · Certificate {company.certificate}
+            {company.napit} · {company.certificate}
           </p>
         </div>
       </div>

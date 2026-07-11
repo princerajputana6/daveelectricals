@@ -4,10 +4,10 @@ export const company = {
   phonePrimary: "02035244041",
   email: "info@daveelectrical.co.uk",
   address: "7 Nursery Gardens, Hounslow, London TW4 5EY",
-  napit: "NAPIT Registered — 30178",
-  certificate: "NAP/30178/18/1",
+  napit: "NAPIT Registered (since 2017)",
+  certificate: "Part P Registered",
   whatsapp: "442035244041",
-  yearsExperience: 10,
+  yearsExperience: 15,
   social: {
     linkedin: "https://www.linkedin.com/company/daveelectricalservices/",
     instagram: "https://www.instagram.com/daveelectricalservices/",
@@ -23,7 +23,7 @@ export const nav = [
 ];
 
 export const stats = [
-  { value: 10, suffix: "+", label: "Years of experience" },
+  { value: 15, suffix: "+", label: "Years of experience" },
   { value: 24, suffix: "/7", label: "Emergency call-outs" },
   { value: 5000, suffix: "+", label: "Projects completed" },
   { value: 12, suffix: "mo", label: "Workmanship guarantee" },
@@ -55,6 +55,22 @@ export const services = [
       "Landlord & HMO certificates",
       "Insurance & council compliance",
       "Photographic evidence included",
+    ],
+  },
+  {
+    slug: "emergency-eicr",
+    icon: "clipboard",
+    short_label: "Emergency EICR",
+    title: "Emergency EICR — Same-Day Certificate",
+    short:
+      "Need an EICR fast? Same-day inspection and certificate, subject to availability.",
+    body:
+      "Failed an inspection or need a landlord certificate at short notice? Our Emergency (Express) EICR service delivers a same-day electrical safety inspection and certificate — including same-day remedial work where possible — subject to availability. Call us to check today's slots.",
+    points: [
+      "Same-day EICR & certificate",
+      "Same-day remedials where possible",
+      "Ideal for urgent lettings & sales",
+      "Subject to availability — call to check",
     ],
   },
   {
@@ -163,18 +179,18 @@ export const services = [
     ],
   },
   {
-    slug: "cctv",
-    icon: "camera",
-    short_label: "CCTV",
-    title: "CCTV Installations",
-    short: "Fully trained CCTV engineers — analogue & digital systems.",
+    slug: "solar",
+    icon: "solar",
+    short_label: "Solar",
+    title: "Solar Panel Installations",
+    short: "Domestic & commercial solar PV installation, tailored to your site.",
     body:
-      "Dave Electrical has CCTV installation engineers and technicians who are fully trained and qualified to provide the best-quality workmanship and advice. We tailor every installation to meet your security requirements as well as your budget and business restrictions, and all equipment we supply is of the highest quality. We offer free quotations for analogue and digital CCTV systems and can attend the same day.",
+      "Dave Electrical has solar PV installation engineers and technicians who are fully trained and qualified to provide the best-quality workmanship and advice. We tailor every installation to meet your energy needs, budget and site restrictions, and all equipment we supply is of the highest quality. We offer free same-day quotations for domestic and commercial solar systems.",
     points: [
+      "Domestic & commercial solar PV",
       "Fully trained installation engineers",
-      "Analogue & digital CCTV systems",
-      "Same-day site visits available",
-      "Configured & tested on the day",
+      "Tailored to your site & budget",
+      "Free, same-day quotations",
     ],
   },
 ];
@@ -223,7 +239,76 @@ export const emergencyLightingRegime = [
   },
 ];
 
-export const guarantees = [
+/** Emergency-lighting testing process (WEB changes V1.1 — Sr No 22). */
+export const emergencyLightingTestingProcess = [
+  {
+    step: "1",
+    title: "Monthly Flick Test",
+    tag: "In-house",
+    items: [
+      {
+        k: "Operate",
+        v: "Insert the test key (or trip the circuit at the distribution board) to cut the mains supply.",
+      },
+      {
+        k: "Verify",
+        v: "Check that every emergency light turns on and shines at the required brightness.",
+      },
+      {
+        k: "Restore",
+        v: "Turn the mains power back on. Check the internal green LED to verify the battery is actively recharging.",
+      },
+      {
+        k: "Record",
+        v: "Document all findings in your building's Fire Safety Logbook.",
+      },
+    ],
+  },
+  {
+    step: "2",
+    title: "Annual 3-Hour Test",
+    tag: "Qualified engineer",
+    items: [
+      {
+        k: "Schedule",
+        v: "Arrange this test for a time when the building is unoccupied (like a Friday evening or weekend) since the lights will be drained and out of service.",
+      },
+      {
+        k: "Simulate Outage",
+        v: "Isolate the mains supply to force the lights onto battery power.",
+      },
+      {
+        k: "Monitor",
+        v: "The emergency lights must remain fully illuminated for a continuous 3 hours.",
+      },
+      {
+        k: "Restore & Recharge",
+        v: "Turn the power back on. Batteries require up to 24 hours to recharge, so the building must have natural or alternative lighting during this time.",
+      },
+    ],
+  },
+];
+
+export const emergencyLightingBestPractices = [
+  {
+    k: "Competency",
+    v: 'While monthly checks can be done by a designated "responsible person", annual 3-hour tests should generally be carried out by a competent or qualified electrical professional.',
+  },
+  {
+    k: "Logbooks",
+    v: "Keep a detailed log of every test and any necessary repairs to remain compliant with the UK Regulatory Reform (Fire Safety) Order 2005.",
+  },
+  {
+    k: "Replacements",
+    v: "If a unit fails at any point during the 3-hour test, it must be repaired or replaced.",
+  },
+];
+
+export const guarantees: {
+  title: string;
+  body: string;
+  points?: string[];
+}[] = [
   {
     title: "Workmanship",
     body: "Our work is covered by a 12 month guarantee against faulty workmanship from the date of completion.",
@@ -234,7 +319,13 @@ export const guarantees = [
   },
   {
     title: "Transparency",
-    body: "Where a repair cannot be fully guaranteed, we always discuss this with you before carrying out work.",
+    body: "We believe in complete transparency on every job, every step of the way.",
+    points: [
+      "Clear communication throughout every stage of the project.",
+      "Comprehensive, detailed reports with photographic evidence.",
+      "Full cost breakdowns, so you know exactly what you're paying for.",
+      "No hidden costs — just honest, straightforward pricing and complete peace of mind.",
+    ],
   },
 ];
 
@@ -247,7 +338,7 @@ export const accreditationPoints = [
 
 export const badges = [
   "Landlord Safety Certified",
-  "NAPIT Registered",
+  "NAPIT Registered (since 2017)",
   "TrustMark — Government Endorsed",
   "UKAS Accredited Scheme",
   "Competent Person Scheme",
@@ -645,6 +736,59 @@ export const clientSectors = [
   { name: "Chiswick Dental", sector: "Healthcare" },
   { name: "TW Property Group", sector: "Residential" },
 ];
+
+/**
+ * Google Reviews section (WEB changes V1.1 — Sr No 4).
+ *
+ * PLACEHOLDER DATA — replace `url`, `rating`, `count` and the `reviews` list
+ * with the client's real Google Business Profile details (or wire up a live
+ * Google Places reviews widget). `url` can also be set via the
+ * NEXT_PUBLIC_GOOGLE_REVIEWS_URL env var so it can be changed without a deploy.
+ */
+export const googleReviews = {
+  url:
+    process.env.NEXT_PUBLIC_GOOGLE_REVIEWS_URL ||
+    "https://www.google.com/maps/search/Dave+Electrical+Services",
+  rating: 4.9,
+  count: 150,
+  reviews: [
+    {
+      name: "James Whitfield",
+      when: "2 weeks ago",
+      stars: 5,
+      avatarBg: "#1a73e8",
+      text: "Same day call out. Very professional, friendly and great communication throughout. Sorted our EICR and remedial works with zero fuss.",
+    },
+    {
+      name: "Priya Sharma",
+      when: "1 month ago",
+      stars: 5,
+      avatarBg: "#0f9d58",
+      text: "I just wanted to give a shoutout to the team who did an amazing job changing my fuse board. The customer service was excellent from start to finish.",
+    },
+    {
+      name: "Mark Stevens",
+      when: "1 month ago",
+      stars: 5,
+      avatarBg: "#db4437",
+      text: "Prompt and efficient service provided. Turned our landlord certificate around quickly and the paperwork was spotless. Highly recommended.",
+    },
+    {
+      name: "Louise Barnard",
+      when: "2 months ago",
+      stars: 5,
+      avatarBg: "#f4b400",
+      text: "Booked bulk EICRs across several properties. Their in-house admin team coordinated everything with the tenants — genuinely hassle-free.",
+    },
+    {
+      name: "Daniel O'Connor",
+      when: "3 months ago",
+      stars: 5,
+      avatarBg: "#8e24aa",
+      text: "24 hour call-out got our restaurant back up and running late at night. Reliable, tidy and properly certified. Couldn't ask for more.",
+    },
+  ],
+};
 
 export const testimonials = [
   {

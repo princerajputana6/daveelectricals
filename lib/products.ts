@@ -14,7 +14,19 @@ export type Product = {
   unit: string;
   badge?: string;
   highlights: string[];
-  iconKey: "test" | "shield" | "bulb" | "clock" | "plug" | "building";
+  iconKey:
+    | "test"
+    | "shield"
+    | "bulb"
+    | "clock"
+    | "plug"
+    | "building"
+    | "siren"
+    | "ev"
+    | "solar"
+    | "clipboard"
+    | "bell"
+    | "camera";
   accent: string;
   /**
    * For products with multiple price tiers (EICR by bed count, PAT by appliance count).
@@ -80,14 +92,70 @@ function emergencyLightVariants(): ProductVariant[] {
 
 // Fire Alarm Testing — system type
 export const FA_TYPES = [
-  { id: "basic", label: "Basic battery alarms & heat detector", price: 69.99 },
-  { id: "mains", label: "Mains wired alarm & interlinked heat detector", price: 89.99 },
-  { id: "zone8", label: "Up to 8 zone alarm system", price: 129.99 },
+  { id: "basic", label: "Basic battery alarms & heat detector", price: 79.99 },
+  { id: "mains", label: "Mains wired alarm & interlinked heat detector", price: 99.99 },
+  { id: "zone8", label: "Up to 8 zone alarm system", price: 139.99 },
 ] as const;
 export const FA_FAULT = [
   { id: "no", label: "Not required", price: 0 },
   { id: "yes", label: "Fault find / fix — £150 for the first hour", price: 150 },
 ] as const;
+
+/* EICR commercial pricing (Sr15) — priced by phase + number of fuse boxes +
+ * number of circuits, rather than floor area:
+ *   £250 base  → single phase, 1 fuse box, up to 25 circuits
+ *   +£7        → every additional circuit beyond 25
+ *   +£50       → 3-phase
+ *   +£50       → every additional fuse box (up to 30)
+ * We still enumerate every combination into flat variants with composite ids so
+ * the server re-prices any selection by id (preventing client-side tampering) —
+ * the checkout / order pipeline is unchanged. */
+export const EICR_COM_BASE = 250;
+export const EICR_COM_INCLUDED_CIRCUITS = 25;
+export const EICR_COM_CIRCUIT_ADDON = 7;
+export const EICR_COM_3PHASE_ADDON = 50;
+export const EICR_COM_FUSEBOX_ADDON = 50;
+export const EICR_COM_MAX_FUSEBOXES = 30;
+export const EICR_COM_MAX_CIRCUITS = 60;
+
+export function eicrCommercialVariantId(
+  phase: "1ph" | "3ph",
+  fuseboxes: number,
+  circuits: number,
+) {
+  return `com-${phase}-fb${fuseboxes}-c${circuits}`;
+}
+
+export function eicrCommercialPrice(
+  phase: "1ph" | "3ph",
+  fuseboxes: number,
+  circuits: number,
+) {
+  return (
+    EICR_COM_BASE +
+    (phase === "3ph" ? EICR_COM_3PHASE_ADDON : 0) +
+    Math.max(0, circuits - EICR_COM_INCLUDED_CIRCUITS) * EICR_COM_CIRCUIT_ADDON +
+    Math.max(0, fuseboxes - 1) * EICR_COM_FUSEBOX_ADDON
+  );
+}
+
+function eicrCommercialVariants(): ProductVariant[] {
+  const out: ProductVariant[] = [];
+  for (const phase of ["1ph", "3ph"] as const) {
+    for (let fb = 1; fb <= EICR_COM_MAX_FUSEBOXES; fb++) {
+      for (let c = 1; c <= EICR_COM_MAX_CIRCUITS; c++) {
+        out.push({
+          id: eicrCommercialVariantId(phase, fb, c),
+          label:
+            `Commercial · ${phase === "3ph" ? "3 phase" : "Single phase"} · ` +
+            `${fb} fuse box${fb > 1 ? "es" : ""} · ${c} circuit${c > 1 ? "s" : ""}`,
+          price: eicrCommercialPrice(phase, fb, c),
+        });
+      }
+    }
+  }
+  return out;
+}
 
 export function fireAlarmVariantId(
   typeId: string,
@@ -124,35 +192,29 @@ export const products: Product[] = [
     shortName: "EICR Landlord Certificate",
     tagline: "Required by law for every let property",
     description:
-      "Full Electrical Installation Condition Report for a residential property. Covers consumer unit, circuits, sockets and fixed wiring — issued by a fully NAPIT-registered electrician with photographic evidence.",
+      "Protect your property. Ensure your tenants and property are fully protected by booking your electrical safety inspection today. Failure to comply will invalidate most landlord insurance policies, potentially leaving your whole property exposed to disaster. We provide a comprehensive electrical safety testing service specifically designed to safeguard landlords and their properties.",
     unit: "per property",
     badge: "Most popular",
     iconKey: "shield",
     accent: "#ffd400",
     variants: [
-      // Residential — by BHK / bed count
-      { id: "res-1bhk", label: "Residential · 1 BHK", price: 110 },
-      { id: "res-2bhk", label: "Residential · 2 BHK", price: 120 },
-      { id: "res-3bhk", label: "Residential · 3 BHK", price: 130 },
-      { id: "res-4bhk", label: "Residential · 4 BHK", price: 135 },
-      { id: "res-5bhk", label: "Residential · 5 BHK", price: 140 },
-      // Commercial — by floor area × phase
-      { id: "com-sml-1ph", label: "Commercial · < 1,000 sq ft · Single phase", price: 180 },
-      { id: "com-sml-3ph", label: "Commercial · < 1,000 sq ft · 3 phase", price: 230 },
-      { id: "com-med-1ph", label: "Commercial · 1,000 – 2,500 sq ft · Single phase", price: 250 },
-      { id: "com-med-3ph", label: "Commercial · 1,000 – 2,500 sq ft · 3 phase", price: 310 },
-      { id: "com-lrg-1ph", label: "Commercial · 2,500 – 5,000 sq ft · Single phase", price: 350 },
-      { id: "com-lrg-3ph", label: "Commercial · 2,500 – 5,000 sq ft · 3 phase", price: 420 },
-      { id: "com-xl-1ph", label: "Commercial · 5,000+ sq ft · Single phase", price: 500 },
-      { id: "com-xl-3ph", label: "Commercial · 5,000+ sq ft · 3 phase", price: 600 },
+      // Residential — by bedroom count (Sr15: BHK → bedrooms)
+      { id: "res-1bhk", label: "Residential · 1 bedroom", price: 110 },
+      { id: "res-2bhk", label: "Residential · 2 bedrooms", price: 120 },
+      { id: "res-3bhk", label: "Residential · 3 bedrooms", price: 130 },
+      { id: "res-4bhk", label: "Residential · 4 bedrooms", price: 135 },
+      { id: "res-5bhk", label: "Residential · 5 bedrooms", price: 140 },
+      // Commercial — by phase × fuse boxes × circuits (Sr15)
+      ...eicrCommercialVariants(),
     ],
     variantLabel: "Property type",
     price: 110,
     highlights: [
       "Compliant with Landlord Electrical Safety Standards",
-      "Photographic evidence included",
+      "Photographic evidence provided on request",
       "Issued by NAPIT registered engineer",
       "Bulk pricing for portfolios",
+      "In-house booking team to get the job done",
     ],
   },
   {
@@ -162,19 +224,35 @@ export const products: Product[] = [
     shortName: "PAT Testing",
     tagline: "Portable Appliance Testing made simple",
     description:
-      "Portable Appliance Testing for your office, home or workplace. Includes an itemised report, legal compliance certificate, and minor repairs free of charge. Trusted by start-ups to large brands across West London.",
+      "Portable Appliance Testing for your office, home or workplace. Includes an itemised report, legal compliance certificate, and minor repairs free of charge. Trusted by start-ups to large brands within & surrounding the M25.",
     unit: "per visit",
     badge: "Same-day available",
     iconKey: "test",
     accent: "#ffd400",
+    // Sr16 — full attached PAT price ladder (1 → 1000 appliances), list price + £20.
     variants: [
-      { id: "upto-5", label: "From 1 to 5 appliances", price: 65 },
-      { id: "upto-10", label: "From 1 to 10 appliances", price: 75 },
-      { id: "upto-20", label: "From 1 to 20 appliances", price: 85 },
-      { id: "upto-30", label: "From 1 to 30 appliances", price: 95 },
+      { id: "pat-5", label: "From 1 to 5 PAT tests", price: 69 },
+      { id: "pat-10", label: "From 1 to 10 PAT tests", price: 74 },
+      { id: "pat-20", label: "From 1 to 20 PAT tests", price: 84 },
+      { id: "pat-30", label: "From 1 to 30 PAT tests", price: 94 },
+      { id: "pat-50", label: "From 1 to 50 PAT tests", price: 104 },
+      { id: "pat-60", label: "From 1 to 60 PAT tests", price: 110 },
+      { id: "pat-70", label: "From 1 to 70 PAT tests", price: 114 },
+      { id: "pat-80", label: "From 1 to 80 PAT tests", price: 124 },
+      { id: "pat-100", label: "From 1 to 100 PAT tests", price: 149 },
+      { id: "pat-150", label: "From 1 to 150 PAT tests", price: 170 },
+      { id: "pat-200", label: "From 1 to 200 PAT tests", price: 194 },
+      { id: "pat-300", label: "From 1 to 300 PAT tests", price: 274 },
+      { id: "pat-400", label: "From 1 to 400 PAT tests", price: 324 },
+      { id: "pat-500", label: "From 1 to 500 PAT tests", price: 374 },
+      { id: "pat-600", label: "From 1 to 600 PAT tests", price: 445 },
+      { id: "pat-700", label: "From 1 to 700 PAT tests", price: 515 },
+      { id: "pat-800", label: "From 1 to 800 PAT tests", price: 585 },
+      { id: "pat-900", label: "From 1 to 900 PAT tests", price: 655 },
+      { id: "pat-1000", label: "From 1 to 1000 PAT tests", price: 715 },
     ],
     variantLabel: "Number of appliances",
-    price: 65,
+    price: 69,
     highlights: [
       "Itemised report & legal certificate",
       "Minor repairs included free",
@@ -191,12 +269,12 @@ export const products: Product[] = [
     description:
       "Fire alarm testing carried out by qualified engineers. Full system inspection, fault reporting and certification — designed to keep your property safe and your insurance valid.",
     unit: "per visit",
-    badge: "From £69.99",
+    badge: "From £79.99",
     iconKey: "bulb",
     accent: "#ffd400",
     variants: fireAlarmVariants(),
     variantLabel: "Alarm type",
-    price: 69.99,
+    price: 79.99,
     highlights: [
       "Inspection & fault reporting",
       "Compliance certification",
@@ -211,7 +289,7 @@ export const products: Product[] = [
     shortName: "Emergency Light Testing",
     tagline: "For all business sectors — from £109",
     description:
-      "London emergency light testing & inspection deals. Multi-service engineers and surveyors to save you multiple service visits — everything is covered under one order, with the date and approximate time confirmed by email.",
+      "We routinely complete Emergency Lighting drain-down tests to ensure that, should this safety system ever be called into action, it provides the vital illumination required. Includes testing your lights, checking battery and backup duration, a wider inspection and a final report.",
     unit: "per visit",
     badge: "From £109",
     iconKey: "bulb",
@@ -227,22 +305,43 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "hmo-emergency-lighting",
-    slug: "hmo-emergency-lighting",
-    name: "HMO Emergency Lighting",
-    shortName: "HMO Emergency Lighting",
-    tagline: "BS5266 / BS5588 compliant testing",
+    id: "em-lighting-log-book",
+    slug: "emergency-lighting-log-book",
+    name: "Emergency Lighting Log Book",
+    shortName: "Emergency Lighting Log Book",
+    tagline: "Stay compliant — professional on-site log book",
     description:
-      "Emergency lighting testing for HMO properties — system inspection, testing regime and certification. Helps you meet your fire safety obligations under the Regulatory Reform (Fire Safety) Order 2005.",
-    unit: "per property",
-    iconKey: "bulb",
+      "Ensure your emergency lighting is always operational with regular testing and inspections using this professional on-site log book — critical for safe evacuations during fires, power outages and other emergencies. Helps you adhere to British Standard BS5266-1 and the Regulatory Reform (Fire Safety) Order.",
+    unit: "per book",
+    badge: "New",
+    iconKey: "clipboard",
     accent: "#ffd400",
-    price: 120,
+    price: 110,
     highlights: [
-      "Conforms to BS5266 & BS5588",
-      "Full testing & certification",
-      "HMO compliance support",
-      "Fault reporting included",
+      "Track & maintain mandatory test records",
+      "Simple tick-list system for easy record-keeping",
+      "Adheres to BS5266-1 & the Fire Safety Order",
+      "A4 book, 80 pages — records 1,700+ fittings",
+    ],
+  },
+  {
+    id: "video-call",
+    slug: "video-call-troubleshooting",
+    name: "Video Call Troubleshooting",
+    shortName: "Video Call Troubleshooting",
+    tagline: "NEW — real-time electrical troubleshooting",
+    description:
+      "Real-time electrical troubleshooting over a video call with an expert electrician. We'll help you fix it yourself with a step-by-step walkthrough — a fixed fee, with no call-out required.",
+    unit: "per call",
+    badge: "New",
+    iconKey: "clock",
+    accent: "#ffd400",
+    price: 15,
+    highlights: [
+      "Video call support with an expert electrician",
+      "Step-by-step walkthrough",
+      "Fixed fee — only £15",
+      "Fast help with no call-out required",
     ],
   },
   {
@@ -252,16 +351,16 @@ export const products: Product[] = [
     shortName: "Call Out",
     tagline: "Quick-response fault visits",
     description:
-      "Quick-response electrical call out — fault finding, light fittings, sockets, switches, consumer unit issues and more. Fully insured, NAPIT-registered electrician on-site.",
+      "Experienced electricians are critical for electrical call-outs because they quickly identify hazards like overloaded circuits, burning smells, or faulty wiring. Their expertise ensures safety, prevents fires, and provides long-term solutions rather than temporary, dangerous workarounds.",
     unit: "per visit",
     iconKey: "clock",
     accent: "#ffd400",
     price: 90,
     highlights: [
-      "Same-week scheduling",
-      "Fault finding included",
-      "All standard parts covered",
-      "Fully insured & registered",
+      "Rapid fault-finding",
+      "Safety & compliance",
+      "Specialised tools",
+      "Full, in-depth report on completion",
     ],
   },
   {

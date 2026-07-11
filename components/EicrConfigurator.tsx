@@ -2,42 +2,50 @@
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { findProduct, formatGBP } from "@/lib/products";
+import {
+  findProduct,
+  formatGBP,
+  eicrCommercialVariantId,
+  eicrCommercialPrice,
+  EICR_COM_MAX_FUSEBOXES,
+  EICR_COM_MAX_CIRCUITS,
+  EICR_COM_INCLUDED_CIRCUITS,
+} from "@/lib/products";
+import { company } from "@/lib/content";
 import AddToCartButton from "./AddToCartButton";
-import { CheckIcon } from "./Icons";
+import { CheckIcon, BoltIcon, PhoneIcon } from "./Icons";
 
 type EicrType = "res" | "com";
 type Phase = "1ph" | "3ph";
 
 const RES_OPTIONS = [
-  { id: "res-1bhk", label: "1 BHK" },
-  { id: "res-2bhk", label: "2 BHK" },
-  { id: "res-3bhk", label: "3 BHK" },
-  { id: "res-4bhk", label: "4 BHK" },
-  { id: "res-5bhk", label: "5 BHK" },
+  { id: "res-1bhk", label: "1 bedroom" },
+  { id: "res-2bhk", label: "2 bedrooms" },
+  { id: "res-3bhk", label: "3 bedrooms" },
+  { id: "res-4bhk", label: "4 bedrooms" },
+  { id: "res-5bhk", label: "5 bedrooms" },
 ];
 
-const COM_AREAS = [
-  { id: "sml", label: "Under 1,000 sq ft" },
-  { id: "med", label: "1,000 – 2,500 sq ft" },
-  { id: "lrg", label: "2,500 – 5,000 sq ft" },
-  { id: "xl", label: "Over 5,000 sq ft" },
-];
+const clamp = (n: number, lo: number, hi: number) =>
+  Math.max(lo, Math.min(hi, Number.isFinite(n) ? n : lo));
 
 export default function EicrConfigurator() {
   const product = findProduct("eicr")!;
   const [type, setType] = useState<EicrType>("res");
   const [resId, setResId] = useState("res-2bhk");
-  const [comArea, setComArea] = useState("med");
-  const [phase, setPhase] = useState<Phase>("3ph");
+  const [phase, setPhase] = useState<Phase>("1ph");
+  const [fuseboxes, setFuseboxes] = useState(1);
+  const [circuits, setCircuits] = useState(EICR_COM_INCLUDED_CIRCUITS);
 
   const variantId = useMemo(() => {
     if (type === "res") return resId;
-    return `com-${comArea}-${phase}`;
-  }, [type, resId, comArea, phase]);
+    return eicrCommercialVariantId(phase, fuseboxes, circuits);
+  }, [type, resId, phase, fuseboxes, circuits]);
 
-  const variant = product.variants?.find((v) => v.id === variantId);
-  const price = variant?.price ?? 0;
+  const price =
+    type === "res"
+      ? product.variants?.find((v) => v.id === resId)?.price ?? 0
+      : eicrCommercialPrice(phase, fuseboxes, circuits);
 
   const inputCls =
     "w-full rounded-xl border border-white/10 bg-ink px-4 py-2.5 text-sm text-white focus:border-bolt/60 focus:outline-none focus:ring-2 focus:ring-bolt/20";
@@ -58,7 +66,7 @@ export default function EicrConfigurator() {
           active={type === "com"}
           onClick={() => setType("com")}
           label="Commercial"
-          sub="By floor area & phase"
+          sub="By phase, fuse boxes & circuits"
         />
       </div>
 
@@ -69,7 +77,7 @@ export default function EicrConfigurator() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25 }}
         >
-          <label className={lblCls}>Property size</label>
+          <label className={lblCls}>Number of bedrooms</label>
           <select
             value={resId}
             onChange={(e) => setResId(e.target.value)}
@@ -91,22 +99,8 @@ export default function EicrConfigurator() {
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25 }}
-          className="grid gap-3 sm:grid-cols-2"
+          className="grid gap-3 sm:grid-cols-3"
         >
-          <div>
-            <label className={lblCls}>Floor area</label>
-            <select
-              value={comArea}
-              onChange={(e) => setComArea(e.target.value)}
-              className={inputCls}
-            >
-              {COM_AREAS.map((a) => (
-                <option key={a.id} value={a.id} className="bg-ink">
-                  {a.label}
-                </option>
-              ))}
-            </select>
-          </div>
           <div>
             <label className={lblCls}>Phase</label>
             <select
@@ -122,8 +116,55 @@ export default function EicrConfigurator() {
               </option>
             </select>
           </div>
+          <div>
+            <label className={lblCls}>Fuse boxes</label>
+            <select
+              value={fuseboxes}
+              onChange={(e) => setFuseboxes(clamp(+e.target.value, 1, EICR_COM_MAX_FUSEBOXES))}
+              className={inputCls}
+            >
+              {Array.from({ length: EICR_COM_MAX_FUSEBOXES }, (_, i) => i + 1).map(
+                (n) => (
+                  <option key={n} value={n} className="bg-ink">
+                    {n} fuse box{n > 1 ? "es" : ""}
+                  </option>
+                ),
+              )}
+            </select>
+          </div>
+          <div>
+            <label className={lblCls}>Circuits</label>
+            <select
+              value={circuits}
+              onChange={(e) => setCircuits(clamp(+e.target.value, 1, EICR_COM_MAX_CIRCUITS))}
+              className={inputCls}
+            >
+              {Array.from({ length: EICR_COM_MAX_CIRCUITS }, (_, i) => i + 1).map(
+                (n) => (
+                  <option key={n} value={n} className="bg-ink">
+                    {n} circuit{n > 1 ? "s" : ""}
+                  </option>
+                ),
+              )}
+            </select>
+          </div>
         </motion.div>
       )}
+
+      {/* Express EICR — same-day, call to check availability (Sr15) */}
+      <a
+        href={`tel:${company.phonePrimary}`}
+        className="flex items-center justify-between gap-3 rounded-xl border border-bolt/30 bg-bolt/5 px-4 py-3 no-underline transition-colors hover:border-bolt/60 hover:bg-bolt/10"
+      >
+        <span className="flex items-center gap-2 text-xs font-semibold text-bolt">
+          <BoltIcon className="h-4 w-4 shrink-0" />
+          Express EICR — same-day EICR / remedial. Check availability.
+        </span>
+        <span className="flex items-center gap-1.5 whitespace-nowrap text-xs font-bold text-white">
+          <PhoneIcon className="h-3.5 w-3.5" />
+          Call · +£30
+        </span>
+      </a>
 
       {/* Price row */}
       <div className="flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-5">

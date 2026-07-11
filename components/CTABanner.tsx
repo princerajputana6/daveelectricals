@@ -5,7 +5,20 @@ import { motion } from "framer-motion";
 import { company } from "@/lib/content";
 import { ArrowIcon, PhoneIcon } from "./Icons";
 
-export default function CTABanner() {
+type CTABannerProps = {
+  eyebrow?: string;
+  title?: React.ReactNode;
+  description?: string;
+  /** Extra punch line shown beneath the description (varies per page). */
+  punchline?: string;
+};
+
+export default function CTABanner({
+  eyebrow = "Need a Landlord Certificate in a hurry?",
+  title,
+  description = "Free, no-obligation quotes. 24 hour emergency call-outs, 365 days a year. Fully NAPIT registered and insured.",
+  punchline,
+}: CTABannerProps = {}) {
   return (
     <section className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
       <motion.div
@@ -22,16 +35,22 @@ export default function CTABanner() {
         <div className="relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
           <div className="max-w-xl">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-bolt">
-              Need a Landlord Certificate in a hurry?
+              {eyebrow}
             </p>
             <h2 className="mt-3 font-display text-3xl font-bold leading-tight text-white sm:text-4xl">
-              Let&apos;s get your project{" "}
-              <span className="text-gradient-bolt">powered up</span>.
+              {title ?? (
+                <>
+                  Let&apos;s get your project{" "}
+                  <span className="text-gradient-bolt">powered up</span>.
+                </>
+              )}
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-ash">
-              Free, no-obligation quotes. 24 hour emergency call-outs, 365 days a
-              year. Fully NAPIT registered and insured.
-            </p>
+            <p className="mt-3 text-sm leading-relaxed text-ash">{description}</p>
+            {punchline && (
+              <p className="mt-4 border-l-2 border-bolt/40 pl-4 text-sm font-medium leading-relaxed text-zinc-200">
+                {punchline}
+              </p>
+            )}
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link

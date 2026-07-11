@@ -78,7 +78,7 @@ export default function HomePage() {
                 Person Scheme to self-certify against Building Regulations.
               </p>
               <div className="relative mt-6 flex flex-wrap gap-2">
-                {[company.napit, `Certificate ${company.certificate}`, "UKAS Accredited", "TrustMark"].map(
+                {[company.napit, company.certificate, "UKAS Accredited", "TrustMark"].map(
                   (b) => (
                     <span
                       key={b}
@@ -117,7 +117,7 @@ export default function HomePage() {
             <SectionHeading
               eyebrow="What we do"
               title="Electrical services, done properly"
-              description="Domestic, commercial and industrial — installation, maintenance and project consultancy across West London."
+              description="Domestic, commercial and industrial — installation, maintenance and project consultancy within the M25."
             />
             <Reveal delay={0.2}>
               <Link
@@ -143,7 +143,7 @@ export default function HomePage() {
         <SectionHeading
           eyebrow="Sectors we serve"
           title="Every kind of electrical environment"
-          description="Over the years we have worked all over West London in every kind of electrical environment."
+          description="Over the years we have worked all over the M25 in every kind of electrical environment."
           align="center"
         />
         <div className="mt-12">
@@ -156,8 +156,8 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-5 text-center sm:px-8">
           <SectionHeading
             eyebrow="Our Reach"
-            title="Covering every area within the M25"
-            description="Domestic, commercial, industrial and emergency call-outs — wherever you are inside the M25."
+            title="Covering every area within &amp; surrounding M25"
+            description="Domestic, commercial, industrial and emergency call-outs."
             align="center"
           />
           <Reveal delay={0.3}>
@@ -175,8 +175,9 @@ export default function HomePage() {
       {/* Testimonials */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
         <SectionHeading
-          eyebrow="Testimonials"
-          title="Highly-regarded by our cherished clients"
+          eyebrow="Google Reviews"
+          title="Rated excellent by our customers on Google"
+          description="Don't just take our word for it — see what our clients say on Google. Tap any review to read them all."
           align="center"
         />
         <div className="mt-12">
@@ -186,7 +187,7 @@ export default function HomePage() {
 
       <QuoteCTA />
 
-      <CTABanner />
+      <CTABanner punchline="Cut out the middleman's mark-up and book your electrical services directly with us. It costs nothing to give us a call for honest advice and a free, no-obligation quote." />
     </>
   );
 }

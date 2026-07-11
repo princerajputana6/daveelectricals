@@ -121,7 +121,7 @@ export default function OurReachMap() {
               Where we work
             </h2>
             <p className="text-sm leading-relaxed text-zinc-400">
-              We cover Hounslow, Twickenham, Feltham &amp; Cranford, plus the wider West London area. Click a pin on the map or browse our areas below.
+              We cover Hounslow, Twickenham, Feltham &amp; Cranford, plus every area within &amp; surrounding the M25. Click a pin on the map or browse our areas below.
             </p>
             <div className="mt-2 flex flex-col gap-3">
               {locations.map((loc) => (

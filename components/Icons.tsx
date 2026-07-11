@@ -112,6 +112,16 @@ export function CameraIcon(props: IconProps) {
   );
 }
 
+export function SolarIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 14h16l-1.5-6H5.5L4 14Z" />
+      <path d="M4 14h16M9.5 8l-.7 6M14.5 8l.7 6M12 17v3M9 20h6" />
+      <path d="M12 2v1.5M4.9 4.9l1 1M19.1 4.9l-1 1" />
+    </svg>
+  );
+}
+
 export function ClipboardIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
@@ -361,6 +371,7 @@ export const serviceIcons: Record<
   siren: SirenIcon,
   ev: EvIcon,
   camera: CameraIcon,
+  solar: SolarIcon,
   clipboard: ClipboardIcon,
 };
 

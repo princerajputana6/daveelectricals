@@ -30,6 +30,8 @@ export default function CheckoutForm({
     address: "",
     preferredDate: "",
     notes: "",
+    accessDetails: "",
+    keyCollection: "",
   });
 
   // Earliest selectable visit date — today, in local yyyy-mm-dd.
@@ -189,6 +191,35 @@ export default function CheckoutForm({
                 placeholder="Number of appliances, access instructions, preferred dates…"
                 className={`${inputClass} resize-none`}
               />
+            </div>
+
+            {/* Access details (Sr23) */}
+            <div className="rounded-2xl border border-white/10 bg-ink/60 p-5">
+              <h3 className="font-display text-base font-bold text-white">
+                Please provide access details
+              </h3>
+              <div className="mt-4 space-y-4">
+                <div>
+                  <label className={labelClass}>Access details</label>
+                  <textarea
+                    rows={3}
+                    value={form.accessDetails}
+                    onChange={(e) => update("accessDetails", e.target.value)}
+                    placeholder="Please enter the full address of the property above, including postcode. Will someone be there to let us in? Do we need to contact a tenant to arrange access?"
+                    className={`${inputClass} resize-none`}
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>Key collection</label>
+                  <textarea
+                    rows={3}
+                    value={form.keyCollection}
+                    onChange={(e) => update("keyCollection", e.target.value)}
+                    placeholder="Please provide details of estate agents. Further charges will be applied — £20 plus VAT within 1 mile; £50 plus VAT within 3 miles."
+                    className={`${inputClass} resize-none`}
+                  />
+                </div>
+              </div>
             </div>
           </div>
 

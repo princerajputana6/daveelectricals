@@ -45,7 +45,7 @@ export default function OurReachPage() {
     <>
       <PageHero
         eyebrow="Our Reach"
-        title="Covering every area inside the M25"
+        title="Covering every area within &amp; surrounding the M25"
         intro="Dave Electrical Services covers domestic, commercial, industrial and emergency electrical work across the whole M25 ring — central London, every borough, and every postcode in between."
       />
 
@@ -85,7 +85,7 @@ export default function OurReachPage() {
 
       <QuoteCTA />
 
-      <CTABanner />
+      <CTABanner punchline="Commercial Electrical Breakdown? We've Got Your Back. We understand that downtime costs your business time and money. As experienced commercial electricians, we'll respond quickly to get you back up and running. Book an emergency callout today." />
     </>
   );
 }

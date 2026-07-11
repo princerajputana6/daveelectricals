@@ -204,6 +204,30 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
                 <p className="text-zinc-300">{order.customer.notes}</p>
               </div>
             )}
+            {order.booking && (
+              <div className="sm:col-span-2 rounded-xl border border-bolt/30 bg-bolt/5 p-3">
+                <p className="text-xs text-bolt">Same-day emergency booking</p>
+                <p className="font-semibold text-white">
+                  {order.booking.date} · {order.booking.time}
+                </p>
+              </div>
+            )}
+            {order.customer.accessDetails && (
+              <div className="sm:col-span-2">
+                <p className="text-xs text-ash">Access details</p>
+                <p className="whitespace-pre-line text-zinc-300">
+                  {order.customer.accessDetails}
+                </p>
+              </div>
+            )}
+            {order.customer.keyCollection && (
+              <div className="sm:col-span-2">
+                <p className="text-xs text-ash">Key collection</p>
+                <p className="whitespace-pre-line text-zinc-300">
+                  {order.customer.keyCollection}
+                </p>
+              </div>
+            )}
           </div>
         </section>
 

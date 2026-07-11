@@ -56,6 +56,9 @@ export type Order = {
     /** Customer's preferred date for the visit (ISO yyyy-mm-dd) */
     preferredDate: string;
     notes?: string;
+    /** Sr23 — property access instructions & key-collection details */
+    accessDetails?: string;
+    keyCollection?: string;
   };
   items: OrderItem[];
   subtotal: number;
@@ -69,6 +72,12 @@ export type Order = {
     balance?: PaymentRecord;
   };
   certificate?: Certificate;
+  /** Sr21 — set when this order is a same-day emergency slot booking */
+  booking?: {
+    slotId: string;
+    date: string; // yyyy-mm-dd
+    time: string; // HH:mm
+  };
   createdAt: Date;
   updatedAt: Date;
 };
@@ -115,6 +124,7 @@ export function publicOrder(o: Order) {
       o.payments.deposit?.status === "paid" &&
       (o.paymentMode === "full" || o.payments.balance?.status === "paid"),
     certificate: o.certificate,
+    booking: o.booking,
     createdAt: o.createdAt,
     updatedAt: o.updatedAt,
   };

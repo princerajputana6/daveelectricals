@@ -17,7 +17,7 @@ import { CheckIcon, ShieldIcon } from "@/components/Icons";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Over 10 years of expert electrical installation, maintenance and project consultancy across domestic, commercial and industrial sectors in West London.",
+    "Over 15 years of expert electrical installation, maintenance and project consultancy across domestic, commercial and industrial sectors within & surrounding the M25.",
 };
 
 export default function AboutPage() {
@@ -26,7 +26,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="About"
         title="About Dave Electrical"
-        intro="With over 10 years of hands-on experience, Dave Electrical Services delivers expert electrical installation, maintenance and project consultancy across the domestic, commercial and industrial sectors."
+        intro="With over 15 years of hands-on experience, Dave Electrical Services delivers expert electrical installation, maintenance and project consultancy across the domestic, commercial and industrial sectors."
       />
 
       {/* Intro */}
@@ -46,7 +46,7 @@ export default function AboutPage() {
               <p>
                 Our growing portfolio of satisfied clients speaks for itself — and
                 we are always happy to share references upon request. Over the
-                years we have worked all over West London in every kind of
+                years we have worked all over the M25 in every kind of
                 electrical environment, including clubs, pubs, restaurants, shops,
                 manufacturing plants, schools, GPs, councils and the residential
                 sector.
@@ -58,7 +58,7 @@ export default function AboutPage() {
             <div className="relative overflow-hidden rounded-3xl border border-bolt/20 bg-gradient-to-br from-graphite to-coal p-8">
               <div className="grid-bg absolute inset-0 opacity-40" />
               <p className="relative font-display text-7xl font-bold text-gradient-bolt">
-                10+
+                15+
               </p>
               <p className="relative mt-2 font-display text-xl font-bold text-white">
                 Years of experience
@@ -176,6 +176,19 @@ export default function AboutPage() {
                   <p className="mt-3 text-sm leading-relaxed text-ash">
                     {g.body}
                   </p>
+                  {g.points && (
+                    <ul className="mt-3 space-y-2">
+                      {g.points.map((pt) => (
+                        <li
+                          key={pt}
+                          className="flex items-start gap-2 text-sm leading-relaxed text-ash"
+                        >
+                          <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-bolt" />
+                          {pt}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </Reveal>
             ))}
@@ -185,7 +198,12 @@ export default function AboutPage() {
 
       <QuoteCTA />
 
-      <CTABanner />
+      <CTABanner
+        eyebrow="Bulk landlord EICRs, fully managed"
+        title="Want to book bulk EICRs without involving yourself? No worries!"
+        description="Our experienced in-house admin team will handle everything for you. They will coordinate access directly with tenants, liaise with our engineers, and manage the entire scheduling process from start to finish. Once the inspections are complete, our admin team will promptly send you the completed EICR certificates, making the process completely hassle-free."
+        punchline="Every job comes with crystal-clear photographic evidence (before & after) plus a detailed report, including circuit readings, for complete transparency. No confusing jargon or technical waffle — just easy-to-understand information. Give us a try!"
+      />
     </>
   );
 }

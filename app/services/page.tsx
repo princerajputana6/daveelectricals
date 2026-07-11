@@ -4,6 +4,7 @@ import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import EmergencyLightingFaq from "@/components/EmergencyLightingFaq";
 import TestingRegime from "@/components/TestingRegime";
+import TestingProcess from "@/components/TestingProcess";
 import Accreditations from "@/components/Accreditations";
 import ShopHighlights from "@/components/ShopHighlights";
 import QuoteCTA from "@/components/QuoteCTA";
@@ -143,12 +144,41 @@ export default function ServicesPage() {
             <h3 className="font-display text-xl font-bold text-white">
               The testing regime
             </h3>
-            <p className="mt-2 text-sm text-ash">
-              Tested for periods without turning off the main lighting system.
-            </p>
             <div className="mt-6">
               <TestingRegime />
             </div>
+          </div>
+
+          <div className="mt-12">
+            <h3 className="font-display text-xl font-bold text-white">
+              The Testing Process
+            </h3>
+            <p className="mt-2 text-sm text-ash">
+              We routinely complete Emergency Lighting drain-down tests to ensure
+              that, should this safety system ever be called into action, it
+              provides the vital illumination required.
+            </p>
+            <div className="mt-6">
+              <TestingProcess />
+            </div>
+          </div>
+
+          {/* Fire-safety audit stats (Sr18) */}
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {[
+              "Out of all the reasons for fire safety audit failures, emergency routes and exits came top, with 10,323 audits giving this as a reason. To ensure your emergency routes are lit correctly, ensure they are checked regularly.",
+              "4 in 10 buildings in the UK fail basic fire safety audits in 2024/25 alone. This is a 14-year low, and suggests many commercial buildings are a fire risk.",
+            ].map((stat) => (
+              <div
+                key={stat}
+                className="flex items-start gap-3 rounded-2xl border border-bolt/20 bg-bolt/5 p-5"
+              >
+                <BoltIcon className="mt-0.5 h-5 w-5 shrink-0 text-bolt" />
+                <p className="text-sm font-medium leading-relaxed text-zinc-200">
+                  {stat}
+                </p>
+              </div>
+            ))}
           </div>
 
           <div className="mt-14 grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
@@ -254,7 +284,7 @@ export default function ServicesPage() {
 
       <QuoteCTA />
 
-      <CTABanner />
+      <CTABanner punchline="Fixed prices for every product and every service. No hidden costs. No surprise charges. Why not request our price list today?" />
     </>
   );
 }

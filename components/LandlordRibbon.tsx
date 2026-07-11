@@ -43,12 +43,26 @@ export default function LandlordRibbon() {
             </p>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-bold text-bolt transition-transform hover:scale-[1.04]"
+              className="group inline-flex shrink-0 items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-bold text-bolt transition-transform hover:scale-[1.04]"
             >
-              Get a bulk quote
+              Get a bulk EICR quote
               <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mt-6 max-w-3xl text-sm font-medium leading-relaxed text-ink/80"
+          >
+            Our in-house administration team will coordinate directly with your
+            tenant to schedule the work and ensure it is completed efficiently.
+            This eliminates the need for ongoing back-and-forth communication
+            between the tenant and the electrician, providing a smoother,
+            hassle-free process for everyone involved.
+          </motion.p>
         </div>
       </div>
     </section>

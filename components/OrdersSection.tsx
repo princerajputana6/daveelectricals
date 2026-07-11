@@ -25,6 +25,13 @@ export type OrderPublic = {
     address: string;
     preferredDate?: string;
     notes?: string;
+    accessDetails?: string;
+    keyCollection?: string;
+  };
+  booking?: {
+    slotId: string;
+    date: string;
+    time: string;
   };
   items: {
     productId: string;

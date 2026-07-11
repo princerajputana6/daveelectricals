@@ -7,6 +7,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollProgress from "@/components/ScrollProgress";
 import PublicChrome from "@/components/PublicChrome";
 import WaveBackground from "@/components/WaveBackground";
+import ElectricCursor from "@/components/ElectricCursor";
 import { CartProvider } from "@/components/CartProvider";
 import { company } from "@/lib/content";
 import { getSession, isAdminSession } from "@/lib/auth";
@@ -54,6 +55,7 @@ export default async function RootLayout({
   return (
     <html lang="en-GB" className={`${inter.variable} ${grotesk.variable}`}>
       <body>
+        <ElectricCursor />
         <WaveBackground />
         <CartProvider>
           <PublicChrome>

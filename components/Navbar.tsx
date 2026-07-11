@@ -8,6 +8,7 @@ import { nav, company } from "@/lib/content";
 import { CloseIcon, MenuIcon, PhoneIcon } from "./Icons";
 import Logo from "./Logo";
 import CartBadge from "./CartBadge";
+import HazardStripe from "./HazardStripe";
 
 type User = { name: string; email: string; isAdmin?: boolean } | null;
 
@@ -52,6 +53,7 @@ export default function Navbar({ user }: { user: User }) {
             : "border-b border-transparent bg-transparent"
         }`}
       >
+        <HazardStripe height={6} />
         <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-8">
           <Link href="/" aria-label="Dave Electrical Services home">
             <Logo />

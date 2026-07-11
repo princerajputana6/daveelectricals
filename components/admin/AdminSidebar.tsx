@@ -8,6 +8,7 @@ import {
   ArrowIcon,
   BagIcon,
   BoltIcon,
+  ClockIcon,
   CloseIcon,
   DashboardIcon,
   MailIcon,
@@ -18,6 +19,7 @@ import LogoutButton from "../LogoutButton";
 const NAV = [
   { label: "Dashboard", href: "/admin", icon: DashboardIcon },
   { label: "Orders", href: "/admin/orders", icon: BagIcon },
+  { label: "Availability", href: "/admin/availability", icon: ClockIcon },
   { label: "Enquiries", href: "/admin/enquiries", icon: MailIcon },
 ];
 
