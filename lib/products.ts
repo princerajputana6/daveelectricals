@@ -35,6 +35,11 @@ export type Product = {
   variants?: ProductVariant[];
   variantLabel?: string;
   price?: number;
+  /**
+   * Quoted per site rather than sold at a fixed price — the card shows a
+   * "call for a quote" CTA instead of an Add to cart button.
+   */
+  enquiryOnly?: boolean;
 };
 
 /* ───────── Multi-option product matrices (Emergency Light / Fire Alarm) ────
@@ -322,6 +327,26 @@ export const products: Product[] = [
       "Simple tick-list system for easy record-keeping",
       "Adheres to BS5266-1 & the Fire Safety Order",
       "A4 book, 80 pages — records 1,700+ fittings",
+    ],
+  },
+  {
+    id: "em-lighting-service-contract",
+    slug: "emergency-lighting-service-contract",
+    name: "Emergency Lighting Service Contract",
+    shortName: "Em Lighting Service Contract",
+    tagline: "Year-round BS5266 compliance, handled for you",
+    description:
+      "An annual contract that keeps your emergency lighting compliant without you having to track a thing. We schedule and carry out the monthly flick tests and the annual 3-hour drain-down test, log every result, report any faults and issue your certification — so your escape routes stay lit and your Fire Safety Order obligations stay covered.",
+    unit: "per site, per year",
+    badge: "Contract",
+    iconKey: "bulb",
+    accent: "#ffd400",
+    enquiryOnly: true,
+    highlights: [
+      "Scheduled monthly flick tests & annual 3-hour test",
+      "All results logged — no record-keeping for you",
+      "Fault reporting with repair quotes if needed",
+      "Certification issued to BS5266-1",
     ],
   },
   {

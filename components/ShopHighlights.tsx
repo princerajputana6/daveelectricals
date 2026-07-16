@@ -4,7 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { products, formatGBP, type Product } from "@/lib/products";
-import { serviceIcons, CheckIcon, BoltIcon, ArrowIcon } from "./Icons";
+import { company } from "@/lib/content";
+import { serviceIcons, CheckIcon, BoltIcon, ArrowIcon, PhoneIcon } from "./Icons";
 import AddToCartButton from "./AddToCartButton";
 import EicrConfigurator from "./EicrConfigurator";
 import EmergencyLightConfigurator from "./EmergencyLightConfigurator";
@@ -79,13 +80,40 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
               {product.unit} · ex VAT · pay in full
             </p>
           </div>
-          <Link
-            href="/book"
-            className="group flex items-center gap-2 rounded-full bg-bolt px-6 py-3 font-bold text-ink transition-transform hover:scale-[1.04] no-underline"
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              href="/book"
+              className="group flex items-center gap-2 rounded-full bg-bolt px-6 py-3 font-bold text-ink transition-transform hover:scale-[1.04] no-underline"
+            >
+              Check availability
+              <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+            <a
+              href={`tel:${company.phonePrimary}`}
+              className="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 font-bold text-white no-underline transition-colors hover:border-bolt/40 hover:text-bolt"
+            >
+              <PhoneIcon className="h-4 w-4" />
+              Call now
+            </a>
+          </div>
+        </div>
+      ) : product.enquiryOnly ? (
+        <div className="relative mt-6 flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-5">
+          <div>
+            <p className="font-display text-2xl font-bold text-gradient-bolt">
+              Quoted per site
+            </p>
+            <p className="mt-0.5 text-[11px] uppercase tracking-wider text-ash">
+              {product.unit} · ex VAT
+            </p>
+          </div>
+          <a
+            href={`tel:${company.phonePrimary}`}
+            className="flex items-center gap-2 rounded-full bg-bolt px-6 py-3 font-bold text-ink no-underline transition-transform hover:scale-[1.04]"
           >
-            Book your slot
-            <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
+            <PhoneIcon className="h-4 w-4" />
+            Call for a quote
+          </a>
         </div>
       ) : product.id === "eicr" ? (
         <div className="relative">

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { OrderPublic } from "./OrdersSection";
 import { formatGBP } from "@/lib/products";
+import { company } from "@/lib/content";
 import { ArrowIcon, CheckIcon, ShieldIcon } from "./Icons";
 
 export default function CertificateViewer({
@@ -245,14 +246,14 @@ export default function CertificateViewer({
                   <p className="mt-1 font-display text-base text-ink">
                     Dave Electrical Services Ltd
                   </p>
-                  <p>NAPIT Registered — 30178</p>
+                  <p>{company.napit}</p>
                 </div>
                 <div className="text-right">
                   <p className="font-semibold uppercase tracking-wider">
                     Certificate
                   </p>
                   <p className="mt-1 font-display text-base text-ink">
-                    NAP/30178/18/1
+                    {company.certificate}
                   </p>
                 </div>
               </div>

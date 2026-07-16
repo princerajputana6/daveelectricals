@@ -60,7 +60,7 @@ export default function EicrConfigurator() {
           active={type === "res"}
           onClick={() => setType("res")}
           label="Residential"
-          sub="1 – 5 BHK"
+          sub="1 – 5 bedrooms"
         />
         <TypeChip
           active={type === "com"}
