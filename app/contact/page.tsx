@@ -34,6 +34,10 @@ const details = [
     icon: PinIcon,
     label: "Our office",
     lines: [company.address],
+    href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      company.address,
+    )}`,
+    external: true,
   },
   {
     icon: ClockIcon,
@@ -74,12 +78,23 @@ export default function ContactPage() {
                         {line}
                       </p>
                     ))}
+                    {d.external && (
+                      <p className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-bolt">
+                        View on Google Maps →
+                      </p>
+                    )}
                   </div>
                 );
                 return (
                   <Reveal key={d.label} delay={i * 0.08}>
                     {d.href ? (
-                      <a href={d.href} className="block h-full">
+                      <a
+                        href={d.href}
+                        className="block h-full"
+                        {...(d.external
+                          ? { target: "_blank", rel: "noopener noreferrer" }
+                          : {})}
+                      >
                         {inner}
                       </a>
                     ) : (
@@ -111,16 +126,6 @@ export default function ContactPage() {
               </a>
             </Reveal>
 
-            <Reveal delay={0.4}>
-              <div className="mt-4 overflow-hidden rounded-2xl border border-white/10">
-                <iframe
-                  title="Dave Electrical Services location"
-                  src="https://www.openstreetmap.org/export/embed.html?bbox=-0.4015%2C51.4612%2C-0.3815%2C51.4712&layer=mapnik&marker=51.4662%2C-0.3915"
-                  className="h-64 w-full grayscale"
-                  loading="lazy"
-                />
-              </div>
-            </Reveal>
           </div>
 
           {/* Form */}

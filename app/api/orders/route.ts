@@ -5,6 +5,8 @@ import { findProduct, priceFor, toPence, currency as cur } from "@/lib/products"
 import { getStripe } from "@/lib/stripe";
 import { ordersCol, publicOrder, type Order } from "@/lib/orders";
 import { claimSlot, releaseSlot } from "@/lib/slots";
+import { sendMail } from "@/lib/mailer";
+import { orderNotificationEmail } from "@/lib/orderEmail";
 
 export const runtime = "nodejs";
 
@@ -207,6 +209,26 @@ export async function POST(req: Request) {
       updatedAt: now,
     };
     await col.insertOne(doc);
+
+    // Notify the business inbox of the new booking with all the details.
+    // Never let an email failure break the booking itself.
+    try {
+      const notifyTo =
+        process.env.ORDER_NOTIFICATION_EMAIL || "info@daveelectrical.co.uk";
+      const { subject, text, html } = orderNotificationEmail(doc);
+      const mail = await sendMail({
+        to: notifyTo,
+        subject,
+        text,
+        html,
+        replyTo: doc.customer.email,
+      });
+      if (!mail.sent) {
+        console.error("[orders POST] booking email not sent:", mail.reason);
+      }
+    } catch (mailErr) {
+      console.error("[orders POST] booking email error", mailErr);
+    }
 
     return NextResponse.json({
       ok: true,

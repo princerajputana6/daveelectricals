@@ -177,7 +177,29 @@ export default function CheckoutForm({
                 min={minDate}
                 value={form.preferredDate}
                 onChange={(e) => update("preferredDate", e.target.value)}
-                className={`${inputClass} [color-scheme:dark]`}
+                // Open the native calendar wherever the user clicks/focuses,
+                // not only on the small indicator icon.
+                onClick={(e) => {
+                  const el = e.currentTarget as HTMLInputElement & {
+                    showPicker?: () => void;
+                  };
+                  try {
+                    el.showPicker?.();
+                  } catch {
+                    /* not supported — native icon still works */
+                  }
+                }}
+                onFocus={(e) => {
+                  const el = e.currentTarget as HTMLInputElement & {
+                    showPicker?: () => void;
+                  };
+                  try {
+                    el.showPicker?.();
+                  } catch {
+                    /* ignore */
+                  }
+                }}
+                className={`${inputClass} cursor-pointer [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-100`}
               />
             </div>
             <div>

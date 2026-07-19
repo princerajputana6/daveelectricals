@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { serviceIcons, CheckIcon, ArrowIcon } from "./Icons";
+import { serviceIcons, CheckIcon } from "./Icons";
 
 type Service = {
   slug: string;
@@ -59,13 +59,6 @@ export default function ServiceCard({
           </li>
         ))}
       </ul>
-
-      <div className="relative mt-6 flex items-center gap-2 pt-2 text-sm font-semibold text-bolt">
-        <span className="transition-all group-hover:tracking-wide">
-          Enquire about this service
-        </span>
-        <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-      </div>
     </motion.article>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { googleReviews } from "@/lib/content";
 
@@ -68,6 +69,44 @@ function Stars({ n = 5, className = "" }: { n?: number; className?: string }) {
 
 export default function Testimonials() {
   const { url, rating, count, reviews } = googleReviews;
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  // Auto-slide the review cards. Advances one card every few seconds, loops
+  // back to the start at the end, pauses on hover/touch, and is disabled for
+  // users who prefer reduced motion.
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let paused = false;
+    const pause = () => (paused = true);
+    const resume = () => (paused = false);
+    el.addEventListener("pointerenter", pause);
+    el.addEventListener("pointerleave", resume);
+    el.addEventListener("touchstart", pause, { passive: true });
+    el.addEventListener("touchend", resume, { passive: true });
+
+    const id = window.setInterval(() => {
+      if (paused) return;
+      const card = el.querySelector<HTMLElement>("[data-review-card]");
+      const step = card ? card.offsetWidth + 16 /* gap-4 */ : 296;
+      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 8;
+      el.scrollTo({
+        left: atEnd ? 0 : el.scrollLeft + step,
+        behavior: "smooth",
+      });
+    }, 3500);
+
+    return () => {
+      window.clearInterval(id);
+      el.removeEventListener("pointerenter", pause);
+      el.removeEventListener("pointerleave", resume);
+      el.removeEventListener("touchstart", pause);
+      el.removeEventListener("touchend", resume);
+    };
+  }, []);
+
   return (
     <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0f1b2d]">
       <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[240px_1fr] lg:items-center">
@@ -94,11 +133,15 @@ export default function Testimonials() {
           </span>
         </a>
 
-        {/* Review cards — horizontally scrollable */}
-        <div className="-mx-1 flex gap-4 overflow-x-auto px-1 pb-2 [scrollbar-width:thin]">
+        {/* Review cards — horizontally scrollable + auto-sliding */}
+        <div
+          ref={scrollerRef}
+          className="-mx-1 flex gap-4 overflow-x-auto scroll-smooth px-1 pb-2 [scrollbar-width:thin]"
+        >
           {reviews.map((r, i) => (
             <motion.a
               key={r.name}
+              data-review-card
               href={url}
               target="_blank"
               rel="noopener noreferrer"

@@ -7,7 +7,7 @@ import PageHero from "@/components/PageHero";
 import LogoutButton from "@/components/LogoutButton";
 import OrdersSection, { type OrderPublic } from "@/components/OrdersSection";
 import { ArrowIcon, BoltIcon, CheckIcon, MailIcon } from "@/components/Icons";
-import { getSession } from "@/lib/auth";
+import { getSession, isAdminSession } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { ordersCol, publicOrder } from "@/lib/orders";
 
@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 export default async function AccountPage() {
   const session = await getSession();
   if (!session) redirect("/login");
+  const isAdmin = isAdminSession(session);
 
   const db = await getDb();
   const [enquiries, ordersDocs] = await Promise.all([
@@ -78,7 +79,22 @@ export default async function AccountPage() {
                 <span className="flex items-center gap-1.5 rounded-full border border-bolt/30 bg-bolt/5 px-3 py-1 text-[11px] font-semibold text-bolt">
                   <CheckIcon className="h-3 w-3" /> Verified account
                 </span>
+                {isAdmin && (
+                  <span className="flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/5 px-3 py-1 text-[11px] font-semibold text-emerald-300">
+                    Admin
+                  </span>
+                )}
               </div>
+
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  className="relative mt-4 flex items-center justify-between gap-2 rounded-xl border border-bolt/30 bg-bolt/10 px-4 py-3 text-sm font-bold text-bolt transition-colors hover:bg-bolt/15"
+                >
+                  Go to Admin Console
+                  <ArrowIcon className="h-4 w-4" />
+                </Link>
+              )}
               <div className="relative mt-6 flex flex-wrap gap-3">
                 <Link
                   href="/services"

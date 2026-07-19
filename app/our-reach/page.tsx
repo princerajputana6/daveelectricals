@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
-import PostcodeMap from "@/components/PostcodeMap";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import QuoteCTA from "@/components/QuoteCTA";
@@ -51,7 +50,16 @@ export default function OurReachPage() {
 
       {/* London postcode-district coverage map */}
       <section className="mx-auto max-w-7xl px-5 pb-12 sm:px-8">
-        <PostcodeMap />
+        <Reveal>
+          <div className="overflow-hidden rounded-2xl border border-white/10 bg-white p-2 sm:p-4">
+            <img
+              src="/london-postcode-map.jpg"
+              alt="Map of London postcode districts covered by Dave Electrical Services — every area within and surrounding the M25"
+              className="mx-auto h-auto w-full max-w-4xl"
+              loading="lazy"
+            />
+          </div>
+        </Reveal>
       </section>
 
       {/* Coverage promises */}
