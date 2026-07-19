@@ -200,9 +200,37 @@ export default function ElectricCursor() {
 
     // ---- Interaction detection --------------------------------------------
     let rafPending = false;
+    let onScrollbar = false;
     function onMove(e: PointerEvent) {
       target.x = e.clientX;
       target.y = e.clientY;
+
+      // Over the native scrollbar gutter → show the real system cursor and
+      // hide the bolt, so the cursor never disappears while dragging the thumb.
+      // Only when a scrollbar actually occupies that axis (gutter width > 0),
+      // otherwise a pointer at the far edge would falsely count as "over".
+      const doc = document.documentElement;
+      const vScrollbar = window.innerWidth - doc.clientWidth;
+      const hScrollbar = window.innerHeight - doc.clientHeight;
+      const overScrollbar =
+        (vScrollbar > 0 && e.clientX >= doc.clientWidth) ||
+        (hScrollbar > 0 && e.clientY >= doc.clientHeight);
+      if (overScrollbar) {
+        if (!onScrollbar) {
+          onScrollbar = true;
+          root.classList.add("cursor-over-scrollbar");
+          bolt.style.opacity = "0";
+          canvas.style.opacity = "0";
+          visible = false;
+        }
+        return;
+      }
+      if (onScrollbar) {
+        onScrollbar = false;
+        root.classList.remove("cursor-over-scrollbar");
+        canvas.style.opacity = "1";
+      }
+
       ensureRunning();
       if (!visible) {
         visible = true;

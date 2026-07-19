@@ -380,7 +380,7 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
               disabled={busy === "upload"}
               className="rounded-full border border-white/15 bg-white/5 px-5 py-2 text-sm font-semibold text-white hover:border-bolt/40 hover:text-bolt disabled:opacity-50"
             >
-              {busy === "upload" ? "Uploading…" : "Upload to Cloudinary"}
+              {busy === "upload" ? "Uploading…" : "Upload certificate"}
             </button>
             <button
               type="button"

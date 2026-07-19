@@ -148,6 +148,13 @@ body {
 .electric-cursor-active * {
   cursor: none !important;
 }
+/* While the pointer is over the native scrollbar gutter, restore the real
+   system cursor so it doesn't vanish when dragging the scrollbar thumb.
+   Placed after the rule above so it wins at equal specificity. */
+.cursor-over-scrollbar,
+.cursor-over-scrollbar * {
+  cursor: auto !important;
+}
 /* Subtle click "screen shake" — applied to page content only so the fixed
    navbar stays put. Defaults to no transform when the bolt isn't discharging. */
 .electric-cursor-active main {
