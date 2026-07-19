@@ -168,9 +168,11 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 export default function ShopHighlights() {
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {products.map((product, i) => (
-        <ProductCard key={product.id} product={product} index={i} />
-      ))}
+      {products
+        .filter((product) => !product.hidden)
+        .map((product, i) => (
+          <ProductCard key={product.id} product={product} index={i} />
+        ))}
     </div>
   );
 }

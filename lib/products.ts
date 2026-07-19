@@ -40,6 +40,11 @@ export type Product = {
    * "call for a quote" CTA instead of an Add to cart button.
    */
   enquiryOnly?: boolean;
+  /**
+   * Not shown in the public shop grid. Still fully purchasable by id (used for
+   * the /test payment-verification page).
+   */
+  hidden?: boolean;
 };
 
 /* ───────── Multi-option product matrices (Emergency Light / Fire Alarm) ────
@@ -347,6 +352,26 @@ export const products: Product[] = [
       "All results logged — no record-keeping for you",
       "Fault reporting with repair quotes if needed",
       "Certification issued to BS5266-1",
+    ],
+  },
+  {
+    id: "test-payment",
+    slug: "test-payment",
+    name: "Test Payment (£1)",
+    shortName: "Test Payment",
+    tagline: "Live Stripe payment test — £1",
+    description:
+      "A £1 item used only to verify the live Stripe checkout end to end. Not a real service. Refund it from the Stripe dashboard after testing.",
+    unit: "one-off",
+    badge: "Test only",
+    iconKey: "plug",
+    accent: "#ffd400",
+    price: 1,
+    hidden: true,
+    highlights: [
+      "Charges a real £1 on the live Stripe keys",
+      "Choose “Pay in full” at checkout for exactly £1",
+      "Refundable from the Stripe dashboard",
     ],
   },
   {
