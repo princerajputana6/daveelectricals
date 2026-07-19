@@ -74,7 +74,17 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
       const d = await r.json();
       if (!r.ok) flash("err", d.error || "Failed");
       else {
-        flash("ok", "Status updated.");
+        const needsCert =
+          (status === "completed" || status === "ready_for_balance") &&
+          !order.certificate;
+        if (needsCert) {
+          flash(
+            "err",
+            "Status updated — but no certificate is attached. Click “Issue / update certificate” so the customer can see it.",
+          );
+        } else {
+          flash("ok", "Status updated.");
+        }
         router.refresh();
       }
     } finally {
@@ -302,9 +312,25 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
             Certificate
           </h2>
           <p className="mt-1 text-xs text-ash">
-            Issuing will email the customer. Upload a file or paste a URL — both
-            are stored on Cloudinary if you upload.
+            Uploading a file only stages it — it does <strong>not</strong> issue
+            the certificate. To make it visible to the customer (and email
+            them), fill in the number &amp; type and click{" "}
+            <strong>Issue / update certificate</strong>. Changing the order
+            status alone does not issue a certificate.
           </p>
+
+          {order.certificate ? (
+            <p className="mt-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-300">
+              ✓ Certificate #{order.certificate.number} is issued and visible to
+              the customer
+              {order.certificate.fileUrl ? " (with a downloadable file)." : "."}
+            </p>
+          ) : (
+            <p className="mt-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-300">
+              ⚠ No certificate is attached to this order yet — the customer sees
+              nothing until you click “Issue / update certificate” below.
+            </p>
+          )}
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             <div>
@@ -336,7 +362,17 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
                 onChange={(e) =>
                   setCert((c) => ({ ...c, expiresAt: e.target.value }))
                 }
-                className={input}
+                onClick={(e) => {
+                  const el = e.currentTarget as HTMLInputElement & {
+                    showPicker?: () => void;
+                  };
+                  try {
+                    el.showPicker?.();
+                  } catch {
+                    /* native icon still works */
+                  }
+                }}
+                className={`${input} cursor-pointer [&::-webkit-calendar-picker-indicator]:cursor-pointer`}
               />
             </div>
             <div>
