@@ -13,6 +13,7 @@ import {
   DashboardIcon,
   MailIcon,
   MenuIcon,
+  SettingsIcon,
 } from "../Icons";
 import LogoutButton from "../LogoutButton";
 
@@ -21,6 +22,7 @@ const NAV = [
   { label: "Orders", href: "/admin/orders", icon: BagIcon },
   { label: "Availability", href: "/admin/availability", icon: ClockIcon },
   { label: "Enquiries", href: "/admin/enquiries", icon: MailIcon },
+  { label: "Settings", href: "/admin/settings", icon: SettingsIcon },
 ];
 
 export default function AdminSidebar({

@@ -20,6 +20,9 @@ type CartContextValue = {
   lines: CartLineFull[];
   count: number;
   subtotal: number;
+  vatRate: number;
+  vatAmount: number;
+  total: number;
   deposit: number;
   balance: number;
   add: (productId: string, variantId?: string, qty?: number) => void;
@@ -36,6 +39,21 @@ const LEGACY_KEY = "dave_cart_v1";
 export function CartProvider({ children }: { children: ReactNode }) {
   const [raw, setRaw] = useState<CartLine[]>([]);
   const [ready, setReady] = useState(false);
+  const [vatRate, setVatRate] = useState(0);
+
+  // Load the admin-configured VAT rate so cart/checkout show live totals.
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/settings")
+      .then((r) => r.json())
+      .then((d) => {
+        if (alive && typeof d?.vatRate === "number") setVatRate(d.vatRate);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   useEffect(() => {
     try {
@@ -86,8 +104,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [raw]);
 
   const subtotal = +lines.reduce((s, l) => s + l.lineTotal, 0).toFixed(2);
-  const deposit = +(subtotal / 2).toFixed(2);
-  const balance = +(subtotal - deposit).toFixed(2);
+  // VAT-inclusive totals; rate comes from the admin-configured setting.
+  const vatAmount = +((subtotal * vatRate) / 100).toFixed(2);
+  const total = +(subtotal + vatAmount).toFixed(2);
+  const deposit = +(total / 2).toFixed(2);
+  const balance = +(total - deposit).toFixed(2);
   const count = lines.reduce((s, l) => s + l.qty, 0);
 
   const add = useCallback(
@@ -138,6 +159,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     lines,
     count,
     subtotal,
+    vatRate,
+    vatAmount,
+    total,
     deposit,
     balance,
     add,

@@ -61,7 +61,10 @@ export type Order = {
     keyCollection?: string;
   };
   items: OrderItem[];
-  subtotal: number;
+  subtotal: number; // ex-VAT sum of line totals
+  vatRate?: number; // % applied at time of order (undefined on legacy orders)
+  vatAmount?: number; // VAT in currency
+  total?: number; // VAT-inclusive grand total (undefined on legacy orders)
   deposit: number;
   balance: number;
   currency: string;
@@ -94,6 +97,10 @@ export function publicOrder(o: Order) {
     customer: o.customer,
     items: o.items,
     subtotal: o.subtotal,
+    vatRate: o.vatRate ?? 0,
+    vatAmount: o.vatAmount ?? 0,
+    // Legacy orders (pre-VAT) have no stored total — fall back to subtotal.
+    total: o.total ?? o.subtotal,
     deposit: o.deposit,
     balance: o.balance,
     currency: o.currency,

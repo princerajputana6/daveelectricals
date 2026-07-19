@@ -17,11 +17,12 @@ export default function CheckoutForm({
 }: {
   user: { name: string; email: string };
 }) {
-  const { lines, subtotal, deposit, balance, count } = useCart();
+  const { lines, subtotal, vatRate, vatAmount, total, deposit, balance, count } =
+    useCart();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [paymentMode, setPaymentMode] = useState<"split" | "full">("split");
-  const upfrontAmount = paymentMode === "full" ? subtotal : deposit;
+  const upfrontAmount = paymentMode === "full" ? total : deposit;
   const remainingAmount = paymentMode === "full" ? 0 : balance;
   const [form, setForm] = useState({
     name: user.name,
@@ -338,11 +339,27 @@ export default function CheckoutForm({
                   </span>
                 </div>
                 <p className="mt-1.5 text-xs text-ash">
-                  Pay {formatGBP(subtotal)} now — no balance owed at the end.
+                  Pay {formatGBP(total)} now — no balance owed at the end.
                 </p>
               </label>
             </div>
           </fieldset>
+
+          {/* Price summary — VAT is added on top of the ex-VAT subtotal */}
+          <dl className="mt-6 space-y-1.5 rounded-2xl border border-white/10 bg-ink p-4 text-sm">
+            <div className="flex justify-between text-ash">
+              <dt>Subtotal (ex VAT)</dt>
+              <dd>{formatGBP(subtotal)}</dd>
+            </div>
+            <div className="flex justify-between text-ash">
+              <dt>VAT ({vatRate}%)</dt>
+              <dd>{formatGBP(vatAmount)}</dd>
+            </div>
+            <div className="flex justify-between border-t border-white/10 pt-1.5 font-bold text-white">
+              <dt>Total (inc VAT)</dt>
+              <dd>{formatGBP(total)}</dd>
+            </div>
+          </dl>
 
           <button
             type="submit"
@@ -352,7 +369,7 @@ export default function CheckoutForm({
             {pending
               ? "Opening secure payment…"
               : paymentMode === "full"
-                ? `Pay in full · ${formatGBP(subtotal)}`
+                ? `Pay in full · ${formatGBP(total)}`
                 : `Pay deposit · ${formatGBP(deposit)}`}
             {!pending && (
               <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />

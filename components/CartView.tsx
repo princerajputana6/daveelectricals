@@ -7,8 +7,19 @@ import { formatGBP } from "@/lib/products";
 import { ArrowIcon, BagIcon, CloseIcon } from "./Icons";
 
 export default function CartView() {
-  const { lines, count, subtotal, deposit, balance, setQty, remove, ready } =
-    useCart();
+  const {
+    lines,
+    count,
+    subtotal,
+    vatRate,
+    vatAmount,
+    total,
+    deposit,
+    balance,
+    setQty,
+    remove,
+    ready,
+  } = useCart();
 
   if (!ready) {
     return (
@@ -109,12 +120,12 @@ export default function CartView() {
           Order summary
         </h2>
         <dl className="mt-5 space-y-3 text-sm">
-          <Row label="Subtotal" value={formatGBP(subtotal)} />
-          <Row label="Currency" value="GBP (£)" />
+          <Row label="Subtotal (ex VAT)" value={formatGBP(subtotal)} />
+          <Row label={`VAT (${vatRate}%)`} value={formatGBP(vatAmount)} />
+          <Row label="Total (inc VAT)" value={formatGBP(total)} highlight />
           <Row
             label="Pay now (50% deposit)"
             value={formatGBP(deposit)}
-            highlight
           />
           <Row label="Pay on completion" value={formatGBP(balance)} />
         </dl>

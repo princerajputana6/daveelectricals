@@ -7,6 +7,7 @@ import { ordersCol, publicOrder, type Order } from "@/lib/orders";
 import { claimSlot, releaseSlot } from "@/lib/slots";
 import { sendMail } from "@/lib/mailer";
 import { orderNotificationEmail } from "@/lib/orderEmail";
+import { getVatRate, computeTotals } from "@/lib/settings";
 
 export const runtime = "nodejs";
 
@@ -98,8 +99,15 @@ export async function POST(req: Request) {
         { status: 400 },
       );
     }
-    const deposit = +(subtotal / 2).toFixed(2);
-    const balance = +(subtotal - deposit).toFixed(2);
+    // Apply the admin-configured VAT rate. Deposit/balance are split on the
+    // VAT-inclusive total so the customer always pays VAT.
+    const vatRate = await getVatRate();
+    const {
+      vatAmount,
+      total,
+      deposit,
+      balance,
+    } = computeTotals(subtotal, vatRate);
 
     const col = await ordersCol();
     const _id = new ObjectId();
@@ -119,7 +127,7 @@ export async function POST(req: Request) {
     }
 
     // Amount the user is paying upfront — either 50% deposit or 100% full
-    const upfrontAmount = paymentMode === "full" ? subtotal : deposit;
+    const upfrontAmount = paymentMode === "full" ? total : deposit;
     const kind = paymentMode === "full" ? "full" : "deposit";
 
     const now = new Date();
@@ -190,6 +198,9 @@ export async function POST(req: Request) {
       },
       items: orderItems,
       subtotal,
+      vatRate,
+      vatAmount,
+      total,
       deposit,
       balance,
       currency: cur.code,

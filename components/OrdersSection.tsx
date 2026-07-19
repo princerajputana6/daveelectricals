@@ -44,6 +44,9 @@ export type OrderPublic = {
     lineTotal: number;
   }[];
   subtotal: number;
+  vatRate?: number;
+  vatAmount?: number;
+  total?: number;
   deposit: number;
   balance: number;
   currency: string;

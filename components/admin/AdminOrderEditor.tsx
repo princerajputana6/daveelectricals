@@ -268,9 +268,17 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
           </ul>
           <dl className="mt-4 space-y-1 text-sm">
             <div className="flex justify-between">
-              <dt className="text-ash">Subtotal</dt>
+              <dt className="text-ash">Subtotal (ex VAT)</dt>
+              <dd className="text-white">{formatGBP(order.subtotal)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-ash">VAT ({order.vatRate ?? 0}%)</dt>
+              <dd className="text-white">{formatGBP(order.vatAmount ?? 0)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-ash">Total (inc VAT)</dt>
               <dd className="font-bold text-white">
-                {formatGBP(order.subtotal)}
+                {formatGBP(order.total ?? order.subtotal)}
               </dd>
             </div>
             <div className="flex justify-between">
@@ -499,9 +507,10 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
             Payment summary
           </h3>
           <p className="mt-2 text-3xl font-display font-bold text-bolt">
-            {formatGBP(order.subtotal)}
+            {formatGBP(order.total ?? order.subtotal)}
           </p>
-          <p className="text-xs text-ash">
+          <p className="text-[11px] text-ash">inc VAT</p>
+          <p className="mt-1 text-xs text-ash">
             {fullyPaid
               ? "Fully paid"
               : `${formatGBP(order.balance)} outstanding`}

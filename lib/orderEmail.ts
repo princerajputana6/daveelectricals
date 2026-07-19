@@ -15,6 +15,12 @@ export function orderNotificationEmail(order: Order): {
   const ref = order._id.toString().slice(-6).toUpperCase();
   const c = order.customer;
 
+  // Render an ISO yyyy-mm-dd date as dd-mm-yyyy (leaves anything else as-is).
+  const ukDate = (d?: string) =>
+    d && /^\d{4}-\d{2}-\d{2}$/.test(d)
+      ? `${d.slice(8, 10)}-${d.slice(5, 7)}-${d.slice(0, 4)}`
+      : d || "";
+
   const itemsText = order.items
     .map(
       (i) =>
@@ -24,15 +30,16 @@ export function orderNotificationEmail(order: Order): {
     )
     .join("\n");
 
+  const grandTotal = order.total ?? order.subtotal;
   const payLine =
     order.paymentMode === "full"
-      ? `Pay in full: ${formatGBP(order.subtotal)}`
+      ? `Pay in full: ${formatGBP(grandTotal)}`
       : `50% deposit: ${formatGBP(order.deposit)} now, ${formatGBP(
           order.balance,
         )} on completion`;
 
   const bookingLine = order.booking
-    ? `Booked slot: ${order.booking.date} ${order.booking.time}\n`
+    ? `Booked slot: ${ukDate(order.booking.date)} ${order.booking.time}\n`
     : "";
 
   const lines = [
@@ -45,7 +52,7 @@ export function orderNotificationEmail(order: Order): {
     "",
     "SERVICE",
     `  Address:        ${c.address}`,
-    `  Preferred date: ${c.preferredDate}`,
+    `  Preferred date: ${ukDate(c.preferredDate)}`,
     bookingLine ? `  ${bookingLine.trim()}` : "",
     c.notes ? `  Notes:          ${c.notes}` : "",
     c.accessDetails ? `  Access details: ${c.accessDetails}` : "",
@@ -55,6 +62,8 @@ export function orderNotificationEmail(order: Order): {
     itemsText,
     "",
     `Subtotal (ex VAT): ${formatGBP(order.subtotal)}`,
+    `VAT (${order.vatRate ?? 0}%): ${formatGBP(order.vatAmount ?? 0)}`,
+    `Total (inc VAT): ${formatGBP(grandTotal)}`,
     payLine,
     "",
     `Placed: ${new Date(order.createdAt).toLocaleString("en-GB")}`,
@@ -102,8 +111,8 @@ export function orderNotificationEmail(order: Order): {
       <h2 style="font-size:14px;text-transform:uppercase;color:#888;margin:20px 0 8px">Service</h2>
       <table style="font-size:14px;border-collapse:collapse">
         ${row("Address", c.address)}
-        ${row("Preferred date", c.preferredDate)}
-        ${order.booking ? row("Booked slot", `${order.booking.date} ${order.booking.time}`) : ""}
+        ${row("Preferred date", ukDate(c.preferredDate))}
+        ${order.booking ? row("Booked slot", `${ukDate(order.booking.date)} ${order.booking.time}`) : ""}
         ${c.notes ? row("Notes", c.notes) : ""}
         ${c.accessDetails ? row("Access details", c.accessDetails) : ""}
         ${c.keyCollection ? row("Key collection", c.keyCollection) : ""}
@@ -112,8 +121,14 @@ export function orderNotificationEmail(order: Order): {
       <h2 style="font-size:14px;text-transform:uppercase;color:#888;margin:20px 0 8px">Items</h2>
       <table style="width:100%;font-size:14px;border-collapse:collapse">
         ${itemsHtml}
-        <tr><td style="padding:10px 0 0;font-weight:bold">Subtotal (ex VAT)</td><td style="padding:10px 0 0;text-align:right;font-weight:bold">${formatGBP(
+        <tr><td style="padding:10px 0 0">Subtotal (ex VAT)</td><td style="padding:10px 0 0;text-align:right">${formatGBP(
           order.subtotal,
+        )}</td></tr>
+        <tr><td style="padding:2px 0;color:#666">VAT (${order.vatRate ?? 0}%)</td><td style="padding:2px 0;text-align:right;color:#666">${formatGBP(
+          order.vatAmount ?? 0,
+        )}</td></tr>
+        <tr><td style="padding:2px 0;font-weight:bold">Total (inc VAT)</td><td style="padding:2px 0;text-align:right;font-weight:bold">${formatGBP(
+          grandTotal,
         )}</td></tr>
       </table>
       <p style="font-size:14px;color:#333;margin:14px 0 0">${esc(payLine)}</p>

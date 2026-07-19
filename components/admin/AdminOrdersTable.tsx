@@ -141,7 +141,7 @@ export default function AdminOrdersTable({
                       )}
                     </td>
                     <td className="px-5 py-3 text-right font-bold text-bolt">
-                      {formatGBP(o.subtotal)}
+                      {formatGBP(o.total ?? o.subtotal)}
                     </td>
                     <td className="px-5 py-3">
                       <div className="flex flex-wrap justify-end gap-1.5">
@@ -456,7 +456,7 @@ function CertForm({
           Order summary
         </p>
         <p className="mt-1 font-display text-base font-bold text-white">
-          {formatGBP(order.subtotal)} · {order.paymentMode}
+          {formatGBP(order.total ?? order.subtotal)} inc VAT · {order.paymentMode}
         </p>
         <ul className="mt-3 space-y-1.5 text-[11px] text-zinc-300">
           {order.items.map((it) => (
