@@ -119,9 +119,17 @@ export default function Footer() {
           <p className="text-xs text-ash">
             © {new Date().getFullYear()} {company.legalName}. All rights reserved.
           </p>
-          <p className="text-xs text-ash">
-            {company.napit} · {company.certificate}
-          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-ash">
+            <Link href="/privacy" className="transition-colors hover:text-bolt">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="transition-colors hover:text-bolt">
+              Terms of Service
+            </Link>
+            <span>
+              {company.napit} · {company.certificate}
+            </span>
+          </div>
         </div>
       </div>
     </footer>

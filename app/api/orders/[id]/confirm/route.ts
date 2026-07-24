@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import { getSession } from "@/lib/auth";
 import { ordersCol } from "@/lib/orders";
 import { getStripe } from "@/lib/stripe";
+import { runAccountingPipeline } from "@/services/pipeline";
 
 export const runtime = "nodejs";
 
@@ -89,6 +90,15 @@ export async function GET(
     }
 
     await col.updateOne({ _id: order._id }, { $set: set });
+
+    // Fallback trigger for the accounting pipeline (idempotent) in case the
+    // Stripe webhook is delayed. Best-effort — never block the redirect.
+    try {
+      await runAccountingPipeline(id, kind === "balance" ? "balance" : "deposit");
+    } catch {
+      /* webhook remains the primary path; failures are recorded on the order */
+    }
+
     return back(`/account?paid=${id}`);
   } catch (err) {
     console.error("[orders confirm]", err);

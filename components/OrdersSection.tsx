@@ -70,6 +70,14 @@ export type OrderPublic = {
     fileUrl?: string;
   };
   fullyPaid?: boolean;
+  invoiceNumber?: string;
+  quickbooks?: {
+    customerId?: string;
+    invoiceId?: string;
+    depositPaymentId?: string;
+    balancePaymentId?: string;
+  };
+  invoicePdf?: { url: string; publicId: string };
   createdAt: string | Date;
   updatedAt: string | Date;
 };

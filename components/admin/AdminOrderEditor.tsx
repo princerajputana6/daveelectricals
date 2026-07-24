@@ -109,6 +109,24 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
     }
   };
 
+  const reprocessAccounting = async () => {
+    setBusy("reprocess");
+    try {
+      const r = await fetch(`/api/admin/orders/${order.id}/reprocess`, {
+        method: "POST",
+      });
+      const d = await r.json();
+      if (!r.ok || !d.ok)
+        flash("err", d.error || "Accounting pipeline failed — check logs.");
+      else {
+        flash("ok", "Accounting pipeline re-run complete.");
+        router.refresh();
+      }
+    } finally {
+      setBusy(null);
+    }
+  };
+
   const issueCert = async () => {
     if (!cert.number || !cert.type) {
       flash("err", "Certificate number and type are required.");
@@ -515,6 +533,50 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
               ? "Fully paid"
               : `${formatGBP(order.balance)} outstanding`}
           </p>
+        </div>
+
+        {/* Invoice & accounting (Stripe → QuickBooks → PDF → email) */}
+        <div className="rounded-2xl border border-white/10 bg-graphite p-6">
+          <h3 className="font-display text-base font-bold text-white">
+            Invoice &amp; accounting
+          </h3>
+          <dl className="mt-3 space-y-1.5 text-xs">
+            <div className="flex justify-between gap-3">
+              <dt className="text-ash">Invoice #</dt>
+              <dd className="text-white">{order.invoiceNumber || "—"}</dd>
+            </div>
+            <div className="flex justify-between gap-3">
+              <dt className="text-ash">QB invoice</dt>
+              <dd className="text-white">
+                {order.quickbooks?.invoiceId || "—"}
+              </dd>
+            </div>
+            <div className="flex justify-between gap-3">
+              <dt className="text-ash">PDF</dt>
+              <dd>
+                {order.invoicePdf?.url ? (
+                  <a
+                    href={order.invoicePdf.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-bolt underline"
+                  >
+                    Download
+                  </a>
+                ) : (
+                  <span className="text-white">—</span>
+                )}
+              </dd>
+            </div>
+          </dl>
+          <button
+            type="button"
+            onClick={reprocessAccounting}
+            disabled={busy === "reprocess"}
+            className="mt-4 w-full rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-white transition-colors hover:border-bolt/40 hover:text-bolt disabled:opacity-50"
+          >
+            {busy === "reprocess" ? "Running…" : "Re-run accounting"}
+          </button>
         </div>
       </aside>
     </div>

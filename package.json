@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.5.1",
     "@types/leaflet": "^1.9.21",
     "@types/three": "^0.184.1",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.10.0",
     "framer-motion": "^12.39.0",
+    "intuit-oauth": "^4.2.5",
     "jose": "^6.2.3",
     "leaflet": "^1.9.4",
     "mongodb": "^7.2.0",

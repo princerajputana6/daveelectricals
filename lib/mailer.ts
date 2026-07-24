@@ -1,11 +1,19 @@
 import nodemailer from "nodemailer";
 
+type MailAttachment = {
+  filename: string;
+  /** base64-encoded file content */
+  content: string;
+  contentType?: string;
+};
+
 type SendArgs = {
   to: string | string[];
   subject: string;
   text: string;
   html?: string;
   replyTo?: string;
+  attachments?: MailAttachment[];
 };
 
 /**
@@ -39,6 +47,15 @@ export async function sendMail(args: SendArgs): Promise<{
           text: args.text,
           html: args.html,
           ...(args.replyTo ? { reply_to: args.replyTo } : {}),
+          ...(args.attachments?.length
+            ? {
+                attachments: args.attachments.map((a) => ({
+                  filename: a.filename,
+                  content: a.content,
+                  ...(a.contentType ? { content_type: a.contentType } : {}),
+                })),
+              }
+            : {}),
         }),
       });
       if (res.ok) {
@@ -85,6 +102,11 @@ export async function sendMail(args: SendArgs): Promise<{
     text: args.text,
     html: args.html,
     replyTo: args.replyTo,
+    attachments: args.attachments?.map((a) => ({
+      filename: a.filename,
+      content: Buffer.from(a.content, "base64"),
+      contentType: a.contentType,
+    })),
   });
   return { sent: true };
 }

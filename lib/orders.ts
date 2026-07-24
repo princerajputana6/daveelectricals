@@ -81,6 +81,20 @@ export type Order = {
     date: string; // yyyy-mm-dd
     time: string; // HH:mm
   };
+  /** Accounting pipeline (Stripe webhook → QuickBooks → PDF → email) */
+  invoiceNumber?: string; // DE-YYYY-000000
+  quickbooks?: {
+    customerId?: string;
+    invoiceId?: string;
+    depositPaymentId?: string;
+    balancePaymentId?: string;
+  };
+  invoicePdf?: { url: string; publicId: string };
+  accounting?: {
+    processedAt?: Date;
+    lastError?: string;
+    invoiceEmailedAt?: Date;
+  };
   createdAt: Date;
   updatedAt: Date;
 };
@@ -132,6 +146,9 @@ export function publicOrder(o: Order) {
       (o.paymentMode === "full" || o.payments.balance?.status === "paid"),
     certificate: o.certificate,
     booking: o.booking,
+    invoiceNumber: o.invoiceNumber,
+    quickbooks: o.quickbooks,
+    invoicePdf: o.invoicePdf,
     createdAt: o.createdAt,
     updatedAt: o.updatedAt,
   };
