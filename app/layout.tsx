@@ -21,16 +21,16 @@ const grotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: `${company.name} — Electrician Hounslow, Twickenham, Feltham & Cranford`,
+    default: `${company.name} — Covering All Areas Within the M25 & Beyond`,
     template: `%s — ${company.name}`,
   },
   description:
-    "NAPIT registered electricians serving Hounslow, Twickenham, Feltham & Cranford. Domestic, commercial & industrial installation, testing, PAT testing and 24 hour emergency call-outs.",
+    "NAPIT registered electricians covering all areas within the M25 and beyond. Domestic, commercial & industrial installation, testing, PAT testing and 24 hour emergency call-outs.",
   keywords: [
-    "electrician Hounslow",
-    "electrician Twickenham",
-    "electrician Feltham",
-    "electrician Cranford",
+    "electrician London",
+    "electrician within the M25",
+    "commercial electrician",
+    "domestic electrician",
     "PAT testing London",
     "EICR certificate",
     "emergency electrician",
