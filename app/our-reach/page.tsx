@@ -48,16 +48,24 @@ export default function OurReachPage() {
         intro="Dave Electrical Services covers domestic, commercial, industrial and emergency electrical work across the whole M25 ring — central London, every borough, and every postcode in between."
       />
 
-      {/* London postcode-district coverage map */}
+      {/* Coverage statement */}
       <section className="mx-auto max-w-7xl px-5 pb-12 sm:px-8">
         <Reveal>
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-white p-2 sm:p-4">
-            <img
-              src="/london-postcode-map.jpg"
-              alt="Map of London postcode districts covered by Dave Electrical Services — every area within and surrounding the M25"
-              className="mx-auto h-auto w-full max-w-4xl"
-              loading="lazy"
-            />
+          <div className="overflow-hidden rounded-2xl border border-bolt/30 bg-gradient-to-br from-coal via-ink to-black p-10 text-center sm:p-16">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.35em] text-bolt">
+              Our coverage
+            </p>
+            <p className="mx-auto mt-4 max-w-3xl font-display text-3xl font-extrabold leading-tight text-white sm:text-5xl">
+              Covering all areas within the{" "}
+              <span className="inline-block rounded-lg bg-bolt px-3 py-0.5 text-ink">
+                M25
+              </span>{" "}
+              &amp; beyond
+            </p>
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-ash sm:text-base">
+              Domestic, commercial, industrial and 24/7 emergency electrical
+              work — right across London and the surrounding counties.
+            </p>
           </div>
         </Reveal>
       </section>

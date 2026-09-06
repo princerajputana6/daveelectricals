@@ -10,26 +10,6 @@ import {
   TestIcon,
 } from "./Icons";
 
-// 16 M25-adjacent towns positioned roughly clockwise from N
-const TOWNS = [
-  { name: "Cheshunt", angle: 350, r: 0.92 },
-  { name: "Enfield", angle: 20, r: 0.82 },
-  { name: "Epping", angle: 50, r: 0.94 },
-  { name: "Brentwood", angle: 75, r: 0.97 },
-  { name: "Romford", angle: 95, r: 0.84 },
-  { name: "Grays", angle: 120, r: 0.95 },
-  { name: "Dartford", angle: 140, r: 0.88 },
-  { name: "Bromley", angle: 165, r: 0.82 },
-  { name: "Caterham", angle: 190, r: 0.95 },
-  { name: "Leatherhead", angle: 215, r: 0.93 },
-  { name: "Kingston", angle: 235, r: 0.82 },
-  { name: "Woking", angle: 250, r: 0.97 },
-  { name: "Slough", angle: 275, r: 0.93 },
-  { name: "Rickmansworth", angle: 295, r: 0.86 },
-  { name: "Harrow", angle: 312, r: 0.74 },
-  { name: "Watford", angle: 328, r: 0.9 },
-];
-
 // 4 M25 corner labels
 const M25_LABELS = [
   { angle: 0, label: "M25" },
@@ -83,9 +63,12 @@ export default function M25CoverageMap() {
             </p>
             <h2 className="mt-2 font-display text-4xl font-extrabold leading-[0.9] tracking-tight text-white sm:text-5xl">
               COVERING <span className="block">ALL AREAS</span>
-              <span className="block">INSIDE THE</span>
+              <span className="block">WITHIN THE</span>
               <span className="mt-2 inline-block rounded-xl bg-bolt px-4 py-1 font-display text-6xl font-black text-ink sm:text-7xl">
                 M25
+              </span>
+              <span className="mt-2 block text-3xl font-extrabold text-bolt sm:text-4xl">
+                &amp; BEYOND
               </span>
             </h2>
           </div>
@@ -238,39 +221,6 @@ export default function M25CoverageMap() {
               );
             })}
 
-            {/* Town pins around the ring */}
-            {TOWNS.map((t) => {
-              const p = polar(t.angle, 33 * t.r, 50, 51);
-              const labelOffset = polar(t.angle, 33 * t.r + 3, 50, 51);
-              const anchor =
-                t.angle > 60 && t.angle < 120
-                  ? "start"
-                  : t.angle > 240 && t.angle < 300
-                    ? "end"
-                    : "middle";
-              return (
-                <g key={t.name}>
-                  <circle
-                    cx={p.x}
-                    cy={p.y}
-                    r="0.9"
-                    fill="#e2e61f"
-                  />
-                  <text
-                    x={labelOffset.x}
-                    y={labelOffset.y + 0.5}
-                    textAnchor={anchor}
-                    fontSize="1.9"
-                    fontWeight="600"
-                    fill="#ffffff"
-                    opacity="0.9"
-                  >
-                    {t.name}
-                  </text>
-                </g>
-              );
-            })}
-
             {/* LONDON center label */}
             <text
               x="50"
@@ -333,7 +283,7 @@ export default function M25CoverageMap() {
         <div className="mx-auto flex max-w-6xl items-center justify-center gap-3 px-6 py-3 text-ink sm:px-10">
           <BoltIcon className="h-5 w-5" />
           <p className="font-display text-sm font-extrabold uppercase tracking-[0.15em] sm:text-lg">
-            Serving every area within the M25
+            Covering all areas within the M25 &amp; beyond
           </p>
           <BoltIcon className="h-5 w-5" />
         </div>
