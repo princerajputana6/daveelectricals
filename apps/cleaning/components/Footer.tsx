@@ -1,0 +1,143 @@
+import Link from "next/link";
+import { company, nav, services } from "@/lib/content";
+import {
+  MailIcon,
+  PhoneIcon,
+  PinIcon,
+  LinkedInIcon,
+  InstagramIcon,
+} from "./Icons";
+import Logo from "./Logo";
+import HazardStripe from "./HazardStripe";
+
+export default function Footer() {
+  return (
+    <footer className="relative bg-slate-50">
+      <HazardStripe height={10} />
+      <div className="grid-bg pointer-events-none absolute inset-0 opacity-50" />
+      <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <Logo />
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-slate-500">
+              Reliable domestic and commercial cleaning across London and all areas within the M25 &amp; beyond — delivered with attention to detail, flexible appointments and a professional, fully insured team.
+            </p>
+            <a
+              href={company.sisterSite.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex items-center gap-2 rounded-full border border-bolt/30 bg-bolt/5 px-4 py-2 text-xs font-semibold text-bolt transition-colors hover:bg-bolt/10"
+            >
+              Need an electrician? Visit {company.sisterSite.name}
+            </a>
+          </div>
+
+          <div>
+            <h4 className="font-display text-sm font-bold uppercase tracking-widest text-slate-900">
+              Navigate
+            </h4>
+            <ul className="mt-5 space-y-3">
+              {nav.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-slate-500 transition-colors hover:text-bolt"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-display text-sm font-bold uppercase tracking-widest text-slate-900">
+              Services
+            </h4>
+            <ul className="mt-5 space-y-3">
+              {services.map((s) => (
+                <li key={s.slug}>
+                  <Link
+                    href="/services"
+                    className="text-sm text-slate-500 transition-colors hover:text-bolt"
+                  >
+                    {s.title.replace(" & Maintenance", "")}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-display text-sm font-bold uppercase tracking-widest text-slate-900">
+              Get in touch
+            </h4>
+            <ul className="mt-5 space-y-4 text-sm">
+              <li>
+                <a
+                  href={`tel:${company.phonePrimary}`}
+                  className="flex items-start gap-3 text-slate-500 transition-colors hover:text-bolt"
+                >
+                  <PhoneIcon className="mt-0.5 h-4 w-4 shrink-0 text-bolt" />
+                  <span>{company.phonePrimary}</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${company.email}`}
+                  className="flex items-start gap-3 text-slate-500 transition-colors hover:text-bolt"
+                >
+                  <MailIcon className="mt-0.5 h-4 w-4 shrink-0 text-bolt" />
+                  {company.email}
+                </a>
+              </li>
+              <li className="flex items-start gap-3 text-slate-500">
+                <PinIcon className="mt-0.5 h-4 w-4 shrink-0 text-bolt" />
+                {company.address}
+              </li>
+            </ul>
+
+            {/* Social links */}
+            <div className="mt-6 flex items-center gap-3">
+              <a
+                href={company.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Dave Cleaning Services on LinkedIn"
+                className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 text-slate-500 transition-colors hover:border-bolt/50 hover:bg-bolt/10 hover:text-bolt"
+              >
+                <LinkedInIcon className="h-5 w-5" />
+              </a>
+              <a
+                href={company.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Dave Cleaning Services on Instagram"
+                className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 text-slate-500 transition-colors hover:border-bolt/50 hover:bg-bolt/10 hover:text-bolt"
+              >
+                <InstagramIcon className="h-5 w-5" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-7 sm:flex-row">
+          <p className="text-xs text-slate-500">
+            © {new Date().getFullYear()} {company.legalName}. All rights reserved.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-slate-500">
+            <Link href="/privacy" className="transition-colors hover:text-bolt">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="transition-colors hover:text-bolt">
+              Terms of Service
+            </Link>
+            <span>
+              {company.napit} · {company.certificate}
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}

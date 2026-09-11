@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+/*
+ * DAVE Cleaning Services — clean blue & white theme.
+ *
+ * The component library was originally built for a dark canvas with a yellow
+ * "bolt" accent. For the cleaning brand we keep the SAME token names (so the
+ * markup is unchanged) but remap their values to a light palette with a blue
+ * accent. A build-time class sweep also maps the literal dark utilities
+ * (text-white → text-slate-900, bg-ink → bg-white, …) to light equivalents.
+ */
+@theme {
+  /* Canvas — light */
+  --color-ink: #ffffff;        /* primary page background */
+  --color-coal: #f4f8fd;       /* alt section background */
+  --color-graphite: #ffffff;   /* cards */
+  --color-steel: #e6eef8;      /* subtle fills */
+
+  /* Accent — blue (from the logo) */
+  --color-bolt: #14a1e6;       /* primary brand blue (matches logo) */
+  --color-bolt-deep: #0f7cb5;  /* darker blue */
+  --color-bolt-soft: #d4ecfb;  /* light blue */
+
+  /* Muted text */
+  --color-ash: #5b6b7d;
+
+  --font-display: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-marquee-rev: marquee-rev 38s linear infinite;
+  --animate-spin-slow: spin 22s linear infinite;
+  --animate-pulse-glow: pulse-glow 3.4s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes marquee-rev {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #ffffff;
+  color: #0f2438;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-bolt);
+  color: #ffffff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #eef3f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #b9cbe0;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-bolt);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.text-gradient-bolt {
+  background: linear-gradient(120deg, #5cc0f5 0%, #14a1e6 45%, #0f7cb5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(24, 119, 209, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 119, 209, 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.glow-bolt {
+  box-shadow: 0 0 0 1px rgba(24, 119, 209, 0.25), 0 18px 50px -12px rgba(24, 119, 209, 0.35);
+}
+
+.noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* Coverage map — flowing dash + light Leaflet controls */
+@keyframes m25-flow {
+  to { stroke-dashoffset: -200; }
+}
+.m25-flow {
+  stroke-dasharray: 4 16;
+  animation: m25-flow 3s linear infinite;
+}
+.leaflet-control-zoom a {
+  background: #ffffff !important;
+  color: var(--color-bolt) !important;
+  border-color: #d8e3f0 !important;
+}
+.leaflet-control-zoom a:hover {
+  background: #eef3f9 !important;
+}
+.leaflet-bar {
+  border: none !important;
+  box-shadow: 0 2px 12px rgba(15, 36, 56, 0.15) !important;
+}
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.8) !important;
+  color: #5b6b7d !important;
+}
+.leaflet-control-attribution a {
+  color: var(--color-bolt) !important;
+}
+.leaflet-tooltip.pc-tip {
+  background: #ffffff;
+  color: var(--color-bolt);
+  border: 1px solid rgba(24, 119, 209, 0.4);
+  font-weight: 700;
+  font-size: 12px;
+  box-shadow: 0 2px 10px rgba(15, 36, 56, 0.15);
+}
+.leaflet-tooltip.pc-tip::before {
+  border-top-color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
