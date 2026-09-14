@@ -11,8 +11,7 @@ export const company = {
   /** Sister company — link across to the cleaning business. */
   sisterSite: {
     name: "Dave Cleaning Services",
-    // TODO: update to the live cleaning domain once confirmed.
-    url: "https://www.davecleaning.co.uk",
+    url: process.env.NEXT_PUBLIC_SISTER_URL || "https://www.davecleaning.co.uk",
   },
   social: {
     linkedin: "https://www.linkedin.com/company/daveelectricalservices/",

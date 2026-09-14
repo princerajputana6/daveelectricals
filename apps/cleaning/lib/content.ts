@@ -14,7 +14,7 @@ export const company = {
   /** Link across to the sister electrical company. */
   sisterSite: {
     name: "Dave Electrical Services",
-    url: "https://www.daveelectrical.co.uk",
+    url: process.env.NEXT_PUBLIC_SISTER_URL || "https://www.daveelectrical.co.uk",
   },
   social: {
     linkedin: "https://www.linkedin.com/company/daveelectricalservices/",
