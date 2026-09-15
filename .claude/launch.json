@@ -7,12 +7,6 @@
       "runtimeArgs": ["run", "dev:electrical"],
       "port": 3000,
       "autoPort": true
-    },
-    {
-      "name": "dave-cleaning",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev:cleaning"],
-      "port": 3001
     }
   ]
 }
