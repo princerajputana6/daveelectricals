@@ -14,10 +14,18 @@ export default function PageHero({
   intro: string;
 }) {
   return (
-    <section className="relative overflow-hidden bg-white pb-16 pt-36 sm:pb-24 sm:pt-44">
-      <div className="grid-bg absolute inset-0 opacity-40" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-10%,rgba(24,119,209,0.16),transparent_60%)]" />
-      <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-bolt/10 blur-3xl" />
+    <section className="relative overflow-hidden bg-[#0b1e33] pb-16 pt-36 sm:pb-24 sm:pt-44">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0c2138] via-[#0e2740] to-[#0a1a2c]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-10%,rgba(20,161,230,0.28),transparent_60%)]" />
+      <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-bolt/20 blur-3xl" />
+      <div
+        className="absolute inset-0 opacity-[0.06]"
+        style={{
+          backgroundImage:
+            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+        }}
+      />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <motion.div
@@ -30,7 +38,7 @@ export default function PageHero({
           {eyebrow}
         </motion.div>
 
-        <h1 className="mt-5 max-w-4xl font-display text-5xl font-bold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+        <h1 className="mt-5 max-w-4xl font-display text-5xl font-bold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
           {title.split(" ").map((word, i) => (
             <span key={i} className="inline-block overflow-hidden pr-3">
               <motion.span
@@ -53,7 +61,7 @@ export default function PageHero({
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.35 }}
-          className="mt-6 max-w-2xl text-base leading-relaxed text-slate-500 sm:text-lg"
+          className="mt-6 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg"
         >
           {intro}
         </motion.p>
@@ -62,16 +70,13 @@ export default function PageHero({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-7 flex flex-wrap gap-2 text-xs text-slate-500"
+          className="mt-7 flex flex-wrap gap-2 text-xs text-slate-400"
         >
-          <Link
-            href="/"
-            className="transition-colors hover:text-bolt"
-          >
+          <Link href="/" className="transition-colors hover:text-bolt">
             Home
           </Link>
           <ArrowIcon className="h-4 w-4 text-bolt" />
-          <span className="text-slate-900">{eyebrow}</span>
+          <span className="text-white">{eyebrow}</span>
         </motion.div>
       </div>
     </section>

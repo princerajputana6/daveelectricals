@@ -67,7 +67,11 @@ export default function Navbar({ user }: { user: User }) {
                   <Link
                     href={item.href}
                     className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                      active ? "text-bolt" : "text-slate-500 hover:text-slate-900"
+                      active
+                        ? "text-bolt"
+                        : scrolled
+                          ? "text-slate-500 hover:text-slate-900"
+                          : "text-white/80 hover:text-white"
                     }`}
                   >
                     {item.label}
@@ -101,13 +105,21 @@ export default function Navbar({ user }: { user: User }) {
               <div className="hidden items-center gap-1 sm:flex">
                 <Link
                   href="/login"
-                  className="rounded-full px-3 py-1.5 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-900"
+                  className={`rounded-full px-3 py-1.5 text-sm font-semibold transition-colors ${
+                    scrolled
+                      ? "text-slate-500 hover:text-slate-900"
+                      : "text-white/80 hover:text-white"
+                  }`}
                 >
                   Sign in
                 </Link>
                 <Link
                   href="/signup"
-                  className="rounded-full border border-slate-200 bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-900 transition-colors hover:border-bolt/40 hover:text-bolt"
+                  className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors hover:border-bolt/40 hover:text-bolt ${
+                    scrolled
+                      ? "border-slate-200 bg-slate-100 text-slate-900"
+                      : "border-white/20 bg-white/10 text-white"
+                  }`}
                 >
                   Sign up
                 </Link>
@@ -125,7 +137,11 @@ export default function Navbar({ user }: { user: User }) {
             <button
               aria-label="Toggle menu"
               onClick={() => setOpen((v) => !v)}
-              className="grid h-10 w-10 place-items-center rounded-lg bg-slate-100 text-slate-900 ring-1 ring-slate-200 xl:hidden"
+              className={`grid h-10 w-10 place-items-center rounded-lg ring-1 xl:hidden ${
+                scrolled
+                  ? "bg-slate-100 text-slate-900 ring-slate-200"
+                  : "bg-white/10 text-white ring-white/20"
+              }`}
             >
               {open ? (
                 <CloseIcon className="h-5 w-5" />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { withBase } from "@/lib/basePath";
 
 export default function SettingsManager({
   initialVatRate,
@@ -22,7 +23,7 @@ export default function SettingsManager({
     setBusy(true);
     setMsg(null);
     try {
-      const r = await fetch("/api/admin/settings", {
+      const r = await fetch(withBase("/api/admin/settings"), {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ vatRate: rate }),

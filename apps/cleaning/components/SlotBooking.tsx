@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { findProduct, formatGBP } from "@/lib/products";
 import { ArrowIcon, CheckIcon, ClockIcon } from "./Icons";
+import { withBase } from "@/lib/basePath";
 
 type PublicSlot = {
   id: string;
@@ -52,7 +53,7 @@ export default function SlotBooking({
   const loadSlots = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/slots", { cache: "no-store" });
+      const res = await fetch(withBase("/api/slots"), { cache: "no-store" });
       const data = await res.json();
       setSlots(Array.isArray(data.slots) ? data.slots : []);
     } catch {
@@ -91,7 +92,7 @@ export default function SlotBooking({
     }
     setPending(true);
     try {
-      const res = await fetch("/api/orders", {
+      const res = await fetch(withBase("/api/orders"), {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({

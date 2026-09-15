@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth";
 import { ordersCol } from "@/lib/orders";
 import { getStripe } from "@/lib/stripe";
 import { toPence } from "@/lib/products";
+import { BASE_PATH } from "@/lib/basePath";
 
 export const runtime = "nodejs";
 
@@ -78,8 +79,8 @@ export async function POST(
       payment_intent_data: {
         metadata: { appOrderId: order._id.toString(), kind: "balance" },
       },
-      success_url: `${origin}/api/orders/${order._id.toString()}/confirm?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/account?cancelled=1`,
+      success_url: `${origin}${BASE_PATH}/api/orders/${order._id.toString()}/confirm?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}${BASE_PATH}/account?cancelled=1`,
     });
 
     await col.updateOne(

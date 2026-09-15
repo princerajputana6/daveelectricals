@@ -7,6 +7,7 @@
     "packages/*"
   ],
   "scripts": {
+    "dev": "npm run dev:electrical & npm run dev:cleaning & wait",
     "dev:electrical": "npm --workspace apps/electrical run dev",
     "dev:cleaning": "npm --workspace apps/cleaning run dev",
     "build:electrical": "npm --workspace apps/electrical run build",

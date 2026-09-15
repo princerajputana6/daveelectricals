@@ -24,14 +24,6 @@ export default function Footer() {
               high-quality workmanship within &amp; surrounding the M25 for over
               15 years.
             </p>
-            <a
-              href={company.sisterSite.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-2 rounded-full border border-sky-400/40 bg-sky-400/10 px-4 py-2 text-xs font-semibold text-sky-300 transition-colors hover:bg-sky-400/20"
-            >
-              Need cleaning? Visit {company.sisterSite.name}
-            </a>
           </div>
 
           <div>

@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { getSession, isAdminSession } from "@/lib/auth";
 import { makeOAuthClient, saveQbTokens } from "@/lib/quickbooks";
 import { logIntegration } from "@/lib/collections";
+import { BASE_PATH } from "@/lib/basePath";
 
 export const runtime = "nodejs";
 
@@ -10,7 +11,7 @@ export const runtime = "nodejs";
 export async function GET(req: Request) {
   const session = await getSession();
   if (!isAdminSession(session)) {
-    return NextResponse.redirect(new URL("/login?next=/admin/settings", req.url));
+    return NextResponse.redirect(new URL(BASE_PATH + "/login?next=/admin/settings", req.url));
   }
 
   const url = new URL(req.url);
@@ -21,12 +22,12 @@ export async function GET(req: Request) {
   const expected = cookieStore.get("qb_oauth_state")?.value;
   if (!state || !expected || state !== expected) {
     return NextResponse.redirect(
-      new URL("/admin/settings?qb=state_error", req.url),
+      new URL(BASE_PATH + "/admin/settings?qb=state_error", req.url),
     );
   }
   if (!realmId) {
     return NextResponse.redirect(
-      new URL("/admin/settings?qb=no_realm", req.url),
+      new URL(BASE_PATH + "/admin/settings?qb=no_realm", req.url),
     );
   }
 
@@ -55,7 +56,7 @@ export async function GET(req: Request) {
     });
 
     const res = NextResponse.redirect(
-      new URL("/admin/settings?qb=connected", req.url),
+      new URL(BASE_PATH + "/admin/settings?qb=connected", req.url),
     );
     res.cookies.delete("qb_oauth_state");
     return res;
@@ -67,7 +68,7 @@ export async function GET(req: Request) {
       response: { error: err instanceof Error ? err.message : String(err) },
     });
     return NextResponse.redirect(
-      new URL("/admin/settings?qb=error", req.url),
+      new URL(BASE_PATH + "/admin/settings?qb=error", req.url),
     );
   }
 }

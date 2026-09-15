@@ -22,7 +22,7 @@ export default async function CheckoutPage() {
       <PageHero
         eyebrow="Checkout"
         title="Secure checkout"
-        intro="Confirm your details and pay the 50% deposit via Stripe to book your work. The remaining balance is paid once your certificate is issued."
+        intro="Confirm your details and pay the 50% deposit via Stripe to book your clean. The remaining balance is paid once your clean is completed."
       />
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
         <CheckoutForm user={{ name: session.name, email: session.email }} />

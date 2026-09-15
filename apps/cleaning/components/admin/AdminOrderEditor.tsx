@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import type { OrderPublic } from "../OrdersSection";
 import { formatGBP } from "@/lib/products";
 import { ArrowIcon, CheckIcon, ShieldIcon } from "../Icons";
+import { withBase } from "@/lib/basePath";
 
 const STATUS_OPTIONS = [
   "pending_deposit",
@@ -48,7 +49,7 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
     try {
       const fd = new FormData();
       fd.append("file", file);
-      const r = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const r = await fetch(withBase("/api/admin/upload"), { method: "POST", body: fd });
       const d = await r.json();
       if (!r.ok) {
         flash("err", d.error || "Upload failed");
@@ -66,7 +67,7 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
   const updateStatus = async () => {
     setBusy("status");
     try {
-      const r = await fetch(`/api/admin/orders/${order.id}`, {
+      const r = await fetch(withBase(`/api/admin/orders/${order.id}`), {
         method: "PATCH",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ status }),
@@ -95,7 +96,7 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
   const markBalancePaid = async () => {
     setBusy("balance");
     try {
-      const r = await fetch(`/api/admin/orders/${order.id}/balance`, {
+      const r = await fetch(withBase(`/api/admin/orders/${order.id}/balance`), {
         method: "POST",
       });
       const d = await r.json();
@@ -112,7 +113,7 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
   const reprocessAccounting = async () => {
     setBusy("reprocess");
     try {
-      const r = await fetch(`/api/admin/orders/${order.id}/reprocess`, {
+      const r = await fetch(withBase(`/api/admin/orders/${order.id}/reprocess`), {
         method: "POST",
       });
       const d = await r.json();
@@ -134,7 +135,7 @@ export default function AdminOrderEditor({ order }: { order: OrderPublic }) {
     }
     setBusy("cert");
     try {
-      const r = await fetch(`/api/admin/orders/${order.id}`, {
+      const r = await fetch(withBase(`/api/admin/orders/${order.id}`), {
         method: "PATCH",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({

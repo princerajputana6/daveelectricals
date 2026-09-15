@@ -11,7 +11,16 @@ packages/
 ```
 
 Each app is a standalone Next.js 15 app with its own theme, content, and Vercel
-deployment. They cross-link to each other in the header and footer.
+deployment.
+
+### Dave Cleaning — unlisted demo
+
+The cleaning app is served under the base path **`/demo/dave-cleaning-services`**
+(set via `basePath` in `apps/cleaning/next.config.mjs`, mirrored in
+`apps/cleaning/lib/basePath.ts`). It is intentionally **unlisted**: the electrical
+site contains no link or CTA to it, and the cleaning domain root (`/`) returns a
+404 — the site is reachable only if you already have the URL. Locally it runs at
+`http://localhost:3001/demo/dave-cleaning-services`.
 
 ## Develop
 

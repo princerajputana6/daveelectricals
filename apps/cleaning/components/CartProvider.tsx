@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { products, findVariant } from "@/lib/products";
+import { withBase } from "@/lib/basePath";
 import {
   cartLineKey,
   type CartLine,
@@ -44,7 +45,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   // Load the admin-configured VAT rate so cart/checkout show live totals.
   useEffect(() => {
     let alive = true;
-    fetch("/api/settings")
+    fetch(withBase("/api/settings"))
       .then((r) => r.json())
       .then((d) => {
         if (alive && typeof d?.vatRate === "number") setVatRate(d.vatRate);

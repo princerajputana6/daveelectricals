@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import LandlordRibbon from "@/components/LandlordRibbon";
 import StatsStrip from "@/components/StatsStrip";
 import SectionHeading from "@/components/SectionHeading";
-import ServiceCard from "@/components/ServiceCard";
+import ServiceBookingCard from "@/components/ServiceBookingCard";
 import Reveal from "@/components/Reveal";
 import SectorsGrid from "@/components/SectorsGrid";
 import Testimonials from "@/components/Testimonials";
@@ -116,7 +116,7 @@ export default function HomePage() {
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service, i) => (
-              <ServiceCard key={service.slug} service={service} index={i} />
+              <ServiceBookingCard key={service.slug} service={service} index={i} />
             ))}
           </div>
         </div>

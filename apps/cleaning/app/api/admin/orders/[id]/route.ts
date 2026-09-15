@@ -4,6 +4,7 @@ import { ordersCol, type OrderStatus, type Certificate } from "@/lib/orders";
 import { getSession, isAdminSession } from "@/lib/auth";
 import { sendMail } from "@/lib/mailer";
 import { company } from "@/lib/content";
+import { BASE_PATH } from "@/lib/basePath";
 
 export const runtime = "nodejs";
 
@@ -104,7 +105,7 @@ export async function PATCH(
       process.env.NEXT_PUBLIC_SITE_URL ||
       req.headers.get("origin") ||
       "https://davecleaning.co.uk";
-    const certUrl = `${baseUrl}/account/orders/${id}/certificate`;
+    const certUrl = `${baseUrl}${BASE_PATH}/account/orders/${id}/certificate`;
     const expires = issuedCert.expiresAt
       ? new Date(issuedCert.expiresAt).toLocaleDateString("en-GB", {
           day: "numeric",

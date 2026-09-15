@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import { getSession, isAdminSession } from "@/lib/auth";
 import { ordersCol } from "@/lib/orders";
 import { renderInvoicePdf } from "@/services/invoicePdf";
+import { BASE_PATH } from "@/lib/basePath";
 
 export const runtime = "nodejs";
 
@@ -19,7 +20,7 @@ export async function GET(
   const { id } = await ctx.params;
   if (!session) {
     return NextResponse.redirect(
-      new URL(`/login?next=/api/invoices/${id}`, req.url),
+      new URL(BASE_PATH + `/login?next=/api/invoices/${id}`, req.url),
     );
   }
   if (!ObjectId.isValid(id)) {

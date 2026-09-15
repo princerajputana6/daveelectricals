@@ -8,6 +8,7 @@ import { claimSlot, releaseSlot } from "@/lib/slots";
 import { sendMail } from "@/lib/mailer";
 import { orderNotificationEmail } from "@/lib/orderEmail";
 import { getVatRate, computeTotals } from "@/lib/settings";
+import { BASE_PATH } from "@/lib/basePath";
 
 export const runtime = "nodejs";
 
@@ -168,10 +169,10 @@ export async function POST(req: Request) {
         payment_intent_data: {
           metadata: { appOrderId: _id.toString(), kind },
         },
-        success_url: `${origin}/api/orders/${_id.toString()}/confirm?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${origin}${BASE_PATH}/api/orders/${_id.toString()}/confirm?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: isBooking
-          ? `${origin}/book?cancelled=1`
-          : `${origin}/checkout?cancelled=1`,
+          ? `${origin}${BASE_PATH}/book?cancelled=1`
+          : `${origin}${BASE_PATH}/checkout?cancelled=1`,
       });
     } catch (e) {
       // Payment session couldn't be created — free the held slot again.

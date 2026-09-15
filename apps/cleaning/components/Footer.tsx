@@ -12,14 +12,14 @@ import HazardStripe from "./HazardStripe";
 
 export default function Footer() {
   return (
-    <footer className="relative bg-slate-50">
+    <footer className="relative bg-[#0a1a2c]">
       <HazardStripe height={10} />
       <div className="grid-bg pointer-events-none absolute inset-0 opacity-50" />
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <Logo />
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-slate-500">
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-slate-400">
               Reliable domestic and commercial cleaning across London and all areas within the M25 &amp; beyond — delivered with attention to detail, flexible appointments and a professional, fully insured team.
             </p>
             <a
@@ -33,7 +33,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display text-sm font-bold uppercase tracking-widest text-slate-900">
+            <h4 className="font-display text-sm font-bold uppercase tracking-widest text-white">
               Navigate
             </h4>
             <ul className="mt-5 space-y-3">
@@ -41,7 +41,7 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-slate-500 transition-colors hover:text-bolt"
+                    className="text-sm text-slate-400 transition-colors hover:text-bolt"
                   >
                     {item.label}
                   </Link>
@@ -51,7 +51,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display text-sm font-bold uppercase tracking-widest text-slate-900">
+            <h4 className="font-display text-sm font-bold uppercase tracking-widest text-white">
               Services
             </h4>
             <ul className="mt-5 space-y-3">
@@ -59,7 +59,7 @@ export default function Footer() {
                 <li key={s.slug}>
                   <Link
                     href="/services"
-                    className="text-sm text-slate-500 transition-colors hover:text-bolt"
+                    className="text-sm text-slate-400 transition-colors hover:text-bolt"
                   >
                     {s.title.replace(" & Maintenance", "")}
                   </Link>
@@ -69,14 +69,14 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display text-sm font-bold uppercase tracking-widest text-slate-900">
+            <h4 className="font-display text-sm font-bold uppercase tracking-widest text-white">
               Get in touch
             </h4>
             <ul className="mt-5 space-y-4 text-sm">
               <li>
                 <a
                   href={`tel:${company.phonePrimary}`}
-                  className="flex items-start gap-3 text-slate-500 transition-colors hover:text-bolt"
+                  className="flex items-start gap-3 text-slate-400 transition-colors hover:text-bolt"
                 >
                   <PhoneIcon className="mt-0.5 h-4 w-4 shrink-0 text-bolt" />
                   <span>{company.phonePrimary}</span>
@@ -85,13 +85,13 @@ export default function Footer() {
               <li>
                 <a
                   href={`mailto:${company.email}`}
-                  className="flex items-start gap-3 text-slate-500 transition-colors hover:text-bolt"
+                  className="flex items-start gap-3 text-slate-400 transition-colors hover:text-bolt"
                 >
                   <MailIcon className="mt-0.5 h-4 w-4 shrink-0 text-bolt" />
                   {company.email}
                 </a>
               </li>
-              <li className="flex items-start gap-3 text-slate-500">
+              <li className="flex items-start gap-3 text-slate-400">
                 <PinIcon className="mt-0.5 h-4 w-4 shrink-0 text-bolt" />
                 {company.address}
               </li>
@@ -104,7 +104,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Dave Cleaning Services on LinkedIn"
-                className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 text-slate-500 transition-colors hover:border-bolt/50 hover:bg-bolt/10 hover:text-bolt"
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/10 text-slate-400 transition-colors hover:border-bolt/50 hover:bg-bolt/10 hover:text-bolt"
               >
                 <LinkedInIcon className="h-5 w-5" />
               </a>
@@ -113,7 +113,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Dave Cleaning Services on Instagram"
-                className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 text-slate-500 transition-colors hover:border-bolt/50 hover:bg-bolt/10 hover:text-bolt"
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/10 text-slate-400 transition-colors hover:border-bolt/50 hover:bg-bolt/10 hover:text-bolt"
               >
                 <InstagramIcon className="h-5 w-5" />
               </a>
@@ -121,11 +121,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-7 sm:flex-row">
-          <p className="text-xs text-slate-500">
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 sm:flex-row">
+          <p className="text-xs text-slate-400">
             © {new Date().getFullYear()} {company.legalName}. All rights reserved.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-slate-500">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-slate-400">
             <Link href="/privacy" className="transition-colors hover:text-bolt">
               Privacy Policy
             </Link>

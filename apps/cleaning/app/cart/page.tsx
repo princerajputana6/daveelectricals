@@ -13,7 +13,7 @@ export default function CartPage() {
       <PageHero
         eyebrow="Cart"
         title="Your cart"
-        intro="Review your booking before checkout. You'll pay a 50% deposit now to confirm — the remaining 50% is paid once the work is complete and your certificate is issued."
+        intro="Review your booking before checkout. You'll pay a 50% deposit now to confirm — the remaining 50% is paid once your clean is complete."
       />
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
         <CartView />

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import type { OrderPublic } from "../OrdersSection";
 import { formatGBP } from "@/lib/products";
+import { withBase } from "@/lib/basePath";
 import {
   ArrowIcon,
   CheckIcon,
@@ -248,7 +249,7 @@ function CertForm({
     try {
       const fd = new FormData();
       fd.append("file", file);
-      const r = await fetch("/api/admin/upload", {
+      const r = await fetch(withBase("/api/admin/upload"), {
         method: "POST",
         body: fd,
       });
@@ -273,7 +274,7 @@ function CertForm({
     }
     setBusy("issue");
     try {
-      const r = await fetch(`/api/admin/orders/${order.id}`, {
+      const r = await fetch(withBase(`/api/admin/orders/${order.id}`), {
         method: "PATCH",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({

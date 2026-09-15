@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { withBase } from "@/lib/basePath";
 
 /**
  * Dave Cleaning Services logo.
@@ -11,7 +12,7 @@ export default function Logo({ className = "" }: { className?: string }) {
   return (
     <span className={`flex items-center ${className}`}>
       <img
-        src="/logo.svg"
+        src={withBase("/logo.svg")}
         alt="Dave Cleaning Services"
         width={460}
         height={230}

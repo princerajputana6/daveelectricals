@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { formatGBP } from "@/lib/products";
 import { useCart } from "./CartProvider";
 import { ArrowIcon, BoltIcon, CheckIcon, ShieldIcon } from "./Icons";
+import { withBase } from "@/lib/basePath";
 
 type Payment = {
   amount: number;
@@ -133,7 +134,7 @@ export default function OrdersSection({
     setError(null);
     setWorking(order.id);
     try {
-      const res = await fetch(`/api/orders/${order.id}/pay-balance`, {
+      const res = await fetch(withBase(`/api/orders/${order.id}/pay-balance`), {
         method: "POST",
       });
       const data = await res.json();

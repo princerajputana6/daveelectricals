@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { withBase } from "@/lib/basePath";
 
 type AdminSlot = {
   id: string;
@@ -47,7 +48,7 @@ export default function AvailabilityManager() {
   const load = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/slots", { cache: "no-store" });
+      const res = await fetch(withBase("/api/admin/slots"), { cache: "no-store" });
       const data = await res.json();
       setSlots(Array.isArray(data.slots) ? data.slots : []);
     } catch {
@@ -88,7 +89,7 @@ export default function AvailabilityManager() {
     }
     setBusy(true);
     try {
-      const res = await fetch("/api/admin/slots", {
+      const res = await fetch(withBase("/api/admin/slots"), {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ date, times }),
@@ -111,7 +112,7 @@ export default function AvailabilityManager() {
   const toggleStatus = async (s: AdminSlot) => {
     if (s.booked) return;
     const next = s.status === "open" ? "closed" : "open";
-    await fetch(`/api/admin/slots/${s.id}`, {
+    await fetch(withBase(`/api/admin/slots/${s.id}`), {
       method: "PATCH",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ status: next }),
@@ -121,7 +122,7 @@ export default function AvailabilityManager() {
 
   const remove = async (s: AdminSlot) => {
     if (s.booked) return;
-    await fetch(`/api/admin/slots/${s.id}`, { method: "DELETE" });
+    await fetch(withBase(`/api/admin/slots/${s.id}`), { method: "DELETE" });
     await load();
   };
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { withBase } from "@/lib/basePath";
 
 /**
  * Greater-London postcode-district map: every London postal district drawn as
@@ -123,7 +124,7 @@ export default function PostcodeMap() {
 
       let geo: { features: Feat[] } | null = null;
       try {
-        const res = await fetch("/postcodes-london.geojson");
+        const res = await fetch(withBase("/postcodes-london.geojson"));
         geo = await res.json();
       } catch {
         geo = null;

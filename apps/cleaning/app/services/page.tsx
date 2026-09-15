@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
-import ServiceCard from "@/components/ServiceCard";
+import ServiceBookingCard from "@/components/ServiceBookingCard";
 import Reveal from "@/components/Reveal";
 import QuoteCTA from "@/components/QuoteCTA";
 import CTABanner from "@/components/CTABanner";
@@ -11,34 +10,44 @@ import {
   whatsIncluded,
   whatsIncludedExtras,
 } from "@/lib/content";
-import { ArrowIcon, CheckIcon } from "@/components/Icons";
+import { CheckIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
   title: "Cleaning Services",
   description:
-    "Regular, one-off, deep, end of tenancy, after builders, carpet & upholstery and commercial cleaning across London and surrounding areas.",
+    "Regular, one-off, deep, end of tenancy, after builders, carpet & upholstery and commercial cleaning across London and surrounding areas. Book online with instant guide pricing.",
 };
 
 export default function ServicesPage() {
   return (
     <>
       <PageHero
-        eyebrow="Services"
+        eyebrow="Services & booking"
         title="Cleaning Services, Done Properly"
-        intro="Domestic, commercial and property cleaning across London and surrounding areas — delivered by a professional, fully insured team."
+        intro="Pick a service, choose your property size and see your price instantly — then book online in minutes. Domestic, commercial and property cleaning across London and the surrounding areas."
       />
 
-      {/* All services */}
+      {/* All services — each with instant pricing + booking */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, i) => (
-            <ServiceCard key={service.slug} service={service} index={i} expanded />
+            <ServiceBookingCard
+              key={service.slug}
+              service={service}
+              index={i}
+              expanded
+            />
           ))}
         </div>
+        <p className="mt-8 text-center text-sm text-slate-500">
+          All prices are starting guide prices shown ex VAT and may vary with the
+          size, condition and specific requirements of your property. VAT is added
+          at checkout. 6+ bedroom properties are priced on a quick quote.
+        </p>
       </section>
 
       {/* What's included */}
-      <section className="bg-slate-50/70 py-16 sm:py-24">
+      <section className="bg-slate-100/80 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="What's included"
@@ -48,7 +57,7 @@ export default function ServicesPage() {
           <div className="mt-12 grid gap-6 sm:grid-cols-2">
             {whatsIncluded.map((room) => (
               <Reveal key={room.area}>
-                <div className="h-full rounded-2xl border border-slate-200 bg-white p-7">
+                <div className="h-full rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
                   <h3 className="font-display text-xl font-bold text-slate-900">
                     {room.area}
                   </h3>
@@ -70,27 +79,8 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Pricing teaser */}
-      <section className="mx-auto max-w-7xl px-5 py-16 text-center sm:px-8 sm:py-24">
-        <SectionHeading
-          eyebrow="Pricing"
-          title="Clear, honest guide pricing"
-          description="See starting prices by property size and service type — no hidden charges."
-          align="center"
-        />
-        <Reveal delay={0.2}>
-          <Link
-            href="/pricing"
-            className="group mt-8 inline-flex items-center gap-2 rounded-full bg-bolt px-7 py-3.5 font-bold text-white transition-transform hover:scale-[1.04] no-underline"
-          >
-            View pricing
-            <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </Reveal>
-      </section>
-
       <QuoteCTA />
-      <CTABanner punchline="Guide prices for every property size and every service. No hidden costs, no surprise charges — just a clear quote before we start." />
+      <CTABanner punchline="Instant guide prices for every property size and every service. No hidden costs, no surprise charges — see your price and book in minutes." />
     </>
   );
 }

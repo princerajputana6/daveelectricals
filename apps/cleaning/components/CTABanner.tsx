@@ -26,18 +26,25 @@ export default function CTABanner({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7 }}
-        className="relative overflow-hidden rounded-3xl border border-bolt/20 bg-gradient-to-br from-white via-slate-50 to-white px-7 py-14 sm:px-14"
+        className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0c2138] via-[#0e2740] to-[#0a1a2c] px-7 py-14 shadow-xl shadow-slate-900/10 sm:px-14"
       >
-        <div className="grid-bg absolute inset-0 opacity-50" />
-        <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-bolt/20 blur-3xl" />
-        <div className="absolute -bottom-20 -left-10 h-64 w-64 rounded-full bg-bolt/10 blur-3xl" />
+        <div
+          className="absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+          }}
+        />
+        <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-bolt/30 blur-3xl" />
+        <div className="absolute -bottom-20 -left-10 h-64 w-64 rounded-full bg-bolt/15 blur-3xl" />
 
         <div className="relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
           <div className="max-w-xl">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-bolt">
               {eyebrow}
             </p>
-            <h2 className="mt-3 font-display text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">
+            <h2 className="mt-3 font-display text-3xl font-bold leading-tight text-white sm:text-4xl">
               {title ?? (
                 <>
                   Let&apos;s get your property{" "}
@@ -45,24 +52,24 @@ export default function CTABanner({
                 </>
               )}
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-slate-500">{description}</p>
+            <p className="mt-3 text-sm leading-relaxed text-slate-300">{description}</p>
             {punchline && (
-              <p className="mt-4 border-l-2 border-bolt/40 pl-4 text-sm font-medium leading-relaxed text-slate-700">
+              <p className="mt-4 border-l-2 border-bolt/50 pl-4 text-sm font-medium leading-relaxed text-slate-200">
                 {punchline}
               </p>
             )}
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
-              href="/contact"
-              className="group flex items-center justify-center gap-2 rounded-full bg-bolt px-7 py-3.5 font-bold text-white transition-transform hover:scale-[1.04]"
+              href="/services"
+              className="group flex items-center justify-center gap-2 rounded-full bg-bolt px-7 py-3.5 font-bold text-white shadow-lg shadow-bolt/25 transition-transform hover:scale-[1.04]"
             >
-              Request a quote
+              See prices &amp; book
               <ArrowIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <a
               href={`tel:${company.phonePrimary}`}
-              className="flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-slate-100 px-7 py-3.5 font-semibold text-slate-900 transition-colors hover:border-bolt/40 hover:text-bolt"
+              className="flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 font-semibold text-white transition-colors hover:border-bolt/50 hover:text-bolt"
             >
               <PhoneIcon className="h-5 w-5" />
               Call now

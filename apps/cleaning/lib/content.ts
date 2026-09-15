@@ -1,3 +1,5 @@
+import { withBase } from "@/lib/basePath";
+
 export const company = {
   name: "Dave Cleaning Services",
   legalName: "Dave Cleaning Services",
@@ -27,7 +29,6 @@ export const nav = [
   { label: "Services", href: "/services" },
   { label: "How It Works", href: "/how-it-works" },
   { label: "Landlords", href: "/landlords" },
-  { label: "Pricing", href: "/pricing" },
   { label: "Areas", href: "/our-reach" },
   { label: "Contact", href: "/contact" },
 ];
@@ -362,7 +363,7 @@ export const guarantees: {
  * NEXT_PUBLIC_HERO_BG_URL in your env (Cloudinary, etc.).
  */
 export const heroBackground = {
-  src: process.env.NEXT_PUBLIC_HERO_BG_URL || "/hero-bg.jpg",
+  src: process.env.NEXT_PUBLIC_HERO_BG_URL || withBase("/hero-bg.jpg"),
 };
 
 export const heroHighlight = {
@@ -378,7 +379,7 @@ export type Accreditation = {
 
 /** Kept for the shared component; not shown on the cleaning site by default. */
 export const accreditations: Accreditation[] = [
-  { name: "Fully Insured", src: "/logo.jpeg" },
+  { name: "Fully Insured", src: withBase("/logo.jpeg") },
 ];
 
 export type ClientBrand = {

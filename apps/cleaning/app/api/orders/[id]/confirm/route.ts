@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth";
 import { ordersCol } from "@/lib/orders";
 import { getStripe } from "@/lib/stripe";
 import { runAccountingPipeline } from "@/services/pipeline";
+import { BASE_PATH } from "@/lib/basePath";
 
 export const runtime = "nodejs";
 
@@ -22,7 +23,8 @@ export async function GET(
   const origin = url.origin;
   const sessionId = url.searchParams.get("session_id");
 
-  const back = (path: string) => NextResponse.redirect(`${origin}${path}`);
+  const back = (path: string) =>
+    NextResponse.redirect(`${origin}${BASE_PATH}${path}`);
 
   try {
     const auth = await getSession();

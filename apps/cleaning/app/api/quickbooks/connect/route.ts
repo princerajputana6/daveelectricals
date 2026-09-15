@@ -3,6 +3,7 @@ import { randomUUID } from "crypto";
 import OAuthClient from "intuit-oauth";
 import { getSession, isAdminSession } from "@/lib/auth";
 import { makeOAuthClient, qbConfigured } from "@/lib/quickbooks";
+import { BASE_PATH } from "@/lib/basePath";
 
 export const runtime = "nodejs";
 
@@ -10,7 +11,7 @@ export const runtime = "nodejs";
 export async function GET(req: Request) {
   const session = await getSession();
   if (!isAdminSession(session)) {
-    return NextResponse.redirect(new URL("/login?next=/admin/settings", req.url));
+    return NextResponse.redirect(new URL(BASE_PATH + "/login?next=/admin/settings", req.url));
   }
   if (!qbConfigured()) {
     return NextResponse.json(

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { company } from "@/lib/content";
+import { withBase } from "@/lib/basePath";
 import {
   ArrowIcon,
   CheckIcon,
@@ -54,7 +55,7 @@ export default function ContactForm() {
     setError(null);
     setPending(true);
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(withBase("/api/contact"), {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(form),

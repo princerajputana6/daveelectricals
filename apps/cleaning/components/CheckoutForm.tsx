@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useCart } from "./CartProvider";
 import { formatGBP } from "@/lib/products";
 import { ArrowIcon, CheckIcon } from "./Icons";
+import { withBase } from "@/lib/basePath";
 
 const inputClass =
   "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-500 transition-colors focus:border-bolt/60 focus:outline-none focus:ring-2 focus:ring-bolt/20";
@@ -66,7 +67,7 @@ export default function CheckoutForm({
 
     try {
       // Create the app order + Stripe Checkout Session, then redirect to Stripe.
-      const res = await fetch("/api/orders", {
+      const res = await fetch(withBase("/api/orders"), {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({

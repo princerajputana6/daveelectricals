@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowIcon } from "./Icons";
+import { withBase } from "@/lib/basePath";
 
 const inputClass =
   "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-500 transition-colors focus:border-bolt/60 focus:outline-none focus:ring-2 focus:ring-bolt/20";
@@ -29,7 +30,7 @@ export default function AuthForm({
     setError(null);
     setPending(true);
     try {
-      const res = await fetch(`/api/auth/${mode}`, {
+      const res = await fetch(withBase(`/api/auth/${mode}`), {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(form),
