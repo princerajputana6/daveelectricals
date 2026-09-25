@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { company, nav, services } from "@/lib/content";
 import {
   MailIcon,
@@ -20,14 +21,24 @@ export default function Footer() {
           <div>
             <Logo />
 
-            {/* Sister-company cross-promo — shown just below the logo */}
+            {/* Sister-company cross-promo — the Dave Cleaning logo just below */}
             <a
               href={company.sisterSite.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#14a1e6]/60 bg-[#14a1e6]/15 px-5 py-2.5 text-sm font-bold text-[#5cc0f5] transition-colors hover:bg-[#14a1e6]/25"
+              aria-label={`We also offer ${company.sisterSite.name}`}
+              className="relative mt-6 inline-block transition-transform hover:scale-[1.03]"
             >
-              {company.sisterSite.name}
+              <span className="pointer-events-none absolute -right-3 -top-3 z-10 rounded-full bg-bolt px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-coal shadow-md">
+                We also offer
+              </span>
+              <Image
+                src="/dave-cleaning-logo.png"
+                alt={company.sisterSite.name}
+                width={1738}
+                height={905}
+                className="h-14 w-auto rounded-md"
+              />
             </a>
 
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ash">
