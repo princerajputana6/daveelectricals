@@ -17,29 +17,31 @@ export default function Footer() {
       <HazardStripe height={10} />
       <div className="grid-bg pointer-events-none absolute inset-0 opacity-50" />
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <Logo />
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
+          <div className="lg:col-span-2">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-5 pt-2">
+              <Logo />
 
-            {/* Sister-company cross-promo — the Dave Cleaning logo just below */}
-            <a
-              href={company.sisterSite.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`We also offer ${company.sisterSite.name}`}
-              className="relative mt-6 inline-block transition-transform hover:scale-[1.03]"
-            >
-              <span className="pointer-events-none absolute -right-3 -top-3 z-10 rounded-full bg-bolt px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-coal shadow-md">
-                We also offer
-              </span>
-              <Image
-                src="/dave-cleaning-logo.png"
-                alt={company.sisterSite.name}
-                width={1738}
-                height={905}
-                className="h-14 w-auto rounded-md"
-              />
-            </a>
+              {/* Sister-company cross-promo — the Dave Cleaning logo beside */}
+              <a
+                href={company.sisterSite.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`We also offer ${company.sisterSite.name}`}
+                className="relative inline-block transition-transform hover:scale-[1.03]"
+              >
+                <span className="pointer-events-none absolute -right-3 -top-3 z-10 rounded-full bg-bolt px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-coal shadow-md">
+                  We also offer
+                </span>
+                <Image
+                  src="/dave-cleaning-logo.png"
+                  alt={company.sisterSite.name}
+                  width={1738}
+                  height={905}
+                  className="h-14 w-auto rounded-md"
+                />
+              </a>
+            </div>
 
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ash">
               NAPIT registered electricians delivering safe, compliant and
