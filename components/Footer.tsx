@@ -21,19 +21,14 @@ export default function Footer() {
             <Logo />
 
             {/* Sister-company cross-promo — shown just below the logo */}
-            <div className="relative mt-4 inline-block">
-              <a
-                href={company.sisterSite.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-[#14a1e6]/60 bg-[#14a1e6]/15 px-5 py-2.5 text-sm font-bold text-[#5cc0f5] transition-colors hover:bg-[#14a1e6]/25"
-              >
-                {company.sisterSite.name}
-              </a>
-              <span className="pointer-events-none absolute -right-3 -top-2.5 rounded-full bg-bolt px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-coal shadow-md">
-                New Launch
-              </span>
-            </div>
+            <a
+              href={company.sisterSite.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#14a1e6]/60 bg-[#14a1e6]/15 px-5 py-2.5 text-sm font-bold text-[#5cc0f5] transition-colors hover:bg-[#14a1e6]/25"
+            >
+              {company.sisterSite.name}
+            </a>
 
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ash">
               NAPIT registered electricians delivering safe, compliant and
